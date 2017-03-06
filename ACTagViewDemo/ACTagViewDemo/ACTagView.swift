@@ -212,6 +212,14 @@ class ACTagView: UIScrollView {
     
   }
   
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    super.touchesBegan(touches, with: event)
+    guard let textField = inputTagTextField else { return }
+    _ = textFieldShouldReturn(textField)
+    
+  }
+  
   private func setupUI() {
     
     if bounds.width == 0 {
@@ -227,7 +235,6 @@ class ACTagView: UIScrollView {
       inputTagTextField!.addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
       inputTagTextField!.delegate = self
       inputTagTextField?.textAlignment = .left
-//      inputTagTextField.
       inputTagTextField!.returnKeyType = .done
       setupTextField()
     }
@@ -413,15 +420,17 @@ class ACTagView: UIScrollView {
 extension ACTagView: UITextFieldDelegate {
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    
+    textField.resignFirstResponder()
     guard let tfText = textField.text, !tfText.isEmpty else { return false }
     textField.text = ""
-    textField.resignFirstResponder()
     addTag(tfText)
     if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
       borderLayer!.frame = inputTagTextField!.bounds
       borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.height / 2).cgPath
     }
     return true
+    
   }
   
   
