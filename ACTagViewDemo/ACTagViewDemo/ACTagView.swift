@@ -12,11 +12,16 @@ protocol ACTagViewDelegate: NSObjectProtocol {
   
   func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState)
   
+  func tagView(_ tagView: ACTagView, didFinishInputTagStr tagStr: String)
 }
 
 extension ACTagViewDelegate {
   
   func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
+    return
+  }
+  
+  func tagView(_ tagView: ACTagView, didFinishInputTagStr tagStr: String) {
     return
   }
   
@@ -429,6 +434,7 @@ extension ACTagView: UITextFieldDelegate {
       borderLayer!.frame = inputTagTextField!.bounds
       borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.height / 2).cgPath
     }
+    tagDelegate?.tagView(self, didFinishInputTagStr: tfText)
     return true
     
   }
