@@ -59,19 +59,52 @@ class ACTagView: UIScrollView {
   var tagViewType: TagViewType = .normal
   
   // 当type为haveInputTag时才会用到下面的属性
-  var inputTagPlaceholder = "输入标签"
-  var inputTagFontSize: CGFloat = 14
-  var inputTagBgColor = UIColor.clear
-  var inputTagTextColor = UIColor.black
-  var inputTagPlaceholderColor = UIColor.lightGray
-  var inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
+  var inputTagPlaceholder = "输入标签" {
+    didSet {
+      guard let inputTagTextField = inputTagTextField else { return }
+      inputTagTextField.placeholder = inputTagPlaceholder
+    }
+  }
+  var inputTagFontSize: CGFloat = 14 {
+    didSet {
+      guard let inputTagTextField = inputTagTextField else { return }
+      inputTagTextField.font = UIFont.systemFont(ofSize: inputTagFontSize)
+    }
+  }
+  var inputTagBgColor = UIColor.clear {
+    didSet {
+      guard let inputTagTextField = inputTagTextField else { return }
+      inputTagTextField.backgroundColor = inputTagBgColor
+    }
+  }
+  var inputTagTextColor = UIColor.black {
+    didSet {
+      guard let inputTagTextField = inputTagTextField else { return }
+      inputTagTextField.textColor = inputTagTextColor
+    }
+  }
+  var inputTagPlaceholderColor = UIColor.lightGray {
+    didSet {
+      guard let inputTagTextField = inputTagTextField else { return }
+      let placeholderStr = inputTagPlaceholder
+      let attr = NSMutableAttributedString(string: placeholderStr)
+      attr.addAttributes([NSForegroundColorAttributeName: inputTagPlaceholderColor], range: NSRange(location: 0, length: placeholderStr.characters.count))
+      inputTagTextField.attributedPlaceholder = attr
+      inputTagTextField.paddingSize = tagPaddingSize
+    }
+  }
+  var inputTagBorderState = InputTagBorderState.none {
+    didSet {
+      setTagDashLine()
+    }
+  }
   
   private var tagBtns: [ACTagButton] = []
   private(set) var tagStrs: [String] = []
   private(set) var selectedTagStrs: [String] = []
   
-  private var inputTagTextField: ACTagTextField?
-  
+  fileprivate var inputTagTextField: ACTagTextField?
+  fileprivate var borderLayer: CAShapeLayer?
   
   func addTags(_ tags: [String]) {
     
@@ -189,10 +222,13 @@ class ACTagView: UIScrollView {
     
     if tagViewType == .haveInputTag {
       inputTagTextField = ACTagTextField()
-      guard let inputTagTextField = inputTagTextField else { return }
-      addSubview(inputTagTextField)
-      inputTagTextField.frame = CGRect(x: 0, y: 0, width: inputTagPlaceholder.ac_getWidth(inputTagFontSize), height: tagHeight)
-      //    inputTagTextField.addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
+      addSubview(inputTagTextField!)
+      inputTagTextField!.addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
+      inputTagTextField!.delegate = self
+      inputTagTextField?.textAlignment = .left
+//      inputTagTextField.
+      inputTagTextField!.returnKeyType = .done
+      setupTextField()
     }
     
   }
@@ -225,12 +261,12 @@ class ACTagView: UIScrollView {
     }
     
     if tagViewType == .haveInputTag {
-      setupTextField()
       guard let inputTagTextField = inputTagTextField else { return }
       
       var tempFrame = inputTagTextField.frame
       let textStr = inputTagTextField.text ?? inputTagPlaceholder
-      tempFrame.size.width = (textStr.isEmpty ? inputTagPlaceholder : textStr).ac_getWidth(inputTagFontSize) + inputTagTextField.bounds.height + tagPaddingSize.width * 2
+      let textWidth = max((textStr.isEmpty ? inputTagPlaceholder : textStr).ac_getWidth(inputTagFontSize), inputTagPlaceholder.ac_getWidth(inputTagFontSize))
+      tempFrame.size.width = textWidth + inputTagTextField.bounds.height + tagPaddingSize.width * 2
       
       if (offsetX + tempFrame.width + tagMarginSize.width) <= bounds.width {
         tempFrame.origin.x = offsetX
@@ -311,12 +347,11 @@ class ACTagView: UIScrollView {
     tagDelegate?.tagView(self, didClickedTagAt: index, tagStr: tagStr, tagState: sender.isSelected ? .turnOn : .turnOff)
   }
   
-  private func setupTextField() {
-    
+  fileprivate func setupTextField() {
+
     guard let inputTagTextField = inputTagTextField else { return }
+    inputTagTextField.frame = CGRect(x: 0, y: 0, width: inputTagPlaceholder.ac_getWidth(inputTagFontSize), height: tagHeight)
     
-    inputTagTextField.returnKeyType = .done
-    inputTagTextField.placeholder = inputTagPlaceholder
     inputTagTextField.font = UIFont.systemFont(ofSize: inputTagFontSize)
     inputTagTextField.backgroundColor = inputTagBgColor
     inputTagTextField.textColor = inputTagTextColor
@@ -326,6 +361,23 @@ class ACTagView: UIScrollView {
     attr.addAttributes([NSForegroundColorAttributeName: inputTagPlaceholderColor], range: NSRange(location: 0, length: placeholderStr.characters.count))
     inputTagTextField.attributedPlaceholder = attr
     inputTagTextField.paddingSize = tagPaddingSize
+    inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
+    
+  }
+  
+  @objc private func textFieldDidFinishChange() {
+
+    layoutTags()
+
+    if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
+      borderLayer!.frame = inputTagTextField!.bounds
+      borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.height / 2).cgPath
+    }
+    
+  }
+  
+  private func setTagDashLine() {
+    guard let inputTagTextField = inputTagTextField else { return }
     switch inputTagBorderState {
     case .none:
       inputTagTextField.borderStyle = .none
@@ -335,15 +387,31 @@ class ACTagView: UIScrollView {
       inputTagTextField.layer.cornerRadius = inputTagTextField.frame.height * 0.5
     case .circleWithDashLine(color: let color, lineDashPattern: let lineDashPattern):
       inputTagTextField.borderStyle = .none
-      let borderLayer = CAShapeLayer()
-      borderLayer.frame = CGRect(x: 0, y: 0, width: inputTagTextField.bounds.width + inputTagTextField.bounds.height + tagPaddingSize.width * 2, height: inputTagTextField.bounds.height)
-      borderLayer.lineDashPattern = lineDashPattern
-      borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius:borderLayer.bounds.width / 2).cgPath
-      borderLayer.fillColor = UIColor.clear.cgColor
-      borderLayer.strokeColor = color.cgColor
-      inputTagTextField.layer.addSublayer(borderLayer)
+      borderLayer = CAShapeLayer()
+      borderLayer!.frame = CGRect(x: 0, y: 0, width: inputTagTextField.bounds.width + inputTagTextField.bounds.height + tagPaddingSize.width * 2, height: inputTagTextField.bounds.height)
+      borderLayer!.lineDashPattern = lineDashPattern
+      borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.width / 2).cgPath
+      borderLayer!.fillColor = UIColor.clear.cgColor
+      borderLayer!.strokeColor = color.cgColor
+      inputTagTextField.layer.sublayers?.removeAll()
+      inputTagTextField.layer.addSublayer(borderLayer!)
     }
-    
+  }
+  
+}
+
+extension ACTagView: UITextFieldDelegate {
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    guard let tfText = textField.text, !tfText.isEmpty else { return false }
+    textField.text = ""
+    textField.resignFirstResponder()
+    addTag(tfText)
+    if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
+      borderLayer!.frame = inputTagTextField!.bounds
+      borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.height / 2).cgPath
+    }
+    return true
   }
   
 }

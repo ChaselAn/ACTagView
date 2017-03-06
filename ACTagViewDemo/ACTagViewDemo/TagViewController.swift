@@ -15,12 +15,8 @@ class TagViewController: UIViewController {
   
   private var inputTagBgViewHeight: CGFloat = 50
   
-//  private var tableView = UITableView()
   private var inputTagBgView = UIView()
   fileprivate var inputTagView = ACTagView(type: .haveInputTag)
-  fileprivate var inputTagView1 = ACTagView(type: .haveInputTag)
-//  fileprivate var inputTagView = ACHistoryTagView()
-//  fileprivate var cellHeight: CGFloat = 44
   
   fileprivate var totalTagView = ACTagView(type: .normal)
   
@@ -33,25 +29,33 @@ class TagViewController: UIViewController {
     setupUI()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+  }
+  
   private func setupUI() {
     
+    self.automaticallyAdjustsScrollViewInsets = false
     view.backgroundColor = UIColor.white
     
     view.addSubview(inputTagView)
-    inputTagView.frame = CGRect(x: 0, y: 64, width: ACScreenWidth, height: inputTagBgViewHeight)
+    inputTagView.frame = CGRect(x: 0, y: 200, width: ACScreenWidth, height: inputTagBgViewHeight)
     inputTagView.backgroundColor = UIColor.yellow
-//    inputTagView.addTags(selectedTagsArr)
+    inputTagView.addTags(["来来"])
+    inputTagView.tagDelegate = self
     
-    view.addSubview(inputTagView1)
-    inputTagView1.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: ACScreenWidth, height: 80)
-    inputTagView1.addTags(["魏来"])
-    inputTagView1.tagDelegate = self
     
     view.addSubview(totalTagView)
 //    totalTagView.frame = CGRect(x: 0, y: inputTagBgView.frame.maxY, width: ACScreenWidth, height: ACScreenHeight - inputTagBgViewHeight - 64)
-    totalTagView.frame = CGRect(x: 0, y: inputTagView1.frame.maxY, width: ACScreenWidth, height: 50)
+    totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: ACScreenWidth, height: 50)
     totalTagView.addTags(totalTagsArr)
-    totalTagView.setDefaultSelectedTags(["魏来"])
+    totalTagView.setDefaultSelectedTags(["来来"])
     totalTagView.tagDelegate = self
     totalTagView.backgroundColor = UIColor.red
     
@@ -69,18 +73,18 @@ extension TagViewController: ACTagViewDelegate {
   // 实现联动
   func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
     
-    if tagView == inputTagView1 {
+    if tagView == inputTagView {
       tagView.removeTag(tagStr)
       totalTagView.clickTag(tagStr)
     }else if tagView == totalTagView {
       if tagState == .turnOn {
-        inputTagView1.addTag(tagStr)
+        inputTagView.addTag(tagStr)
       }else if tagState == .turnOff {
-        inputTagView1.removeTag(tagStr)
+        inputTagView.removeTag(tagStr)
       }
     }
     print("----totalView-----", totalTagView.selectedTagStrs)
-    print("----inputView-----", inputTagView1.selectedTagStrs)
+    print("----inputView-----", inputTagView.selectedTagStrs)
     
   }
 }
