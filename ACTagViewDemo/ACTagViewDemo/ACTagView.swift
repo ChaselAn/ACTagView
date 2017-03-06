@@ -59,13 +59,14 @@ class ACTagView: UIScrollView {
   var tagViewType: TagViewType = .normal
   
   // 当type为haveInputTag时才会用到下面的属性
+  var inputTagMaxWordCount: Int = 15
   var inputTagPlaceholder = "输入标签" {
     didSet {
       guard let inputTagTextField = inputTagTextField else { return }
       inputTagTextField.placeholder = inputTagPlaceholder
     }
   }
-  var inputTagFontSize: CGFloat = 14 {
+  var inputTagFontSize: CGFloat = 13 {
     didSet {
       guard let inputTagTextField = inputTagTextField else { return }
       inputTagTextField.font = UIFont.systemFont(ofSize: inputTagFontSize)
@@ -352,21 +353,30 @@ class ACTagView: UIScrollView {
     guard let inputTagTextField = inputTagTextField else { return }
     inputTagTextField.frame = CGRect(x: 0, y: 0, width: inputTagPlaceholder.ac_getWidth(inputTagFontSize), height: tagHeight)
     
-    inputTagTextField.font = UIFont.systemFont(ofSize: inputTagFontSize)
-    inputTagTextField.backgroundColor = inputTagBgColor
-    inputTagTextField.textColor = inputTagTextColor
-    
-    let placeholderStr = inputTagPlaceholder
-    let attr = NSMutableAttributedString(string: placeholderStr)
-    attr.addAttributes([NSForegroundColorAttributeName: inputTagPlaceholderColor], range: NSRange(location: 0, length: placeholderStr.characters.count))
-    inputTagTextField.attributedPlaceholder = attr
-    inputTagTextField.paddingSize = tagPaddingSize
+    inputTagFontSize = 13
+    inputTagBgColor = UIColor.clear
+    inputTagTextColor = UIColor.black
+    inputTagPlaceholder = "输入标签"
+    inputTagPlaceholderColor = UIColor.lightGray
     inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
     
   }
   
-  @objc private func textFieldDidFinishChange() {
-
+  @objc private func textFieldDidFinishChange(_ textField: UITextField) {
+    guard textField.text != nil else{
+      return
+    }
+    
+    let temRange = textField.markedTextRange
+    var temSelectLength: Int = 0
+    if temRange != nil {
+      temSelectLength = textField.offset(from: temRange!.start, to: temRange!.end)
+    }
+    if textField.text!.characters.count - temSelectLength >= inputTagMaxWordCount {
+      let index = textField.text!.characters.index(textField.text!.startIndex, offsetBy: inputTagMaxWordCount)
+      textField.text = textField.text!.substring(to: index).replacingOccurrences(of: " ", with: "")
+    }
+    
     layoutTags()
 
     if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
@@ -413,5 +423,6 @@ extension ACTagView: UITextFieldDelegate {
     }
     return true
   }
+  
   
 }
