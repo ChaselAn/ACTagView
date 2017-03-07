@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ACTagViewDelegate: NSObjectProtocol {
+public protocol ACTagViewDelegate: NSObjectProtocol {
   
   func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState)
   
@@ -16,56 +16,56 @@ protocol ACTagViewDelegate: NSObjectProtocol {
 
 extension ACTagViewDelegate {
   
-  func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
+  public func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
     return
   }
   
 }
 public class ACTagView: UIScrollView {
   
-  enum TagBtnState {
+  public enum TagBtnState {
     case turnOn
     case turnOff
   }
   
   // 设置以下属性需要在addTags方法前设置
-  var tagHeight: CGFloat = 30
+  public var tagHeight: CGFloat = 30
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
-  var tagMarginSize: CGSize = CGSize(width: 10, height: 10)
+  public var tagMarginSize: CGSize = CGSize(width: 10, height: 10)
   // tag的内边距
-  var tagPaddingSize: CGSize = CGSize(width: 0, height: 0)
+  public var tagPaddingSize: CGSize = CGSize(width: 0, height: 0)
   // 输入标签的字体大小
-  var tagFontSize: CGFloat = 14
+  public var tagFontSize: CGFloat = 14
   
-  var selectedTagBgColor = UIColor.clear
-  var selectedTagBorderColor = UIColor.green
-  var selectedTagTextColor = UIColor.green
-  var normalTagBgColor = UIColor.clear
-  var normalTagBorderColor = UIColor.lightGray
-  var normalTagTextColor = UIColor.black
+  public var selectedTagBgColor = UIColor.clear
+  public var selectedTagBorderColor = UIColor.green
+  public var selectedTagTextColor = UIColor.green
+  public var normalTagBgColor = UIColor.clear
+  public var normalTagBorderColor = UIColor.lightGray
+  public var normalTagTextColor = UIColor.black
   
-  weak var tagDelegate: ACTagViewDelegate?
+  public weak var tagDelegate: ACTagViewDelegate?
   
   
   private var tagBtns: [ACTagButton] = []
   private(set) var tagStrs: [String] = []
   private(set) var selectedTagStrs: [String] = []
   
-  func addTags(_ tags: [String]) {
+  public func addTags(_ tags: [String]) {
     
     tags.forEach({ addTagToLast($0) })
     layoutTags()
     
   }
   
-  func addTag(_ tag: String) {
+  public func addTag(_ tag: String) {
     
     addTagToLast(tag)
     layoutTags()
     
   }
   
-  func clickTag(_ tag: String) {
+  public func clickTag(_ tag: String) {
     
     if let index = tagStrs.index(of: tag) {
       
@@ -79,7 +79,7 @@ public class ACTagView: UIScrollView {
     
   }
   
-  func setDefaultSelectedTags(_ deFaultTagStrs: [String]) {
+  public func setDefaultSelectedTags(_ deFaultTagStrs: [String]) {
     
     for tagStr in deFaultTagStrs {
       if !selectedTagStrs.contains(tagStr) && tagStrs.contains(tagStr) {
@@ -91,7 +91,7 @@ public class ACTagView: UIScrollView {
     
   }
   
-  func setDefaultSelectedTagsIndex(_ defaultIndex: [Int]) {
+  public func setDefaultSelectedTagsIndex(_ defaultIndex: [Int]) {
     
     for index in defaultIndex {
       if index >= tagBtns.count || index >= tagStrs.count { continue }
