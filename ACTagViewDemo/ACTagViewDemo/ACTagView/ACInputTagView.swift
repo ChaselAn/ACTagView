@@ -34,6 +34,10 @@ public class ACInputTagView: UIScrollView {
     case circleWithDashLine(color: UIColor, lineDashPattern: [NSNumber])
   }
   
+  public var tagsArr: [String] {
+    return tagStrs
+  }
+  
   // 设置以下属性需要在addTags方法前设置
   public var tagHeight: CGFloat = 30
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
@@ -86,7 +90,7 @@ public class ACInputTagView: UIScrollView {
   }
   
   private var tagBtns: [ACTagButton] = []
-  private(set) var tagStrs: [String] = []
+  private var tagStrs: [String] = []
   
   fileprivate var inputTagTextField = ACTagTextField()
   fileprivate var borderLayer = CAShapeLayer()

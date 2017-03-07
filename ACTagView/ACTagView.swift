@@ -28,6 +28,12 @@ public class ACTagView: UIScrollView {
     case turnOff
   }
   
+  public var tagsArr: [String] {
+    return tagStrs
+  }
+  public var selectedTagsArr: [String] {
+    return selectedTagStrs
+  }
   // 设置以下属性需要在addTags方法前设置
   public var tagHeight: CGFloat = 30
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
@@ -48,8 +54,8 @@ public class ACTagView: UIScrollView {
   
   
   private var tagBtns: [ACTagButton] = []
-  private(set) var tagStrs: [String] = []
-  private(set) var selectedTagStrs: [String] = []
+  private var tagStrs: [String] = []
+  private var selectedTagStrs: [String] = []
   
   public func addTags(_ tags: [String]) {
     

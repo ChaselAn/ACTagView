@@ -45,15 +45,15 @@ class TagViewController: UIViewController {
     view.backgroundColor = UIColor.white
     
     view.addSubview(inputTagView)
-    inputTagView.frame = CGRect(x: 0, y: 200, width: ACScreenWidth, height: inputTagBgViewHeight)
+    inputTagView.frame = CGRect(x: 0, y: 200, width: UIScreen.main.bounds.width, height: inputTagBgViewHeight)
     inputTagView.backgroundColor = UIColor.yellow
     inputTagView.addTags(["来来"])
     inputTagView.tagDelegate = self
     
     
     view.addSubview(totalTagView)
-//    totalTagView.frame = CGRect(x: 0, y: inputTagBgView.frame.maxY, width: ACScreenWidth, height: ACScreenHeight - inputTagBgViewHeight - 64)
-    totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: ACScreenWidth, height: 50)
+//    totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: UIScreen.main.bounds.width, height: ACScreenHeight - inputTagBgViewHeight - 64)
+    totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: UIScreen.main.bounds.width, height: 50)
     totalTagView.addTags(totalTagsArr)
     totalTagView.setDefaultSelectedTags(["来来"])
     totalTagView.tagDelegate = self
@@ -77,8 +77,8 @@ extension TagViewController: ACTagViewDelegate {
     }else if tagState == .turnOff {
       inputTagView.removeTag(tagStr)
     }
-    print("----totalView-----", totalTagView.selectedTagStrs)
-    print("----inputView-----", inputTagView.tagStrs)
+    print("----totalView-----", totalTagView.selectedTagsArr)
+    print("----inputView-----", inputTagView.tagsArr)
     
   }
 }
@@ -90,8 +90,8 @@ extension TagViewController: ACInputTagViewDelegate {
     
     tagView.removeTag(tagStr)
     totalTagView.clickTag(tagStr)
-    print("----totalView-----", totalTagView.selectedTagStrs)
-    print("----inputView-----", inputTagView.tagStrs)
+    print("----totalView-----", totalTagView.selectedTagsArr)
+    print("----inputView-----", inputTagView.tagsArr)
     
   }
 }
