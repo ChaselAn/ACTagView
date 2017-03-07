@@ -21,7 +21,7 @@ extension ACTagViewDelegate {
   }
   
 }
-class ACTagView: UIScrollView {
+public class ACTagView: UIScrollView {
   
   enum TagBtnState {
     case turnOn
