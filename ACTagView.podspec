@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name         = 'ACTagView'
     s.version      = '0.2.0'
-    s.summary      = 'tag view for wechat'
+    s.summary      = '仿微信的标签功能，Swift3.0版本'
     s.homepage     = 'https://github.com/ChaselAn/ACTagView'
     s.license      = 'MIT'
     s.authors      = {'ChaselAn' => '865770853@qq.com'}
