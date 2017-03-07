@@ -7,6 +7,6 @@ Pod::Spec.new do |s|
     s.authors      = {'ChaselAn' => '865770853@qq.com'}
     s.platform     = :ios, '8.0'
     s.source       = {:git => 'https://github.com/ChaselAn/ACTagView.git', :tag => s.version}
-    s.source_files = 'ACTagView/ACTagView/*.swift'
+    s.source_files = 'ACTagView/*.swift'
     s.requires_arc = true
 end
