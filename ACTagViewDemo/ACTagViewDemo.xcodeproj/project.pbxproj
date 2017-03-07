@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4001EF9D1E6C623200472179 /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4001EF9C1E6C623200472179 /* ACTagView.swift */; };
-		4330696F1E6953F9009E4A9D /* ACUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330696E1E6953F9009E4A9D /* ACUtil.swift */; };
+		43306A3A1E6E5984009E4A9D /* ACInputTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A371E6E5984009E4A9D /* ACInputTagView.swift */; };
+		43306A3B1E6E5984009E4A9D /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A381E6E5984009E4A9D /* ACTagView.swift */; };
+		43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A391E6E5984009E4A9D /* ACUtil.swift */; };
 		4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */; };
 		4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36D1E6902BA00FFEC85 /* ViewController.swift */; };
 		4333C3711E6902BB00FFEC85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C36F1E6902BB00FFEC85 /* Main.storyboard */; };
@@ -18,8 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4001EF9C1E6C623200472179 /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
-		4330696E1E6953F9009E4A9D /* ACUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACUtil.swift; sourceTree = "<group>"; };
+		43306A371E6E5984009E4A9D /* ACInputTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTagView.swift; sourceTree = "<group>"; };
+		43306A381E6E5984009E4A9D /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
+		43306A391E6E5984009E4A9D /* ACUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACUtil.swift; sourceTree = "<group>"; };
 		4333C3681E6902BA00FFEC85 /* ACTagViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ACTagViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4333C36D1E6902BA00FFEC85 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +43,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43306A361E6E5984009E4A9D /* ACTagView */ = {
+			isa = PBXGroup;
+			children = (
+				43306A371E6E5984009E4A9D /* ACInputTagView.swift */,
+				43306A381E6E5984009E4A9D /* ACTagView.swift */,
+				43306A391E6E5984009E4A9D /* ACUtil.swift */,
+			);
+			path = ACTagView;
+			sourceTree = "<group>";
+		};
 		4333C35F1E6902BA00FFEC85 = {
 			isa = PBXGroup;
 			children = (
@@ -60,11 +72,10 @@
 		4333C36A1E6902BA00FFEC85 /* ACTagViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				43306A361E6E5984009E4A9D /* ACTagView */,
 				4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */,
 				4333C36D1E6902BA00FFEC85 /* ViewController.swift */,
 				4333C37D1E690EC400FFEC85 /* TagViewController.swift */,
-				4330696E1E6953F9009E4A9D /* ACUtil.swift */,
-				4001EF9C1E6C623200472179 /* ACTagView.swift */,
 				4333C36F1E6902BB00FFEC85 /* Main.storyboard */,
 				4333C3721E6902BB00FFEC85 /* Assets.xcassets */,
 				4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */,
@@ -146,11 +157,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43306A3B1E6E5984009E4A9D /* ACTagView.swift in Sources */,
+				43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */,
 				4333C37E1E690EC400FFEC85 /* TagViewController.swift in Sources */,
-				4330696F1E6953F9009E4A9D /* ACUtil.swift in Sources */,
 				4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */,
+				43306A3A1E6E5984009E4A9D /* ACInputTagView.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
-				4001EF9D1E6C623200472179 /* ACTagView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

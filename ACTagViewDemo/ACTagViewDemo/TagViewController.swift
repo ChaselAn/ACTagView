@@ -1,6 +1,6 @@
 //
 //  TagViewController.swift
-//  ACTagViewDemo
+//  ACTagCommonViewDemo
 //
 //  Created by ancheng on 2017/3/3.
 //  Copyright © 2017年 ac. All rights reserved.
@@ -16,9 +16,9 @@ class TagViewController: UIViewController {
   private var inputTagBgViewHeight: CGFloat = 50
   
   private var inputTagBgView = UIView()
-  fileprivate var inputTagView = ACTagView(type: .haveInputTag)
+  fileprivate var inputTagView = ACInputTagView()
   
-  fileprivate var totalTagView = ACTagView(type: .normal)
+  fileprivate var totalTagView = ACTagView()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -69,22 +69,30 @@ class TagViewController: UIViewController {
 
 extension TagViewController: ACTagViewDelegate {
   
-  
   // 实现联动
   func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
     
-    if tagView == inputTagView {
-      tagView.removeTag(tagStr)
-      totalTagView.clickTag(tagStr)
-    }else if tagView == totalTagView {
-      if tagState == .turnOn {
-        inputTagView.addTag(tagStr)
-      }else if tagState == .turnOff {
-        inputTagView.removeTag(tagStr)
-      }
+    if tagState == .turnOn {
+      inputTagView.addTag(tagStr)
+    }else if tagState == .turnOff {
+      inputTagView.removeTag(tagStr)
     }
     print("----totalView-----", totalTagView.selectedTagStrs)
-    print("----inputView-----", inputTagView.selectedTagStrs)
+    print("----inputView-----", inputTagView.tagStrs)
     
   }
 }
+
+extension TagViewController: ACInputTagViewDelegate {
+  
+  // 实现联动
+  func tagView(_ tagView: ACInputTagView, didClickedTagAt index: Int, tagStr: String) {
+    
+    tagView.removeTag(tagStr)
+    totalTagView.clickTag(tagStr)
+    print("----totalView-----", totalTagView.selectedTagStrs)
+    print("----inputView-----", inputTagView.tagStrs)
+    
+  }
+}
+
