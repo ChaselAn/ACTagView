@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'ACTagView'
-    s.version      = '0.1.1'
+    s.version      = '0.2.0'
     s.summary      = 'tag view for wechat'
     s.homepage     = 'https://github.com/ChaselAn/ACTagView'
     s.license      = 'MIT'
