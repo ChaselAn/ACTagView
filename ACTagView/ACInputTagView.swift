@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ACInputTagViewDelegate: NSObjectProtocol {
+public protocol ACInputTagViewDelegate: NSObjectProtocol {
   
   func tagView(_ tagView: ACInputTagView, didClickedTagAt index: Int, tagStr: String)
   
@@ -17,60 +17,60 @@ protocol ACInputTagViewDelegate: NSObjectProtocol {
 
 extension ACInputTagViewDelegate {
   
-  func tagView(_ tagView: ACInputTagView, didClickedTagAt index: Int, tagStr: String) {
+  public func tagView(_ tagView: ACInputTagView, didClickedTagAt index: Int, tagStr: String) {
     return
   }
   
-  func tagView(_ tagView: ACInputTagView, didFinishInputTagStr tagStr: String) {
+  public func tagView(_ tagView: ACInputTagView, didFinishInputTagStr tagStr: String) {
     return
   }
   
 }
-class ACInputTagView: UIScrollView {
+public class ACInputTagView: UIScrollView {
   
-  enum InputTagBorderState {
+  public enum InputTagBorderState {
     case none
     case circleWithFullLine(color: UIColor)
     case circleWithDashLine(color: UIColor, lineDashPattern: [NSNumber])
   }
   
   // 设置以下属性需要在addTags方法前设置
-  var tagHeight: CGFloat = 30
+  public var tagHeight: CGFloat = 30
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
-  var tagMarginSize: CGSize = CGSize(width: 10, height: 10)
+  public var tagMarginSize: CGSize = CGSize(width: 10, height: 10)
   // tag的内边距
-  var tagPaddingSize: CGSize = CGSize(width: 0, height: 0)
+  public var tagPaddingSize: CGSize = CGSize(width: 0, height: 0)
   // 输入标签的字体大小
-  var tagFontSize: CGFloat = 14
+  public var tagFontSize: CGFloat = 14
   
-  var tagBgColor = UIColor.clear
-  var tagBorderColor = UIColor.green
-  var tagTextColor = UIColor.green
+  public var tagBgColor = UIColor.clear
+  public var tagBorderColor = UIColor.green
+  public var tagTextColor = UIColor.green
   
-  weak var tagDelegate: ACInputTagViewDelegate?
+  public weak var tagDelegate: ACInputTagViewDelegate?
   
-  var inputTagMaxWordCount: Int = 15
-  var inputTagPlaceholder: String {
+  public var inputTagMaxWordCount: Int = 15
+  public var inputTagPlaceholder: String {
     didSet {
       inputTagTextField.placeholder = inputTagPlaceholder
     }
   }
-  var inputTagFontSize: CGFloat {
+  public var inputTagFontSize: CGFloat {
     didSet {
       inputTagTextField.font = UIFont.systemFont(ofSize: inputTagFontSize)
     }
   }
-  var inputTagBgColor: UIColor {
+  public var inputTagBgColor: UIColor {
     didSet {
       inputTagTextField.backgroundColor = inputTagBgColor
     }
   }
-  var inputTagTextColor: UIColor {
+  public var inputTagTextColor: UIColor {
     didSet {
       inputTagTextField.textColor = inputTagTextColor
     }
   }
-  var inputTagPlaceholderColor: UIColor {
+  public var inputTagPlaceholderColor: UIColor {
     didSet {
       let placeholderStr = inputTagPlaceholder
       let attr = NSMutableAttributedString(string: placeholderStr)
@@ -79,7 +79,7 @@ class ACInputTagView: UIScrollView {
       inputTagTextField.paddingSize = tagPaddingSize
     }
   }
-  var inputTagBorderState: InputTagBorderState {
+  public var inputTagBorderState: InputTagBorderState {
     didSet {
       setTagDashLine()
     }
@@ -91,21 +91,21 @@ class ACInputTagView: UIScrollView {
   fileprivate var inputTagTextField = ACTagTextField()
   fileprivate var borderLayer = CAShapeLayer()
   
-  func addTags(_ tags: [String]) {
+  public func addTags(_ tags: [String]) {
     
     tags.forEach({ addTagToLast($0) })
     layoutTags()
     
   }
   
-  func addTag(_ tag: String) {
+  public func addTag(_ tag: String) {
     
     addTagToLast(tag)
     layoutTags()
     
   }
   
-  func removeTag(_ tag: String) {
+  public func removeTag(_ tag: String) {
     
     if let index = tagStrs.index(of: tag) {
       tagStrs.remove(at: index)
@@ -117,7 +117,7 @@ class ACInputTagView: UIScrollView {
     
   }
   
-  func removeTag(by index: Int) {
+  public func removeTag(by index: Int) {
     
     
     if index >= tagStrs.count || index >= tagBtns.count { return }
@@ -128,7 +128,7 @@ class ACInputTagView: UIScrollView {
     
   }
   
-  override init(frame: CGRect) {
+  public override init(frame: CGRect) {
     
     inputTagPlaceholder = "输入标签"
     inputTagFontSize = 13
@@ -142,7 +142,7 @@ class ACInputTagView: UIScrollView {
     
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  public required init?(coder aDecoder: NSCoder) {
     
     inputTagPlaceholder = "输入标签"
     inputTagFontSize = 13
@@ -173,7 +173,7 @@ class ACInputTagView: UIScrollView {
     
   }
 
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+  public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
     super.touchesBegan(touches, with: event)
     _ = textFieldShouldReturn(inputTagTextField)
@@ -346,7 +346,7 @@ class ACInputTagView: UIScrollView {
 
 extension ACInputTagView: UITextFieldDelegate {
   
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+  public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     
     textField.resignFirstResponder()
     guard let tfText = textField.text, !tfText.isEmpty else { return false }
