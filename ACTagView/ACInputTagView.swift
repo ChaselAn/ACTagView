@@ -50,6 +50,7 @@ public class ACInputTagView: UIScrollView {
   public var tagBgColor = UIColor.clear
   public var tagBorderColor = UIColor.green
   public var tagTextColor = UIColor.green
+  public var tagCornerRadius: ACTagView.TagCornerRadiusType = .none
   
   public weak var tagDelegate: ACInputTagViewDelegate?
   
@@ -331,7 +332,14 @@ public class ACInputTagView: UIScrollView {
     tagBtn.setTitle(tag, for: .normal)
     tagBtn.setTitle(tag, for: .selected)
     tagBtn.frame = CGRect(x: 0, y: 0, width: tag.ac_getWidth(tagFontSize) + tagHeight + 2 * tagPaddingSize.width, height: tagHeight)
-    tagBtn.layer.cornerRadius = tagBtn.frame.height / 2
+    switch tagCornerRadius {
+    case .halfOfCircle:
+      tagBtn.layer.cornerRadius = tagBtn.frame.height / 2
+    case .custom(radius: let value):
+      tagBtn.layer.cornerRadius = value
+    default:
+      break
+    }
     
     return tagBtn
     

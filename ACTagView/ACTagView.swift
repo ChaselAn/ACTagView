@@ -28,6 +28,12 @@ public class ACTagView: UIScrollView {
     case turnOff
   }
   
+  public enum TagCornerRadiusType {
+    case none
+    case halfOfCircle
+    case custom(radius: CGFloat)
+  }
+  
   public var tagsArr: [String] {
     return tagStrs
   }
@@ -49,6 +55,7 @@ public class ACTagView: UIScrollView {
   public var normalTagBgColor = UIColor.clear
   public var normalTagBorderColor = UIColor.lightGray
   public var normalTagTextColor = UIColor.black
+  public var tagCornerRadius: TagCornerRadiusType = .none
   
   public weak var tagDelegate: ACTagViewDelegate?
   
@@ -203,7 +210,15 @@ public class ACTagView: UIScrollView {
     tagBtn.setTitle(tag, for: .normal)
     tagBtn.setTitle(tag, for: .selected)
     tagBtn.frame = CGRect(x: 0, y: 0, width: tag.ac_getWidth(tagFontSize) + tagHeight + 2 * tagPaddingSize.width, height: tagHeight)
-    tagBtn.layer.cornerRadius = tagBtn.frame.height / 2
+    switch tagCornerRadius {
+    case .halfOfCircle:
+      tagBtn.layer.cornerRadius = tagBtn.frame.height / 2
+    case .custom(radius: let value):
+      tagBtn.layer.cornerRadius = value
+    default:
+      break
+    }
+    
     
     return tagBtn
     
