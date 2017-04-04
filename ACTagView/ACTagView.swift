@@ -56,9 +56,9 @@ public class ACTagView: UIScrollView {
   public var normalTagBorderColor = UIColor.lightGray
   public var normalTagTextColor = UIColor.black
   public var tagCornerRadius: TagCornerRadiusType = .none
+  public var isScrollToLast = false
   
   public weak var tagDelegate: ACTagViewDelegate?
-  
   
   private var tagBtns: [ACTagButton] = []
   private var tagStrs: [String] = []
@@ -182,9 +182,11 @@ public class ACTagView: UIScrollView {
     let oldContentHeight = contentSize.height
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
     
-    if oldContentHeight != contentSize.height && oldContentHeight != 0 {
-      let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
-      setContentOffset(bottomOffset, animated: true)
+    if isScrollToLast {
+      if oldContentHeight != contentSize.height && oldContentHeight != 0 {
+        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
+        setContentOffset(bottomOffset, animated: true)
+      }
     }
     
     if bounds.height == 0 {

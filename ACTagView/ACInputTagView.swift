@@ -51,6 +51,7 @@ public class ACInputTagView: UIScrollView {
   public var tagBorderColor = UIColor.green
   public var tagTextColor = UIColor.green
   public var tagCornerRadius: ACTagView.TagCornerRadiusType = .none
+  public var isScrollToLast = false
   
   public weak var tagDelegate: ACInputTagViewDelegate?
   
@@ -140,7 +141,7 @@ public class ACInputTagView: UIScrollView {
     inputTagBgColor = UIColor.clear
     inputTagTextColor = UIColor.black
     inputTagPlaceholderColor = UIColor.lightGray
-    inputTagBorderState = InputTagBorderState.none
+    inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
     
     super.init(frame: frame)
     setupUI()
@@ -154,7 +155,7 @@ public class ACInputTagView: UIScrollView {
     inputTagBgColor = UIColor.clear
     inputTagTextColor = UIColor.black
     inputTagPlaceholderColor = UIColor.lightGray
-    inputTagBorderState = InputTagBorderState.none
+    inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
     
     super.init(coder: aDecoder)
     setupUI()
@@ -234,15 +235,22 @@ public class ACInputTagView: UIScrollView {
     let oldContentHeight = contentSize.height
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
     
-    if oldContentHeight != contentSize.height && oldContentHeight != 0 {
-      let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
-      setContentOffset(bottomOffset, animated: true)
+    if isScrollToLast {
+      if oldContentHeight != contentSize.height && oldContentHeight != 0 {
+        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
+        setContentOffset(bottomOffset, animated: true)
+      }
     }
-    
+
     if bounds.height == 0 {
       frame.size.height = contentSize.height
     }
-    
+    if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
+      borderLayer.frame = inputTagTextField.bounds
+      borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius: borderLayer.bounds.height / 2).cgPath
+    } else {
+      setTagDashLine()
+    }
   }
   
   private func addTagToLast(_ tag: String) {
@@ -280,10 +288,8 @@ public class ACInputTagView: UIScrollView {
     }
     
   }
-
+  
   fileprivate func setupTextField() {
-    
-    inputTagTextField.frame = CGRect(x: 0, y: 0, width: inputTagPlaceholder.ac_getWidth(inputTagFontSize), height: tagHeight)
     
     inputTagFontSize = 13
     inputTagBgColor = UIColor.clear
@@ -291,6 +297,7 @@ public class ACInputTagView: UIScrollView {
     inputTagPlaceholder = "输入标签"
     inputTagPlaceholderColor = UIColor.lightGray
     inputTagBorderState = InputTagBorderState.circleWithDashLine(color: UIColor.lightGray, lineDashPattern: [3, 3])
+    inputTagTextField.frame = CGRect(x: 0, y: 0, width: inputTagPlaceholder.ac_getWidth(inputTagFontSize), height: tagHeight)
     
   }
   
@@ -310,11 +317,6 @@ public class ACInputTagView: UIScrollView {
     }
     
     layoutTags()
-    
-    if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
-      borderLayer.frame = inputTagTextField.bounds
-      borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius: borderLayer.bounds.height / 2).cgPath
-    }
     
   }
   
@@ -364,10 +366,6 @@ extension ACInputTagView: UITextFieldDelegate {
     guard let tfText = textField.text, !tfText.isEmpty else { return false }
     textField.text = ""
     addTag(tfText)
-    if case .circleWithDashLine(color: _, lineDashPattern: _) = inputTagBorderState {
-      borderLayer.frame = inputTagTextField.bounds
-      borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius: borderLayer.bounds.height / 2).cgPath
-    }
     tagDelegate?.tagView(self, didFinishInputTagStr: tfText)
     return true
     

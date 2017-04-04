@@ -48,13 +48,14 @@ class TagViewController: UIViewController {
     inputTagView.frame = CGRect(x: 0, y: 200, width: UIScreen.main.bounds.width, height: inputTagBgViewHeight)
     inputTagView.backgroundColor = UIColor.yellow
     inputTagView.tagCornerRadius = .halfOfCircle
+    inputTagView.isScrollToLast = true
     inputTagView.addTags(["来来"])
     inputTagView.tagDelegate = self
-    
     
     view.addSubview(totalTagView)
 //    totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: UIScreen.main.bounds.width, height: ACScreenHeight - inputTagBgViewHeight - 64)
     totalTagView.frame = CGRect(x: 0, y: inputTagView.frame.maxY, width: UIScreen.main.bounds.width, height: 70)
+    totalTagView.isScrollToLast = true
     totalTagView.addTags(totalTagsArr)
     totalTagView.setDefaultSelectedTags(["来来"])
     totalTagView.tagDelegate = self

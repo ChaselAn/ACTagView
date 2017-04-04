@@ -63,7 +63,7 @@ extension String{
   func ac_getWidth(_ fontSize : CGFloat, height: CGFloat = 0) -> CGFloat {
     
     let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
-    return getSizeOfString(fontSize, textSize: size).width
+    return getSizeOfString(fontSize, textSize: size).width + 1
   }
   /**
    得到文字高度
