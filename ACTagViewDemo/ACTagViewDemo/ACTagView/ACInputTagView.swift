@@ -50,7 +50,7 @@ public class ACInputTagView: UIScrollView {
   public var tagBgColor = UIColor.clear
   public var tagBorderColor = UIColor.green
   public var tagTextColor = UIColor.green
-  public var tagCornerRadius: ACTagView.TagCornerRadiusType = .none
+  public var tagCornerRadius: ACTagBorderType = .none
   public var isScrollToLast = false
   
   public weak var tagDelegate: ACInputTagViewDelegate?
