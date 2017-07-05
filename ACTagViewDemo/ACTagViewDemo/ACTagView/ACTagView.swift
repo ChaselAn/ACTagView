@@ -28,12 +28,6 @@ public class ACTagView: UIScrollView {
     case turnOff
   }
   
-  public enum TagCornerRadiusType {
-    case none
-    case halfOfCircle
-    case custom(radius: CGFloat)
-  }
-  
   public var tagsArr: [String] {
     return tagStrs
   }
@@ -55,7 +49,7 @@ public class ACTagView: UIScrollView {
   public var normalTagBgColor = UIColor.clear
   public var normalTagBorderColor = UIColor.lightGray
   public var normalTagTextColor = UIColor.black
-  public var tagCornerRadius: TagCornerRadiusType = .none
+  public var tagCornerRadius: ACTagBorderType = .none
   public var isScrollToLast = false
   
   public weak var tagDelegate: ACTagViewDelegate?

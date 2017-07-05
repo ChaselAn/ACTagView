@@ -18,7 +18,7 @@ class ViewController: UIViewController {
   }
 
   @IBAction func clickSetTagBtn(_ sender: UIButton) {
-    self.navigationController?.pushViewController(TagViewController(), animated: true)
+    self.navigationController?.pushViewController(TestTagViewController(), animated: true)
     
   }
 
