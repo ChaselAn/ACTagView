@@ -19,6 +19,7 @@
 		4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */; };
 		4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1301F0DCFB400E5A333 /* GreenTestView.swift */; };
 		4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */; };
+		4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1341F0E347E00E5A333 /* ACInputTag.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		4333C3771E6902BB00FFEC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4384F1301F0DCFB400E5A333 /* GreenTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenTestView.swift; sourceTree = "<group>"; };
 		4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreenTestView.xib; sourceTree = "<group>"; };
+		4384F1341F0E347E00E5A333 /* ACInputTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTag.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				40DE55771F0D17FD0053E988 /* ACTagView.swift */,
 				40DE55791F0D185D0053E988 /* ACTag.swift */,
+				4384F1341F0E347E00E5A333 /* ACInputTag.swift */,
 				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
 				43306A391E6E5984009E4A9D /* ACUtil.swift */,
 			);
@@ -173,6 +176,7 @@
 				4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */,
 				40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
+				4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */,
 				4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */,
 				40DE557E1F0D31670053E988 /* TestTagViewController.swift in Sources */,
 			);

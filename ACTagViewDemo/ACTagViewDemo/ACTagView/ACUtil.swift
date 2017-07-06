@@ -11,19 +11,6 @@ import UIKit
 let ACScreenWidth = UIScreen.main.bounds.width
 let ACScreenHeight = UIScreen.main.bounds.height
 
-class ACTagTextField: UITextField {
-  
-  var paddingSize = CGSize.zero
-  
-  override func textRect(forBounds bounds: CGRect) -> CGRect {
-    return bounds.insetBy(dx: self.bounds.height / 2 + paddingSize.width, dy: 0)
-  }
-
-  override func editingRect(forBounds bounds: CGRect) -> CGRect {
-    return CGRect(x: self.bounds.height / 2 + paddingSize.width, y: 0, width: bounds.width + self.bounds.height / 2 + paddingSize.width, height: bounds.height)
-  }
-}
-
 extension String{
   
   /**

@@ -14,6 +14,14 @@ public enum ACTagBorderType {
   case custom(radius: CGFloat)
 }
 
+public enum ACInputTagBorderState {
+  case none
+  case fullLine
+  case dashLine(lineDashPattern: [NSNumber])
+  case circleWithFullLine
+  case circleWithDashLine(lineDashPattern: [NSNumber])
+}
+
 public class ACTagManager {
   
   public static let shared = ACTagManager()
@@ -33,5 +41,7 @@ public class ACTagManager {
   
   public var tagDefaultHeight: CGFloat = 30
   public var autoLineFeed: Bool = true
+  
+  public var inputTagBorderType = ACInputTagBorderState.circleWithFullLine
   
 }
