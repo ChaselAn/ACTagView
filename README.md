@@ -40,7 +40,7 @@ tagView.dataSource = self
 tagView.tagDelegate = self
 tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
 tagView.backgroundColor = UIColor.white
-view.addSubview(firstTagView)
+view.addSubview(tagView)
 ```
 
 ```swift
