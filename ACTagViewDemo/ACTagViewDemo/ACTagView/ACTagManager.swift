@@ -32,5 +32,6 @@ public class ACTagManager {
   public var tagTextColor = UIColor.black
   
   public var tagDefaultHeight: CGFloat = 30
+  public var autoLineFeed: Bool = true
   
 }

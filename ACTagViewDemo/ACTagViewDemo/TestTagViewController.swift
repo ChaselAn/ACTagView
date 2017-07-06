@@ -10,9 +10,8 @@ import UIKit
 
 class TestTagViewController: UIViewController {
 
-  
-  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈", "阿萨德浪费卡拉斯科答机房啦送假的佛偈哦哦拉克丝都放假了卡束带结发", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊",]
-  fileprivate var firstTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 150))
+  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "啊", "圆圆姐", "哈哈哈哈哈哈哈哈哈", "阿萨德浪费卡拉斯科答机房啦送假的佛偈哦哦拉克丝都放假了卡束带结发", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊",]
+  fileprivate var firstTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 50))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,13 +34,15 @@ class TestTagViewController: UIViewController {
     
     firstTagView.dataSource = self
     firstTagView.tagDelegate = self
-    firstTagView.backgroundColor = UIColor.red
+    firstTagView.autoLineFeed = false
+    firstTagView.backgroundColor = UIColor.white
     view.addSubview(firstTagView)
     view.backgroundColor = UIColor.white
     
     let tagNibView = Bundle.main.loadNibNamed("GreenTestView", owner: nil, options: nil)?.last as! GreenTestView
-    tagNibView.frame = CGRect(x: 0, y: 400, width: ACScreenWidth, height: 200)
+    tagNibView.frame = CGRect(x: 0, y: 200, width: ACScreenWidth, height: 200)
     tagNibView.acTagTestView.dataSource = self
+    tagNibView.acTagTestView.tagDelegate = self
     view.addSubview(tagNibView)
     
     automaticallyAdjustsScrollViewInsets = false
