@@ -12,13 +12,7 @@ class TestTagViewController: UIViewController {
 
   
   fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈"]
-  
-  private var inputTagBgViewHeight: CGFloat = 50
-  
-  private var inputTagBgView = UIView()
-  fileprivate var inputTagView = ACInputTagView()
-  
-  fileprivate var totalTagView = ACTagView()
+  private var redTagView = ACTestView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 300))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -41,11 +35,18 @@ class TestTagViewController: UIViewController {
   
   private func setupUI() {
     
-    let tagView = ACTestView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 300))
-    tagView.dataSource = self
-    tagView.backgroundColor = UIColor.red
-    view.addSubview(tagView)
+    redTagView.dataSource = self
+    redTagView.backgroundColor = UIColor.red
+    view.addSubview(redTagView)
     view.backgroundColor = UIColor.white
+    
+    let tagNibView = Bundle.main.loadNibNamed("GreenTestView", owner: nil, options: nil)?.last as! GreenTestView
+    tagNibView.frame = CGRect(x: 0, y: 400, width: ACScreenWidth, height: 200)
+    tagNibView.acTagTestView.dataSource = self
+    view.addSubview(tagNibView)
+    
+    automaticallyAdjustsScrollViewInsets = false
+    
   }
   
   @objc private func clickSaveBtn() {

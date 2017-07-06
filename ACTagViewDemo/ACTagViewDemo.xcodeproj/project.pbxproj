@@ -20,6 +20,8 @@
 		4333C3731E6902BB00FFEC85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3721E6902BB00FFEC85 /* Assets.xcassets */; };
 		4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */; };
 		4333C37E1E690EC400FFEC85 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C37D1E690EC400FFEC85 /* TagViewController.swift */; };
+		4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1301F0DCFB400E5A333 /* GreenTestView.swift */; };
+		4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		4333C3751E6902BB00FFEC85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4333C3771E6902BB00FFEC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4333C37D1E690EC400FFEC85 /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		4384F1301F0DCFB400E5A333 /* GreenTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenTestView.swift; sourceTree = "<group>"; };
+		4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreenTestView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,8 @@
 				4333C36D1E6902BA00FFEC85 /* ViewController.swift */,
 				40DE557D1F0D31670053E988 /* TestTagViewController.swift */,
 				4333C37D1E690EC400FFEC85 /* TagViewController.swift */,
+				4384F1301F0DCFB400E5A333 /* GreenTestView.swift */,
+				4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */,
 				4333C36F1E6902BB00FFEC85 /* Main.storyboard */,
 				4333C3721E6902BB00FFEC85 /* Assets.xcassets */,
 				4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */,
@@ -158,6 +164,7 @@
 			files = (
 				4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */,
 				4333C3731E6902BB00FFEC85 /* Assets.xcassets in Resources */,
+				4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */,
 				4333C3711E6902BB00FFEC85 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,6 +185,7 @@
 				43306A3A1E6E5984009E4A9D /* ACInputTagView.swift in Sources */,
 				40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
+				4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */,
 				40DE557E1F0D31670053E988 /* TestTagViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

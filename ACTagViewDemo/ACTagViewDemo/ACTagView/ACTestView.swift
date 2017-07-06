@@ -15,12 +15,19 @@ public protocol ACTestViewDataSource: NSObjectProtocol {
   
 }
 
+@objc public protocol ACTestViewDelegate: NSObjectProtocol {
+  
+  @objc optional func tagView(_ tagView: ACTestView, didSelectTagAt index: Int)
+  
+}
+
 open class ACTestView: UIScrollView {
 
   open weak var dataSource: ACTestViewDataSource?
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
   open var tagMarginSize: CGSize = ACTagManager.shared.tagMarginSize
   open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
+  
   open func reloadData() {
     
     layoutTags()
@@ -41,13 +48,8 @@ open class ACTestView: UIScrollView {
     
   }
   
-  open override func awakeFromNib() {
-    super.awakeFromNib()
-    reloadData()
-  }
-  
-  open override func willMove(toSuperview newSuperview: UIView?) {
-    super.willMove(toSuperview: newSuperview)
+  open override func didMoveToWindow() {
+    super.didMoveToWindow()
     reloadData()
   }
   
@@ -96,7 +98,7 @@ open class ACTestView: UIScrollView {
       addSubview(tag)
     }
     
-    let oldContentHeight = contentSize.height
+//    let oldContentHeight = contentSize.height
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
     
 //    if isScrollToLast {
