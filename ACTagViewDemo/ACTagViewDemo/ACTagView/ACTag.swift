@@ -70,6 +70,9 @@ open class ACTag: UIButton {
   
   private func initializeDefaultValue() {
     
+    isUserInteractionEnabled = false
+    isSelected = false
+    
     let manager = ACTagManager.shared
     borderType = manager.tagBorderType
     paddingSize = manager.tagPaddingSize

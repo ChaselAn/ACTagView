@@ -11,14 +11,8 @@ import UIKit
 class TestTagViewController: UIViewController {
 
   
-  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈"]
-  
-  private var inputTagBgViewHeight: CGFloat = 50
-  
-  private var inputTagBgView = UIView()
-  fileprivate var inputTagView = ACInputTagView()
-  
-  fileprivate var totalTagView = ACTagView()
+  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈", "阿萨德浪费卡拉斯科答机房啦送假的佛偈哦哦拉克丝都放假了卡束带结发", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊",]
+  fileprivate var redTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 150))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -31,8 +25,6 @@ class TestTagViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -41,11 +33,19 @@ class TestTagViewController: UIViewController {
   
   private func setupUI() {
     
-    let tagView = ACTestView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 300))
-    tagView.dataSource = self
-    tagView.backgroundColor = UIColor.red
-    view.addSubview(tagView)
+    redTagView.dataSource = self
+    redTagView.tagDelegate = self
+    redTagView.backgroundColor = UIColor.red
+    view.addSubview(redTagView)
     view.backgroundColor = UIColor.white
+    
+    let tagNibView = Bundle.main.loadNibNamed("GreenTestView", owner: nil, options: nil)?.last as! GreenTestView
+    tagNibView.frame = CGRect(x: 0, y: 400, width: ACScreenWidth, height: 200)
+    tagNibView.acTagTestView.dataSource = self
+    view.addSubview(tagNibView)
+    
+    automaticallyAdjustsScrollViewInsets = false
+    
   }
   
   @objc private func clickSaveBtn() {
@@ -54,14 +54,23 @@ class TestTagViewController: UIViewController {
   
 }
 
-extension TestTagViewController: ACTestViewDataSource {
-  func numberOfTags(in tagView: ACTestView) -> Int {
+extension TestTagViewController: ACTagViewDataSource {
+  func numberOfTags(in tagView: ACTagView) -> Int {
     return totalTagsArr.count
   }
   
-  func tagView(_ tagView: ACTestView, tagForIndexAt index: Int) -> ACTag {
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
     let tag = ACTag()
     tag.setTitle(totalTagsArr[index], for: .normal)
+    if tagView != redTagView {
+      tag.borderType = .none
+    }
     return tag
+  }
+}
+
+extension TestTagViewController: ACTagViewDelegate {
+  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
+    tag.isSelected = !tag.isSelected
   }
 }
