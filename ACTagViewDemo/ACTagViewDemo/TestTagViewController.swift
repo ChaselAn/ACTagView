@@ -25,17 +25,17 @@ class TestTagViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    print(redTagView.subviews)
   }
   
   private func setupUI() {
     
     redTagView.dataSource = self
+    redTagView.tagDelegate = self
     redTagView.backgroundColor = UIColor.red
     view.addSubview(redTagView)
     view.backgroundColor = UIColor.white
@@ -64,5 +64,11 @@ extension TestTagViewController: ACTestViewDataSource {
     let tag = ACTag()
     tag.setTitle(totalTagsArr[index], for: .normal)
     return tag
+  }
+}
+
+extension TestTagViewController: ACTestViewDelegate {
+  func tagView(_ tagView: ACTestView, didClickTagAt index: Int, clickedTag tag: ACTag) {
+    tag.isSelected = !tag.isSelected
   }
 }

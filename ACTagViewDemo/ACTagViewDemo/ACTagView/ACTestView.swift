@@ -17,13 +17,14 @@ public protocol ACTestViewDataSource: NSObjectProtocol {
 
 @objc public protocol ACTestViewDelegate: NSObjectProtocol {
   
-  @objc optional func tagView(_ tagView: ACTestView, didSelectTagAt index: Int)
+  @objc optional func tagView(_ tagView: ACTestView, didClickTagAt index: Int, clickedTag tag: ACTag)
   
 }
 
 open class ACTestView: UIScrollView {
 
   open weak var dataSource: ACTestViewDataSource?
+  open weak var tagDelegate: ACTestViewDelegate?
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
   open var tagMarginSize: CGSize = ACTagManager.shared.tagMarginSize
   open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
@@ -53,6 +54,8 @@ open class ACTestView: UIScrollView {
     reloadData()
   }
   
+  private var tagsList: [ACTag] = []
+  
   private func setupUI() {
     
     if bounds.width == 0 {
@@ -66,6 +69,7 @@ open class ACTestView: UIScrollView {
   private func layoutTags() {
     
     subviews.forEach({ ($0 as? ACTag)?.removeFromSuperview() })
+    tagsList = []
     guard let dataSource = dataSource else { return }
     
     var offsetX = tagMarginSize.width
@@ -96,6 +100,7 @@ open class ACTestView: UIScrollView {
       tempFrame.size.height = tagHeight
       tag.frame = tempFrame
       addSubview(tag)
+      tagsList.append(tag)
     }
     
 //    let oldContentHeight = contentSize.height
@@ -112,6 +117,19 @@ open class ACTestView: UIScrollView {
       frame.size.height = contentSize.height
     }
     
+  }
+  
+  open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    guard let position = touches.first?.location(in: self) else { return }
+    guard let dataSource = dataSource else { return }
+    for i in 0 ..< dataSource.numberOfTags(in: self) {
+      let tag = tagsList[i]
+      if tag.frame.contains(position) {
+        tagDelegate?.tagView?(self, didClickTagAt: i, clickedTag: tag)
+        return
+      }
+    }
   }
 
 
