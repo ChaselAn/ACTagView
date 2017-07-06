@@ -32,17 +32,17 @@ $ pod install
 ```
 
 ### 使用方法
-* viewDidLoad中代码
 
 ```swift
-	let tagStrList: [String] = ["标签1", "标签2", "标签3"]
-	let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
-	tagView.dataSource = self
-   	tagView.tagDelegate = self
-   	tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
-   	tagView.backgroundColor = UIColor.white
-   	view.addSubview(firstTagView)
+let tagStrList: [String] = ["标签1", "标签2", "标签3"]
+let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
+tagView.dataSource = self
+tagView.tagDelegate = self
+tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
+tagView.backgroundColor = UIColor.white
+view.addSubview(firstTagView)
 ```
+
 ```swift
 extension TestTagViewController: ACTagViewDataSource {
   func numberOfTags(in tagView: ACTagView) -> Int {
