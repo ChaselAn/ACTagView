@@ -37,10 +37,6 @@ open class ACTag: UIButton {
     }
   }
   
-  open override func setTitle(_ title: String?, for state: UIControlState) {
-    super.setTitle(title, for: state)
-  }
-  
   override open var isSelected: Bool {
     didSet {
       if isSelected {

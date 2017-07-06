@@ -12,7 +12,7 @@ class TestTagViewController: UIViewController {
 
   
   fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈", "阿萨德浪费卡拉斯科答机房啦送假的佛偈哦哦拉克丝都放假了卡束带结发", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊",]
-  fileprivate var redTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 150))
+  fileprivate var firstTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 150))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,10 +33,10 @@ class TestTagViewController: UIViewController {
   
   private func setupUI() {
     
-    redTagView.dataSource = self
-    redTagView.tagDelegate = self
-    redTagView.backgroundColor = UIColor.red
-    view.addSubview(redTagView)
+    firstTagView.dataSource = self
+    firstTagView.tagDelegate = self
+    firstTagView.backgroundColor = UIColor.red
+    view.addSubview(firstTagView)
     view.backgroundColor = UIColor.white
     
     let tagNibView = Bundle.main.loadNibNamed("GreenTestView", owner: nil, options: nil)?.last as! GreenTestView
@@ -62,7 +62,7 @@ extension TestTagViewController: ACTagViewDataSource {
   func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
     let tag = ACTag()
     tag.setTitle(totalTagsArr[index], for: .normal)
-    if tagView != redTagView {
+    if tagView != firstTagView {
       tag.borderType = .none
     }
     return tag

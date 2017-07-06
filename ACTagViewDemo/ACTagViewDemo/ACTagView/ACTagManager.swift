@@ -16,7 +16,7 @@ public enum ACTagBorderType {
 
 public class ACTagManager {
   
-  static let shared = ACTagManager()
+  public static let shared = ACTagManager()
   
   public var tagBorderWidth: CGFloat = 1
   public var tagBorderType = ACTagBorderType.halfOfCircle
@@ -24,11 +24,11 @@ public class ACTagManager {
   public var tagPaddingSize = CGSize(width: 0, height: 0)
   public var tagFontSize: CGFloat = 14
   
-  public var selectedTagBackgroundColor = UIColor.clear
-  public var selectedTagBorderColor = UIColor.green
-  public var selectedTagTextColor = UIColor.green
-  public var tagBackgroundColor = UIColor.clear
-  public var tagBorderColor = UIColor.lightGray
+  public var selectedTagBackgroundColor = UIColor.white
+  public var selectedTagBorderColor = UIColor.red
+  public var selectedTagTextColor = UIColor.red
+  public var tagBackgroundColor = UIColor.white
+  public var tagBorderColor = UIColor.black
   public var tagTextColor = UIColor.black
   
   public var tagDefaultHeight: CGFloat = 30
