@@ -10,6 +10,7 @@ import UIKit
 
 let ACScreenWidth = UIScreen.main.bounds.width
 let ACScreenHeight = UIScreen.main.bounds.height
+
 class ACTagTextField: UITextField {
   
   var paddingSize = CGSize.zero
@@ -21,34 +22,6 @@ class ACTagTextField: UITextField {
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return CGRect(x: self.bounds.height / 2 + paddingSize.width, y: 0, width: bounds.width + self.bounds.height / 2 + paddingSize.width, height: bounds.height)
   }
-}
-
-class ACTagButton: UIButton {
-  
-  var selectedBgColor = UIColor.clear
-  var selectedBorderColor = UIColor.green
-  var selectedTextColor = UIColor.green
-  var normalBgColor = UIColor.clear
-  var normalBorderColor = UIColor.lightGray
-  var normalTextColor = UIColor.black
-  
-  override var isSelected: Bool {
-    didSet {
-      if isSelected {
-        self.backgroundColor = selectedBgColor
-        self.layer.borderColor = selectedBorderColor.cgColor
-        self.layer.borderWidth = 1
-        self.setTitleColor(selectedTextColor, for: .selected)
-      } else {
-        self.backgroundColor = normalBgColor
-        self.layer.borderColor = normalBorderColor.cgColor
-        self.layer.borderWidth = 1
-        self.setTitleColor(normalTextColor, for: .normal)
-      }
-//      self.setNeedsDisplay()
-    }
-  }
-  
 }
 
 extension String{

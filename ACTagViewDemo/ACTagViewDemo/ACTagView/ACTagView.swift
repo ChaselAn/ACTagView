@@ -2,110 +2,44 @@
 //  ACTagView.swift
 //  ACTagViewDemo
 //
-//  Created by ancheng on 2017/3/6.
+//  Created by ac on 2017/7/5.
 //  Copyright © 2017年 ac. All rights reserved.
 //
 
 import UIKit
 
-public protocol ACTagViewDelegate: NSObjectProtocol {
+public protocol ACTagViewDataSource: NSObjectProtocol {
   
-  func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState)
+  func numberOfTags(in tagView: ACTagView) -> Int
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag
   
 }
 
-extension ACTagViewDelegate {
+@objc public protocol ACTagViewDelegate: NSObjectProtocol {
   
-  public func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
-    return
-  }
+  @objc optional func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag)
   
 }
-public class ACTagView: UIScrollView {
-  
-  public enum TagBtnState {
-    case turnOn
-    case turnOff
-  }
-  
-  public var tagsArr: [String] {
-    return tagStrs
-  }
-  public var selectedTagsArr: [String] {
-    return selectedTagStrs
-  }
-  // 设置以下属性需要在addTags方法前设置
-  public var tagHeight: CGFloat = 30
+
+open class ACTagView: UIScrollView {
+
+  open weak var dataSource: ACTagViewDataSource?
+  open weak var tagDelegate: ACTagViewDelegate?
   // tag的外边距，width代表距左右的边距，height代表距上下的边距
-  public var tagMarginSize: CGSize = CGSize(width: 10, height: 10)
-  // tag的内边距
-  public var tagPaddingSize: CGSize = CGSize(width: 0, height: 0)
-  // 输入标签的字体大小
-  public var tagFontSize: CGFloat = 14
+  open var tagMarginSize: CGSize = ACTagManager.shared.tagMarginSize
+  open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
   
-  public var selectedTagBgColor = UIColor.clear
-  public var selectedTagBorderColor = UIColor.green
-  public var selectedTagTextColor = UIColor.green
-  public var normalTagBgColor = UIColor.clear
-  public var normalTagBorderColor = UIColor.lightGray
-  public var normalTagTextColor = UIColor.black
-  public var tagCornerRadius: ACTagBorderType = .none
-  public var isScrollToLast = false
-  
-  public weak var tagDelegate: ACTagViewDelegate?
-  
-  private var tagBtns: [ACTagButton] = []
-  private var tagStrs: [String] = []
-  private var selectedTagStrs: [String] = []
-  
-  public func addTags(_ tags: [String]) {
+  open func reloadData() {
     
-    tags.forEach({ addTagToLast($0) })
     layoutTags()
     
   }
   
-  public func addTag(_ tag: String) {
-    
-    addTagToLast(tag)
-    layoutTags()
-    
-  }
-  
-  public func clickTag(_ tag: String) {
-    
-    if let index = tagStrs.index(of: tag) {
-      
-      if !tagBtns[index].isSelected && !selectedTagStrs.contains(tag) {
-        selectedTagStrs.append(tag)
-      }else if tagBtns[index].isSelected && selectedTagStrs.contains(tag) {
-        selectedTagStrs.remove(at: selectedTagStrs.index(of: tag)!)
-      }
-      tagBtns[index].isSelected = !tagBtns[index].isSelected
+  open func tagForIndex(at index: Int) -> ACTag? {
+    if index < tagsList.count {
+      return tagsList[index]
     }
-    
-  }
-  
-  public func setDefaultSelectedTags(_ deFaultTagStrs: [String]) {
-    
-    for tagStr in deFaultTagStrs {
-      if !selectedTagStrs.contains(tagStr) && tagStrs.contains(tagStr) {
-        selectedTagStrs.append(tagStr)
-        let index = tagStrs.index(of: tagStr)
-        tagBtns[index!].isSelected = true
-      }
-    }
-    
-  }
-  
-  public func setDefaultSelectedTagsIndex(_ defaultIndex: [Int]) {
-    
-    for index in defaultIndex {
-      if index >= tagBtns.count || index >= tagStrs.count { continue }
-      selectedTagStrs.append(tagStrs[index])
-      tagBtns[index].isSelected = true
-    }
-    
+    return nil
   }
   
   public override init(frame: CGRect) {
@@ -122,6 +56,13 @@ public class ACTagView: UIScrollView {
     
   }
   
+  open override func didMoveToWindow() {
+    super.didMoveToWindow()
+    reloadData()
+  }
+  
+  private var tagsList: [ACTag] = []
+  
   private func setupUI() {
     
     if bounds.width == 0 {
@@ -129,35 +70,29 @@ public class ACTagView: UIScrollView {
     }
     showsVerticalScrollIndicator = true
     showsHorizontalScrollIndicator = false
-    
+    clipsToBounds = true
   }
-
   
-  private func addTagToLast(_ tag: String) {
-    
-    if !tagStrs.contains(tag) {
-      tagStrs.append(tag)
-      
-      let tagBtn = createTagBtn(with: tag)
-      addSubview(tagBtn)
-      tagBtns.append(tagBtn)
-      
-    }
-    
-  }
-
   private func layoutTags() {
+    
+    subviews.forEach({ ($0 as? ACTag)?.removeFromSuperview() })
+    tagsList = []
+    guard let dataSource = dataSource else { return }
     
     var offsetX = tagMarginSize.width
     var offsetY = tagMarginSize.height
     
-    for (i, tagBtn) in tagBtns.enumerated() {
-      var tempFrame = tagBtn.frame
+    for i in 0 ..< dataSource.numberOfTags(in: self) {
+      
+      let tag = dataSource.tagView(self, tagForIndexAt: i)
+      tag.setWidth(withHeight: tagHeight)
+      var tempFrame = tag.frame
+      
       if (offsetX + tempFrame.width + tagMarginSize.width) <= bounds.width {
         tempFrame.origin.x = offsetX
         tempFrame.origin.y = offsetY
         offsetX += tempFrame.width + tagMarginSize.width
-      }else if i != 0 {
+      } else if i != 0 {
         offsetX = tagMarginSize.width
         offsetY += tagHeight + tagMarginSize.height
         tempFrame.origin.x = offsetX
@@ -169,19 +104,21 @@ public class ACTagView: UIScrollView {
         tempFrame.origin.y = offsetY
         offsetX += tempFrame.width + tagMarginSize.width
       }
-      tagBtn.frame = tempFrame
+      tempFrame.size.height = tagHeight
+      tag.frame = tempFrame
+      addSubview(tag)
+      tagsList.append(tag)
     }
-
     
-    let oldContentHeight = contentSize.height
+//    let oldContentHeight = contentSize.height
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
     
-    if isScrollToLast {
-      if oldContentHeight != contentSize.height && oldContentHeight != 0 {
-        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
-        setContentOffset(bottomOffset, animated: true)
-      }
-    }
+//    if isScrollToLast {
+//      if oldContentHeight != contentSize.height && oldContentHeight != 0 {
+//        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
+//        setContentOffset(bottomOffset, animated: true)
+//      }
+//    }
     
     if bounds.height == 0 {
       frame.size.height = contentSize.height
@@ -189,48 +126,19 @@ public class ACTagView: UIScrollView {
     
   }
   
-  private func createTagBtn(with tag: String) -> ACTagButton {
-    
-    let tagBtn = ACTagButton()
-    tagBtn.normalTextColor = normalTagTextColor
-    tagBtn.normalBgColor = normalTagBgColor
-    tagBtn.normalBorderColor = normalTagBorderColor
-    
-    tagBtn.selectedBgColor = selectedTagBgColor
-    tagBtn.selectedTextColor = selectedTagTextColor
-    tagBtn.selectedBorderColor = selectedTagBorderColor
-    
-    tagBtn.isSelected = false
-    tagBtn.titleLabel?.font = UIFont.systemFont(ofSize: tagFontSize)
-    tagBtn.addTarget(self, action: #selector(clickTagBtn), for: .touchUpInside)
-    tagBtn.setTitle(tag, for: .normal)
-    tagBtn.setTitle(tag, for: .selected)
-    tagBtn.frame = CGRect(x: 0, y: 0, width: tag.ac_getWidth(tagFontSize) + tagHeight + 2 * tagPaddingSize.width, height: tagHeight)
-    switch tagCornerRadius {
-    case .halfOfCircle:
-      tagBtn.layer.cornerRadius = tagBtn.frame.height / 2
-    case .custom(radius: let value):
-      tagBtn.layer.cornerRadius = value
-    default:
-      break
+  open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    guard let position = touches.first?.location(in: self) else { return }
+    guard let dataSource = dataSource else { return }
+    guard let firstTag = tagsList.first, (position.x >= firstTag.frame.minX && position.y >= firstTag.frame.minY) else { return }
+    guard let lastTag = tagsList.last, position.y <= lastTag.frame.maxY else { return }
+    for i in 0 ..< dataSource.numberOfTags(in: self) {
+      let tag = tagsList[i]
+      if tag.frame.contains(position) {
+        tagDelegate?.tagView?(self, didClickTagAt: i, clickedTag: tag)
+        return
+      }
     }
-    
-    
-    return tagBtn
-    
   }
-  
-  @objc private func clickTagBtn(sender: ACTagButton) {
-    
-    guard let tagStr = sender.title(for: .normal) else { return }
-    if !sender.isSelected && !selectedTagStrs.contains(tagStr) {
-      selectedTagStrs.append(tagStr)
-    }else if sender.isSelected && selectedTagStrs.contains(tagStr) {
-      selectedTagStrs.remove(at: selectedTagStrs.index(of: tagStr)!)
-    }
-    sender.isSelected = !sender.isSelected
-    guard let index = tagStrs.index(of: tagStr) else { return }
-    tagDelegate?.tagView(self, didClickedTagAt: index, tagStr: tagStr, tagState: sender.isSelected ? .turnOn : .turnOff)
-  }
+
 
 }

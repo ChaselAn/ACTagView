@@ -11,8 +11,8 @@ import UIKit
 class TestTagViewController: UIViewController {
 
   
-  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈"]
-  private var redTagView = ACTestView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 300))
+  fileprivate var totalTagsArr: [String] = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈", "阿萨德浪费卡拉斯科答机房啦送假的佛偈哦哦拉克丝都放假了卡束带结发", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊", "啊",]
+  fileprivate var redTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: ACScreenWidth, height: 150))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,7 +29,6 @@ class TestTagViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    print(redTagView.subviews)
   }
   
   private func setupUI() {
@@ -55,20 +54,23 @@ class TestTagViewController: UIViewController {
   
 }
 
-extension TestTagViewController: ACTestViewDataSource {
-  func numberOfTags(in tagView: ACTestView) -> Int {
+extension TestTagViewController: ACTagViewDataSource {
+  func numberOfTags(in tagView: ACTagView) -> Int {
     return totalTagsArr.count
   }
   
-  func tagView(_ tagView: ACTestView, tagForIndexAt index: Int) -> ACTag {
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
     let tag = ACTag()
     tag.setTitle(totalTagsArr[index], for: .normal)
+    if tagView != redTagView {
+      tag.borderType = .none
+    }
     return tag
   }
 }
 
-extension TestTagViewController: ACTestViewDelegate {
-  func tagView(_ tagView: ACTestView, didClickTagAt index: Int, clickedTag tag: ACTag) {
+extension TestTagViewController: ACTagViewDelegate {
+  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
     tag.isSelected = !tag.isSelected
   }
 }

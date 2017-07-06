@@ -10,6 +10,6 @@ import UIKit
 
 class GreenTestView: UIView {
 
-  @IBOutlet weak var acTagTestView: ACTestView!
+  @IBOutlet weak var acTagTestView: ACTagView!
 
 }

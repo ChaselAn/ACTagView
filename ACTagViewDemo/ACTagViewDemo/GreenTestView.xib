@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ndy-uD-vAC" customClass="ACTestView" customModule="ACTagViewDemo" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ndy-uD-vAC" customClass="ACTagView" customModule="ACTagViewDemo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
@@ -28,7 +28,7 @@
                 <constraint firstAttribute="trailing" secondItem="Ndy-uD-vAC" secondAttribute="trailing" id="KRl-7C-uh5"/>
             </constraints>
             <connections>
-                <outlet property="acTagTestView" destination="Ndy-uD-vAC" id="SzT-Se-j97"/>
+                <outlet property="acTagTestView" destination="Ndy-uD-vAC" id="bop-IX-ldY"/>
             </connections>
         </view>
     </objects>
