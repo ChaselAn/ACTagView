@@ -2,99 +2,63 @@
 
 * Swift3.0
 
-![](http://7xte1z.com1.z0.glb.clouddn.com/ACTagView.gif)
+<img width="250" height="445" src="https://raw.githubusercontent.com/ChaselAn/ACTagView/master/ACTagView.gif"/>
 
-#### ACTagView
+## 安装
 
-* 不含输入框的普通标签View
-* 使用方法：
+### CocoaPods    
 
-```swift
-	var totalTagsArr = ["来来", "范范", "小胖", "jabez", "圆圆姐", "哈哈哈哈哈哈哈哈哈"]
-	let totalTagView = ACTagView()
-    view.addSubview(totalTagView)
-    totalTagView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50)
-    totalTagView.backgroundColor = UIColor.red
-    totalTagView.addTags(totalTagsArr)
-    totalTagView.setDefaultSelectedTags(["来来"])
-    //totalTagView.tagDelegate = self
+```ruby
+pod 'ACTagView'
 ```
 
-* 获取全部标签以及选中的标签：
+Then, run the following command:
 
-```swift
-	print("----totalTag-----", totalTagView.tagsArr)
-    print("----selectedTag-----", totalTagView.selectedTagsArr)
+```bash
+$ pod install
 ```
 
-* 可以自定义非选中以及选中的标签的字体、背景、边框颜色，可以自定义标签高度、字体大小、标签外边距、内边距。
-* 标签默认不被选中，点击后被选中，再次点击取消选中
-* `func addTags(_ tags: [String])` ：添加标签数组
-* `func addTag(_ tag: String)` ：添加单个标签
-* `func clickTag(_ tag: String)` ：通过代码点击某个标签
-* `func setDefaultSelectedTags(_ deFaultTagStrs: [String])` ：默认选中的标签
-* `func setDefaultSelectedTagsIndex(_ defaultIndex: [Int])` ：通过下标默认选中标签
-* 暂不支持删除方法（微信是没有的，同时考虑到数据的联动多样性的需求）
-
-
-#### ACInputTagView
-
-* 带输入框的标签View
-* 使用方法：
-
+## 使用
+### 设置全局属性
 ```swift
-	let inputTagView = ACInputTagView()
-    view.addSubview(inputTagView)
-    inputTagView.frame = CGRect(x: 0, y: 200, width: UIScreen.main.bounds.width, height: inputTagBgViewHeight)
-    inputTagView.backgroundColor = UIColor.yellow
-    inputTagView.addTags(["来来"])
-    //inputTagView.tagDelegate = self
+    ACTagManager.shared.selectedTagBackgroundColor = UIColor.white // tag选中背景色
+    ACTagManager.shared.selectedTagBorderColor = UIColor.red // tag选中边框颜色
+    ACTagManager.shared.selectedTagTextColor = UIColor.red // tag选中文字颜色
+    ACTagManager.shared.tagBackgroundColor = UIColor.white // tag背景色
+    ACTagManager.shared.tagBorderColor = UIColor.black // tag边框颜色
+    ACTagManager.shared.tagTextColor = UIColor.black // tag文字颜色
+    ACTagManager.shared.autoLineFeed = true // tag是否自动换行
+    ...
 ```
 
-* 可以自定义标签的字体、背景、边框颜色，可以自定义标签高度、字体大小、标签外边距、内边距。
-* 可以自定义输入框的最大字数、占位字、字体大小、背景颜色、字体颜色、边框样式。
-* 标签只有选中状态，点击标签被删除
-* 输入框输入完成后自动生成新标签。
-* 获取全部标签：
+### 使用方法
+* viewDidLoad中代码
 
 ```swift
-	print("----totalTag-----", inputTagView.tagsArr)
+	let tagStrList: [String] = ["标签1", "标签2", "标签3"]
+	let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
+	tagView.dataSource = self
+   	tagView.tagDelegate = self
+   	tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
+   	tagView.backgroundColor = UIColor.white
+   	view.addSubview(firstTagView)
 ```
-
-* `func addTags(_ tags: [String])` ：添加标签数组
-* `func addTag(_ tag: String)` ：添加单个标签
-* `func removeTag(_ tag: String)` ：删除单个标签
-* `func removeTag(by index: Int)` ：通过下标删除单个标签
-
-#### ACTagView和ACInputTagView的联动
-
 ```swift
-extension TagViewController: ACTagViewDelegate {
+extension TestTagViewController: ACTagViewDataSource {
+  func numberOfTags(in tagView: ACTagView) -> Int {
+    return tagStrList.count
+  }
   
-  // 实现联动
-  func tagView(_ tagView: ACTagView, didClickedTagAt index: Int, tagStr: String, tagState: ACTagView.TagBtnState) {
-    
-    if tagState == .turnOn {
-      inputTagView.addTag(tagStr)
-    }else if tagState == .turnOff {
-      inputTagView.removeTag(tagStr)
-    }
-    print("----totalView-----", totalTagView.selectedTagsArr)
-    print("----inputView-----", inputTagView.tagsArr)
-    
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
+    let tag = ACTag()
+    tag.setTitle(tagStrList[index], for: .normal)
+    return tag
   }
 }
 
-extension TagViewController: ACInputTagViewDelegate {
-  
-  // 实现联动
-  func tagView(_ tagView: ACInputTagView, didClickedTagAt index: Int, tagStr: String) {
-    
-    tagView.removeTag(tagStr)
-    totalTagView.clickTag(tagStr)
-    print("----totalView-----", totalTagView.selectedTagsArr)
-    print("----inputView-----", inputTagView.tagsArr)
-    
+extension TestTagViewController: ACTagViewDelegate {
+  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
+    tag.isSelected = !tag.isSelected
   }
 }
 ```

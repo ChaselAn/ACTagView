@@ -25,10 +25,14 @@ open class ACTagView: UIScrollView {
 
   open weak var dataSource: ACTagViewDataSource?
   open weak var tagDelegate: ACTagViewDelegate?
-  // tag的外边距，width代表距左右的边距，height代表距上下的边距
+  
+  /// tag的外边距，width代表距左右的边距，height代表距上下的边距
   open var tagMarginSize: CGSize = ACTagManager.shared.tagMarginSize
+  
+  /// tag高度
   open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
-  /// 是否自动换行
+  
+  /// 是否自动换行，false表示只有一行，横向滑动，true表示纵向滑动
   open var autoLineFeed: Bool = ACTagManager.shared.autoLineFeed {
     didSet {
       showsVerticalScrollIndicator = autoLineFeed
