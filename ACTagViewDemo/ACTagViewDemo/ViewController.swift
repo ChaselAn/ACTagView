@@ -8,19 +8,23 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-  @IBOutlet weak var tagsLabel: UILabel!
+class ViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    tableView.delegate = self
   }
-
-  @IBAction func clickSetTagBtn(_ sender: UIButton) {
-    self.navigationController?.pushViewController(TestTagViewController(), animated: true)
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: false)
+    switch indexPath.row {
+    case 0:
+      navigationController?.pushViewController(TagViewController(), animated: true)
+    case 1:
+      navigationController?.pushViewController(EditTagViewController(), animated: true)
+    default:
+      break
+    }
     
   }
-
 }
-

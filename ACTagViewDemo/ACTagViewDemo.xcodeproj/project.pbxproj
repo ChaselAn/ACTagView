@@ -20,6 +20,8 @@
 		4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1301F0DCFB400E5A333 /* GreenTestView.swift */; };
 		4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */; };
 		4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1341F0E347E00E5A333 /* ACInputTag.swift */; };
+		4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1361F0F662B00E5A333 /* TagViewController.swift */; };
+		4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1381F0F738000E5A333 /* EditTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		4384F1301F0DCFB400E5A333 /* GreenTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenTestView.swift; sourceTree = "<group>"; };
 		4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreenTestView.xib; sourceTree = "<group>"; };
 		4384F1341F0E347E00E5A333 /* ACInputTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTag.swift; sourceTree = "<group>"; };
+		4384F1361F0F662B00E5A333 /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		4384F1381F0F738000E5A333 /* EditTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 				43306A361E6E5984009E4A9D /* ACTagView */,
 				4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */,
 				4333C36D1E6902BA00FFEC85 /* ViewController.swift */,
+				4384F1361F0F662B00E5A333 /* TagViewController.swift */,
+				4384F1381F0F738000E5A333 /* EditTagViewController.swift */,
 				40DE557D1F0D31670053E988 /* TestTagViewController.swift */,
 				4384F1301F0DCFB400E5A333 /* GreenTestView.swift */,
 				4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */,
@@ -177,7 +183,9 @@
 				40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
 				4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */,
+				4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */,
 				4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */,
+				4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */,
 				40DE557E1F0D31670053E988 /* TestTagViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

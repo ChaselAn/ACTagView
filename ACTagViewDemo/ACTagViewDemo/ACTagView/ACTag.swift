@@ -12,13 +12,23 @@ open class ACTag: UIButton {
 
   open var selectedBackgroundColor = ACTagManager.shared.selectedTagBackgroundColor
   open var normalBackgroundColor = ACTagManager.shared.tagBackgroundColor
+  open var selectedBorderColor = ACTagManager.shared.selectedTagBorderColor
+  open var borderColor = ACTagManager.shared.tagBorderColor
+  open var textColor = ACTagManager.shared.tagTextColor {
+    didSet {
+      setTitleColor(textColor, for: .normal)
+    }
+  }
+  open var selectedTextColor = ACTagManager.shared.selectedTagTextColor {
+    didSet {
+      setTitleColor(selectedTextColor, for: .selected)
+    }
+  }
   open var borderType = ACTagManager.shared.tagBorderType {
     didSet {
       setBorderTyper()
     }
   }
-  open var selectedBorderColor = ACTagManager.shared.selectedTagBorderColor
-  open var borderColor = ACTagManager.shared.tagBorderColor
   // tag的内边距
   open var paddingSize = ACTagManager.shared.tagPaddingSize {
     didSet {
@@ -74,10 +84,10 @@ open class ACTag: UIButton {
     paddingSize = manager.tagPaddingSize
     layer.borderWidth = manager.tagBorderWidth
     fontSize = manager.tagFontSize
-    backgroundColor = manager.tagBackgroundColor
+    backgroundColor = normalBackgroundColor
     
-    setTitleColor(manager.tagTextColor, for: .normal)
-    setTitleColor(manager.selectedTagTextColor, for: .selected)
+    textColor = manager.tagTextColor
+    selectedTextColor = manager.selectedTagTextColor
   }
   
   private func setBorderTyper() {

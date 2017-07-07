@@ -173,6 +173,8 @@ open class ACTagView: UIScrollView {
       offsetX += tempFrame.width + tagMarginSize.width
       tempFrame.size.height = tagHeight
       tag.frame = tempFrame
+      let selectState = tag.isSelected
+      tag.isSelected = selectState
       addSubview(tag)
       tagsList.append(tag)
     }
@@ -226,6 +228,8 @@ open class ACTagView: UIScrollView {
       tag.frame.size.height = tagHeight
       
       offsetX += tagMarginSize.width + tag.frame.width
+      let selectState = tag.isSelected
+      tag.isSelected = selectState
       addSubview(tag)
       tagsList.append(tag)
       
