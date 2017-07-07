@@ -35,6 +35,12 @@ class TestTagViewController: UIViewController {
     firstTagView.dataSource = self
     firstTagView.tagDelegate = self
     firstTagView.autoLineFeed = false
+    let inputTag = ACInputTag()
+    inputTag.placeholder = "输入标签"
+    inputTag.position = .head
+    inputTag.borderType = .circleWithDashLine(lineDashPattern: [3, 3])
+    inputTag.borderColor = UIColor.blue
+    firstTagView.inputTag = inputTag
     firstTagView.backgroundColor = UIColor.white
     view.addSubview(firstTagView)
     view.backgroundColor = UIColor.white
@@ -73,5 +79,14 @@ extension TestTagViewController: ACTagViewDataSource {
 extension TestTagViewController: ACTagViewDelegate {
   func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
     tag.isSelected = !tag.isSelected
+  }
+  
+  func tagView(_ tagView: ACTagView, inputTagShouldReturnWith inputTag: ACInputTag) -> Bool {
+    inputTag.resignFirstResponder()
+    guard let text = inputTag.text, !text.isEmpty else { return true }
+    totalTagsArr.insert(text, at: 0)
+    inputTag.text = ""
+    tagView.reloadData()
+    return true
   }
 }

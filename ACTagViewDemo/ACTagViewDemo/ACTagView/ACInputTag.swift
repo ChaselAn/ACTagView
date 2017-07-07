@@ -17,9 +17,30 @@ open class ACInputTag: UITextField {
   
   open var paddingSize = CGSize.zero
   open var position: Position = .tail
-  open var fontSize: CGFloat = 14
+  open var fontSize: CGFloat = 14 {
+    didSet {
+      font = UIFont.systemFont(ofSize: fontSize)
+    }
+  }
   open var borderType: ACInputTagBorderState = .circleWithFullLine
-//  open var borderColor:
+  open var borderColor: UIColor = ACTagManager.shared.inputTagBorderColor
+  
+  open var maxWordCount: Int?
+  
+  var defaultPlaceholder = "输入标签"
+  var layoutTags: (() -> ())?
+  var inputFinish: ((ACInputTag) -> Bool)?
+  private var borderLayer: CAShapeLayer?
+  
+  public init() {
+    super.init(frame: CGRect.zero)
+    initializeDefaultValue()
+  }
+  
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    initializeDefaultValue()
+  }
   
   override open func textRect(forBounds bounds: CGRect) -> CGRect {
     return bounds.insetBy(dx: self.bounds.height / 2 + paddingSize.width, dy: 0)
@@ -29,6 +50,109 @@ open class ACInputTag: UITextField {
     return CGRect(x: self.bounds.height / 2 + paddingSize.width, y: 0, width: bounds.width + self.bounds.height / 2 + paddingSize.width, height: bounds.height)
   }
   
-  var defaultPlaceholder = "输入标签"
+  func setBorder() {
+    layoutIfNeeded()
+    superview?.layoutIfNeeded()
+    
+    setTagDashLine()
+  }
+  
+  private func initializeDefaultValue() {
+    
+    let manager = ACTagManager.shared
+    paddingSize = manager.inputTagPaddingSize
+    layer.borderWidth = manager.tagBorderWidth
+    fontSize = manager.inputTagFontSize
+    
+    addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
+    textAlignment = .left
+    returnKeyType = .done
+    delegate = self
+  }
+  
+  private func setTagDashLine() {
+    
+    switch borderType {
+    case .none:
+      borderStyle = .none
+      borderLayer = nil
+    case .circleWithFullLine:
+      layer.borderWidth = 1
+      layer.borderColor = borderColor.cgColor
+      layer.cornerRadius = frame.height * 0.5
+      borderLayer = nil
+    case .circleWithDashLine(lineDashPattern: let lineDashPattern):
+      if let borderLayer = borderLayer {
+        borderLayer.frame = bounds
+        borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius: borderLayer.bounds.width / 2).cgPath
+        break
+      }
+      borderStyle = .none
+      layer.borderWidth = 0
+      borderLayer = CAShapeLayer()
+      borderLayer!.frame = bounds
+      borderLayer!.lineDashPattern = lineDashPattern
+      borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.width / 2).cgPath
+      borderLayer!.fillColor = UIColor.clear.cgColor
+      borderLayer!.strokeColor = borderColor.cgColor
+      layer.sublayers?.removeAll()
+      layer.addSublayer(borderLayer!)
+    case .fullLine(cornerRadius: let radius):
+      layer.borderWidth = 1
+      layer.borderColor = borderColor.cgColor
+      layer.cornerRadius = radius
+      borderLayer = nil
+    case .dashLine(cornerRadius: let radius, lineDashPattern: let lineDashPattern):
+      if let borderLayer = borderLayer {
+        borderLayer.frame = bounds
+        borderLayer.path = UIBezierPath(roundedRect: borderLayer.bounds, cornerRadius: borderLayer.bounds.width / 2).cgPath
+        break
+      }
+      borderStyle = .none
+      layer.borderWidth = 0
+      borderLayer = CAShapeLayer()
+      borderLayer!.frame = bounds
+      borderLayer!.lineDashPattern = lineDashPattern
+      borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: radius).cgPath
+      borderLayer!.fillColor = UIColor.clear.cgColor
+      borderLayer!.strokeColor = borderColor.cgColor
+      layer.sublayers?.removeAll()
+      layer.addSublayer(borderLayer!)
+    }
+    
+  }
+  
+  @objc private func textFieldDidFinishChange(_ textField: UITextField) {
+    guard textField.text != nil else{
+      return
+    }
+    guard let maxWordCount = maxWordCount else {
+      layoutTags?()
+      return
+    }
+    let temRange = textField.markedTextRange
+    var temSelectLength: Int = 0
+    if let range = temRange {
+      temSelectLength = textField.offset(from: range.start, to: range.end)
+    }
+    if textField.text!.characters.count - temSelectLength >= maxWordCount {
+      let index = textField.text!.characters.index(textField.text!.startIndex, offsetBy: maxWordCount)
+      textField.text = textField.text!.substring(to: index).replacingOccurrences(of: " ", with: "")
+    }
+    
+    layoutTags?()
+    
+  }
 
+}
+
+extension ACInputTag: UITextFieldDelegate {
+  
+  public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    
+    return inputFinish?(self) ?? false
+    
+  }
+  
+  
 }

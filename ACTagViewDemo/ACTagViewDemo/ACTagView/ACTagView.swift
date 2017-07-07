@@ -18,7 +18,8 @@ public protocol ACTagViewDataSource: NSObjectProtocol {
 @objc public protocol ACTagViewDelegate: NSObjectProtocol {
   
   @objc optional func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag)
-  
+  // 可编辑Tag点击右下角完成
+  @objc optional func tagView(_ tagView: ACTagView, inputTagShouldReturnWith inputTag: ACInputTag) -> Bool
 }
 
 open class ACTagView: UIScrollView {
@@ -41,7 +42,17 @@ open class ACTagView: UIScrollView {
   }
   
   // 能输入的标签
-  open var inputTag: ACInputTag?
+  open var inputTag: ACInputTag? {
+    didSet {
+      inputTag?.layoutTags = { [weak self] in
+        self?.updateTagsFrame()
+      }
+      inputTag?.inputFinish = { [weak self] inputTag in
+        guard let strongSelf = self else { return false }
+        return strongSelf.tagDelegate?.tagView?(strongSelf, inputTagShouldReturnWith: inputTag) ?? false
+      }
+    }
+  }
   
   open func reloadData() {
     
@@ -135,10 +146,10 @@ open class ACTagView: UIScrollView {
     var offsetY = tagMarginSize.height
     
     if let inputTag = inputTag, inputTag.position == .head {
-      let textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
-      let width = textStr.ac_getWidth(inputTag.fontSize) + inputTag.bounds.height + inputTag.paddingSize.width * 2
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: width, height: tagHeight)
-      offsetX += width + tagMarginSize.width
+      
+      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
+      offsetX += inputTag.frame.width + tagMarginSize.width
+      inputTag.setBorder()
       addSubview(inputTag)
     }
     
@@ -148,22 +159,18 @@ open class ACTagView: UIScrollView {
       tag.setWidth(withHeight: tagHeight)
       var tempFrame = tag.frame
       
-      if (offsetX + tempFrame.width + tagMarginSize.width) <= bounds.width {
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
-        offsetX += tempFrame.width + tagMarginSize.width
-      } else if i != 0 {
-        offsetX = tagMarginSize.width
-        offsetY += tagHeight + tagMarginSize.height
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
-        offsetX += tempFrame.width + tagMarginSize.width
-      } else {
-        offsetX = tagMarginSize.width
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
-        offsetX += tempFrame.width + tagMarginSize.width
+      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+        if i != 0 {
+          offsetX = tagMarginSize.width
+          offsetY += tagHeight + tagMarginSize.height
+        } else {
+          offsetX = tagMarginSize.width
+        }
       }
+      
+      tempFrame.origin.x = offsetX
+      tempFrame.origin.y = offsetY
+      offsetX += tempFrame.width + tagMarginSize.width
       tempFrame.size.height = tagHeight
       tag.frame = tempFrame
       addSubview(tag)
@@ -172,24 +179,20 @@ open class ACTagView: UIScrollView {
     
     if let inputTag = inputTag, inputTag.position == .tail {
       var tempFrame = inputTag.frame
-      let textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
-      let textWidth = textStr.ac_getWidth(inputTag.fontSize)
-      tempFrame.size.width = textWidth + inputTag.bounds.height + inputTag.paddingSize.width * 2
+      tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
       
-      if (offsetX + tempFrame.width + tagMarginSize.width) <= bounds.width {
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
-      } else if tagsList.count > 0 {
-        offsetX = tagMarginSize.width
-        offsetY += tagHeight + tagMarginSize.height
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
-      } else {
-        offsetX = tagMarginSize.width
-        tempFrame.origin.x = offsetX
-        tempFrame.origin.y = offsetY
+      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+        if tagsList.count > 0 {
+          offsetX = tagMarginSize.width
+          offsetY += tagHeight + tagMarginSize.height
+        } else {
+          offsetX = tagMarginSize.width
+        }
       }
-      
+      tempFrame.origin.x = offsetX
+      tempFrame.origin.y = offsetY
+      tempFrame.size.height = tagHeight
+      inputTag.setBorder()
       inputTag.frame = tempFrame
       addSubview(inputTag)
     }
@@ -206,10 +209,10 @@ open class ACTagView: UIScrollView {
     let offsetY = tagMarginSize.height
     
     if let inputTag = inputTag, inputTag.position == .head {
-      let textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
-      let width = textStr.ac_getWidth(inputTag.fontSize) + inputTag.bounds.height + inputTag.paddingSize.width * 2
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: width, height: tagHeight)
-      offsetX += width + tagMarginSize.width
+      
+      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
+      offsetX += inputTag.frame.width + tagMarginSize.width
+      inputTag.setBorder()
       addSubview(inputTag)
     }
     
@@ -230,10 +233,10 @@ open class ACTagView: UIScrollView {
     
     if let inputTag = inputTag, inputTag.position == .tail {
       
-      let textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
-      let textWidth = textStr.ac_getWidth(inputTag.fontSize)
+      let textWidth = getInputTagWidth(inputTag: inputTag)
       inputTag.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: tagHeight)
       
+      inputTag.setBorder()
       addSubview(inputTag)
     }
     
@@ -242,6 +245,108 @@ open class ACTagView: UIScrollView {
     if bounds.height == 0 {
       frame.size.height = tagHeight + 2 * offsetY
     }
+  }
+  
+  private func getInputTagWidth(inputTag: ACInputTag) -> CGFloat {
+    var textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
+    textStr = textStr.isEmpty ? inputTag.placeholder ?? inputTag.defaultPlaceholder : textStr
+    let width = textStr.ac_getWidth(inputTag.fontSize) + tagHeight + inputTag.paddingSize.width * 2
+    
+    return width
+  }
+  
+  private func updateTagsFrame() {
+    if autoLineFeed {
+      updateTagFrameWhenAutoLineFeed()
+    } else {
+      setTagFrameWhenOneLine()
+    }
+  }
+  
+  private func updateTagFrameWhenAutoLineFeed() {
+    var offsetX = tagMarginSize.width
+    var offsetY = tagMarginSize.height
+    
+    if let inputTag = inputTag, inputTag.position == .head {
+      
+      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
+      offsetX += inputTag.frame.width + tagMarginSize.width
+      inputTag.setBorder()
+    }
+    
+    for (i, tag) in tagsList.enumerated() {
+      
+      tag.setWidth(withHeight: tagHeight)
+      var tempFrame = tag.frame
+      
+      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+        if i != 0 {
+          offsetX = tagMarginSize.width
+          offsetY += tagHeight + tagMarginSize.height
+        } else {
+          offsetX = tagMarginSize.width
+        }
+      }
+      
+      tempFrame.origin.x = offsetX
+      tempFrame.origin.y = offsetY
+      offsetX += tempFrame.width + tagMarginSize.width
+      tempFrame.size.height = tagHeight
+      tag.frame = tempFrame
+    }
+    
+    if let inputTag = inputTag, inputTag.position == .tail {
+      var tempFrame = inputTag.frame
+      tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
+      
+      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+        if tagsList.count > 0 {
+          offsetX = tagMarginSize.width
+          offsetY += tagHeight + tagMarginSize.height
+        } else {
+          offsetX = tagMarginSize.width
+        }
+      }
+      tempFrame.origin.x = offsetX
+      tempFrame.origin.y = offsetY
+      tempFrame.size.height = tagHeight
+      inputTag.setBorder()
+      inputTag.frame = tempFrame
+    }
+    
+    contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
+  }
+  
+  private func setTagFrameWhenOneLine() {
+    var offsetX = tagMarginSize.width
+    let offsetY = tagMarginSize.height
+    
+    if let inputTag = inputTag, inputTag.position == .head {
+      
+      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
+      offsetX += inputTag.frame.width + tagMarginSize.width
+      inputTag.setBorder()
+    }
+    
+    for tag in tagsList {
+      
+      tag.setWidth(withHeight: tagHeight)
+      tag.frame.origin.x = offsetX
+      tag.frame.origin.y = offsetY
+      tag.frame.size.height = tagHeight
+      
+      offsetX += tagMarginSize.width + tag.frame.width
+    }
+    
+    if let inputTag = inputTag, inputTag.position == .tail {
+      
+      let textWidth = getInputTagWidth(inputTag: inputTag)
+      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: tagHeight)
+      
+      inputTag.setBorder()
+    }
+    
+    contentSize = CGSize(width: offsetX, height: bounds.height)
   }
 
 }
