@@ -29,11 +29,11 @@ class EditTagViewController: UIViewController {
   }
   
   private func setupTagView() {
-    ACTagManager.shared.autoLineFeed = false
     
     tagView1.backgroundColor = UIColor.white
     tagView1.dataSource = self
     tagView1.tagDelegate = self
+    tagView1.autoLineFeed = false
     let inputTag1 = ACInputTag()
     inputTag1.position = .head
     tagView1.inputTag = inputTag1
@@ -42,6 +42,7 @@ class EditTagViewController: UIViewController {
     tagView2.backgroundColor = UIColor.white
     tagView2.dataSource = self
     tagView2.tagDelegate = self
+    tagView2.autoLineFeed = false
     let inputTag2 = ACInputTag()
     inputTag2.borderType = .fullLine(cornerRadius: 5)
     inputTag2.borderColor = UIColor.green
@@ -53,6 +54,7 @@ class EditTagViewController: UIViewController {
     tagView3.backgroundColor = UIColor.white
     tagView3.dataSource = self
     tagView3.tagDelegate = self
+    tagView3.autoLineFeed = false
     let inputTag3 = ACInputTag()
     inputTag3.position = .head
     inputTag3.borderType = .circleWithFullLine

@@ -29,7 +29,6 @@ class EditTagAutoFeedViewController: UIViewController {
   }
   
   private func setupTagView() {
-    ACTagManager.shared.autoLineFeed = false
     
     tagView1.backgroundColor = UIColor.white
     tagView1.dataSource = self

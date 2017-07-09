@@ -29,7 +29,6 @@ class TagViewController: UIViewController {
   }
   
   private func setupNormalTagView() {
-    ACTagManager.shared.autoLineFeed = true
     
     tagView1.backgroundColor = UIColor.white
     tagView1.dataSource = self

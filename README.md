@@ -31,7 +31,7 @@ $ pod install
     ...
 ```
 
-### 使用方法
+### 普通展示标签
 
 ```swift
 let tagStrList: [String] = ["标签1", "标签2", "标签3"]
@@ -59,6 +59,49 @@ extension TestTagViewController: ACTagViewDataSource {
 extension TestTagViewController: ACTagViewDelegate {
   func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
     tag.isSelected = !tag.isSelected
+  }
+}
+```
+
+### 可编辑标签
+```swift
+let tagStrList: [String] = ["标签1", "标签2", "标签3"]
+let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
+tagView.dataSource = self
+tagView.tagDelegate = self
+let inputTag = ACInputTag()
+inputTag.position = .head
+tagView.inputTag = inputTag
+tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
+tagView.backgroundColor = UIColor.white
+view.addSubview(tagView)
+```
+
+```swift
+extension TestTagViewController: ACTagViewDataSource {
+  func numberOfTags(in tagView: ACTagView) -> Int {
+    return tagStrList.count
+  }
+  
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
+    let tag = ACTag()
+    tag.setTitle(tagStrList[index], for: .normal)
+    return tag
+  }
+}
+
+extension TestTagViewController: ACTagViewDelegate {
+  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
+    tag.isSelected = !tag.isSelected
+  }
+  func tagView(_ tagView: ACTagView, inputTagShouldReturnWith inputTag: ACInputTag) -> Bool {
+    inputTag.resignFirstResponder()
+    guard let text = inputTag.text, !text.isEmpty else { return true }
+    
+    tagStrList.append(text)
+    inputTag.text = ""
+    tagView.reloadData()
+    return true
   }
 }
 ```
