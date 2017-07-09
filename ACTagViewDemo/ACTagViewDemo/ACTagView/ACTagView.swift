@@ -197,6 +197,7 @@ open class ACTagView: UIScrollView {
       inputTag.setBorder()
       inputTag.frame = tempFrame
       addSubview(inputTag)
+      offsetX += tempFrame.width + tagMarginSize.width
     }
     
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
@@ -242,6 +243,7 @@ open class ACTagView: UIScrollView {
       
       inputTag.setBorder()
       addSubview(inputTag)
+      offsetX += textWidth + tagMarginSize.width
     }
     
     contentSize = CGSize(width: offsetX, height: bounds.height)
@@ -316,6 +318,7 @@ open class ACTagView: UIScrollView {
       tempFrame.size.height = tagHeight
       inputTag.setBorder()
       inputTag.frame = tempFrame
+      offsetX += tempFrame.width + tagMarginSize.width
     }
     
     contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
@@ -348,6 +351,7 @@ open class ACTagView: UIScrollView {
       inputTag.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: tagHeight)
       
       inputTag.setBorder()
+      offsetX += textWidth + tagMarginSize.width
     }
     
     contentSize = CGSize(width: offsetX, height: bounds.height)

@@ -27,7 +27,20 @@ open class ACInputTag: UITextField {
   
   open var maxWordCount: Int?
   
-  var defaultPlaceholder = "输入标签"
+  open var defaultPlaceholder = "输入标签" {
+    didSet {
+      placeholder = defaultPlaceholder
+    }
+  }
+  open var placeholderColor: UIColor = .lightGray {
+    didSet {
+      let str = placeholder ?? ""
+      let attribute = NSMutableAttributedString(string: str)
+      attribute.addAttributes([NSForegroundColorAttributeName: placeholderColor], range: NSRange(location: 0, length: str.characters.count))
+      attributedPlaceholder = attribute
+    }
+  }
+  
   var layoutTags: (() -> ())?
   var inputFinish: ((ACInputTag) -> Bool)?
   private var borderLayer: CAShapeLayer?
@@ -63,6 +76,7 @@ open class ACInputTag: UITextField {
     paddingSize = manager.inputTagPaddingSize
     layer.borderWidth = manager.tagBorderWidth
     fontSize = manager.inputTagFontSize
+    defaultPlaceholder = "输入标签"
     
     addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
     textAlignment = .left

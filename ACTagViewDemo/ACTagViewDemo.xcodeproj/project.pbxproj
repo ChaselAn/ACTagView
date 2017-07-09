@@ -7,28 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */; };
 		40DE55781F0D17FD0053E988 /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55771F0D17FD0053E988 /* ACTagView.swift */; };
 		40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55791F0D185D0053E988 /* ACTag.swift */; };
 		40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE557B1F0D19350053E988 /* ACTagManager.swift */; };
-		40DE557E1F0D31670053E988 /* TestTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE557D1F0D31670053E988 /* TestTagViewController.swift */; };
 		43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A391E6E5984009E4A9D /* ACUtil.swift */; };
 		4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */; };
 		4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36D1E6902BA00FFEC85 /* ViewController.swift */; };
 		4333C3711E6902BB00FFEC85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C36F1E6902BB00FFEC85 /* Main.storyboard */; };
 		4333C3731E6902BB00FFEC85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3721E6902BB00FFEC85 /* Assets.xcassets */; };
 		4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */; };
-		4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1301F0DCFB400E5A333 /* GreenTestView.swift */; };
-		4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */; };
 		4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1341F0E347E00E5A333 /* ACInputTag.swift */; };
 		4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1361F0F662B00E5A333 /* TagViewController.swift */; };
 		4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1381F0F738000E5A333 /* EditTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagAutoFeedViewController.swift; sourceTree = "<group>"; };
 		40DE55771F0D17FD0053E988 /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
 		40DE55791F0D185D0053E988 /* ACTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTag.swift; sourceTree = "<group>"; };
 		40DE557B1F0D19350053E988 /* ACTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagManager.swift; sourceTree = "<group>"; };
-		40DE557D1F0D31670053E988 /* TestTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTagViewController.swift; sourceTree = "<group>"; };
 		43306A391E6E5984009E4A9D /* ACUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACUtil.swift; sourceTree = "<group>"; };
 		4333C3681E6902BA00FFEC85 /* ACTagViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ACTagViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,8 +35,6 @@
 		4333C3721E6902BB00FFEC85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4333C3751E6902BB00FFEC85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4333C3771E6902BB00FFEC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4384F1301F0DCFB400E5A333 /* GreenTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenTestView.swift; sourceTree = "<group>"; };
-		4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GreenTestView.xib; sourceTree = "<group>"; };
 		4384F1341F0E347E00E5A333 /* ACInputTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTag.swift; sourceTree = "<group>"; };
 		4384F1361F0F662B00E5A333 /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		4384F1381F0F738000E5A333 /* EditTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagViewController.swift; sourceTree = "<group>"; };
@@ -91,9 +87,7 @@
 				4333C36D1E6902BA00FFEC85 /* ViewController.swift */,
 				4384F1361F0F662B00E5A333 /* TagViewController.swift */,
 				4384F1381F0F738000E5A333 /* EditTagViewController.swift */,
-				40DE557D1F0D31670053E988 /* TestTagViewController.swift */,
-				4384F1301F0DCFB400E5A333 /* GreenTestView.swift */,
-				4384F1321F0DCFBB00E5A333 /* GreenTestView.xib */,
+				40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */,
 				4333C36F1E6902BB00FFEC85 /* Main.storyboard */,
 				4333C3721E6902BB00FFEC85 /* Assets.xcassets */,
 				4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */,
@@ -164,7 +158,6 @@
 			files = (
 				4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */,
 				4333C3731E6902BB00FFEC85 /* Assets.xcassets in Resources */,
-				4384F1331F0DCFBB00E5A333 /* GreenTestView.xib in Resources */,
 				4333C3711E6902BB00FFEC85 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,9 +177,8 @@
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
 				4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */,
 				4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */,
-				4384F1311F0DCFB400E5A333 /* GreenTestView.swift in Sources */,
+				40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */,
 				4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */,
-				40DE557E1F0D31670053E988 /* TestTagViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

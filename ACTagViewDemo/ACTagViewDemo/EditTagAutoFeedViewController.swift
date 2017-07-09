@@ -1,22 +1,22 @@
 //
-//  EditTagViewController.swift
+//  EditTagAutoFeedViewController.swift
 //  ACTagViewDemo
 //
-//  Created by ancheng on 2017/7/7.
+//  Created by ac on 2017/7/9.
 //  Copyright © 2017年 ac. All rights reserved.
 //
 
 import UIKit
 
-class EditTagViewController: UIViewController {
+class EditTagAutoFeedViewController: UIViewController {
   
   fileprivate var tagsStrList1 = ["这是一个", "非常长的", "标签非常多的", "可以横向滑动的", "标签页", "啊!"]
   fileprivate var tagsStrList2 = ["你愁啥"]
   fileprivate var tagsStrList3 = ["我喜欢", "胸大", "腿长", "瓜子脸", "黑长直", "身材高挑", "会卖萌", "会发嗲", "会做饭", "会洗衣", "的", "男生"]
   
-  fileprivate var tagView1 = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 50))
-  fileprivate var tagView2 = ACTagView(frame: CGRect(x: 0, y: 200, width: UIScreen.main.bounds.width, height: 50))
-  fileprivate var tagView3 = ACTagView(frame: CGRect(x: 0, y: 300, width: UIScreen.main.bounds.width, height: 50))
+  fileprivate var tagView1 = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100))
+  fileprivate var tagView2 = ACTagView(frame: CGRect(x: 0, y: 250, width: UIScreen.main.bounds.width, height: 100))
+  fileprivate var tagView3 = ACTagView(frame: CGRect(x: 0, y: 400, width: UIScreen.main.bounds.width, height: 100))
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,7 +63,7 @@ class EditTagViewController: UIViewController {
   
 }
 
-extension EditTagViewController: ACTagViewDataSource {
+extension EditTagAutoFeedViewController: ACTagViewDataSource {
   func numberOfTags(in tagView: ACTagView) -> Int {
     switch tagView {
     case tagView1:
@@ -101,7 +101,7 @@ extension EditTagViewController: ACTagViewDataSource {
   }
 }
 
-extension EditTagViewController: ACTagViewDelegate {
+extension EditTagAutoFeedViewController: ACTagViewDelegate {
   func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
     tag.isSelected = !tag.isSelected
   }
@@ -124,3 +124,4 @@ extension EditTagViewController: ACTagViewDelegate {
     return true
   }
 }
+

@@ -22,6 +22,8 @@ class ViewController: UITableViewController {
       navigationController?.pushViewController(TagViewController(), animated: true)
     case 1:
       navigationController?.pushViewController(EditTagViewController(), animated: true)
+    case 2:
+      navigationController?.pushViewController(EditTagAutoFeedViewController(), animated: true)
     default:
       break
     }
