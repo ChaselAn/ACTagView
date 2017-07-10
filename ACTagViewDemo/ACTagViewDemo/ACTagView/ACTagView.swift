@@ -88,10 +88,9 @@ open class ACTagView: UIScrollView {
   
   open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     guard let position = touches.first?.location(in: self) else { return }
-    guard let dataSource = dataSource else { return }
-    guard let firstTag = tagsList.first, (position.x >= firstTag.frame.minX && position.y >= firstTag.frame.minY) else { return }
+    guard let firstTag = tagsList.first, position.y >= firstTag.frame.minY else { return }
     guard let lastTag = tagsList.last, position.y <= lastTag.frame.maxY else { return }
-    for i in 0 ..< dataSource.numberOfTags(in: self) {
+    for i in 0 ..< tagsList.count {
       let tag = tagsList[i]
       if tag.frame.contains(position) {
         tagDelegate?.tagView?(self, didClickTagAt: i, clickedTag: tag)
