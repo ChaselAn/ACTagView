@@ -54,6 +54,10 @@ open class ACTagView: UIScrollView {
     }
   }
   
+  open var estimatedHeight: CGFloat {
+    return calculateHeight()
+  }
+  
   open func reloadData() {
     
     layoutTags()
@@ -354,6 +358,57 @@ open class ACTagView: UIScrollView {
     }
     
     contentSize = CGSize(width: offsetX, height: bounds.height)
+  }
+  
+  private func calculateHeight() -> CGFloat {
+    guard let dataSource = dataSource, dataSource.numberOfTags(in: self) > 0 else {
+      return 0
+    }
+    if autoLineFeed {
+      var offsetX = tagMarginSize.width
+      var offsetY = tagMarginSize.height
+      
+      if let inputTag = inputTag, inputTag.position == .head {
+        offsetX += getInputTagWidth(inputTag: inputTag) + tagMarginSize.width
+      }
+      
+      for i in 0 ..< dataSource.numberOfTags(in: self) {
+        
+        let tag = dataSource.tagView(self, tagForIndexAt: i)
+        
+        tag.setWidth(withHeight: tagHeight)
+        let tempFrame = tag.frame
+        
+        if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+          if i != 0 {
+            offsetX = tagMarginSize.width
+            offsetY += tagHeight + tagMarginSize.height
+          } else {
+            offsetX = tagMarginSize.width
+          }
+        }
+        
+        offsetX += tempFrame.width + tagMarginSize.width
+      }
+      
+      if let inputTag = inputTag, inputTag.position == .tail {
+        var tempFrame = inputTag.frame
+        tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
+        
+        if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
+          if tagsList.count > 0 {
+            offsetX = tagMarginSize.width
+            offsetY += tagHeight + tagMarginSize.height
+          } else {
+            offsetX = tagMarginSize.width
+          }
+        }
+        offsetX += tempFrame.width + tagMarginSize.width
+      }
+      
+      return offsetY + tagHeight + tagMarginSize.height
+    }
+    return tagHeight
   }
 
 }
