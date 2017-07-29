@@ -9,14 +9,18 @@
 import UIKit
 
 enum BetaACTagViewLayoutType {
-  case sca
+  case autoLineFeed
 }
 
 class BetaACTagView: UICollectionView {
 
   init(frame: CGRect, layoutType: BetaACTagViewLayoutType) {
-    
-    super.init(frame: frame, collectionViewLayout: <#T##UICollectionViewLayout#>)
+    var layout: UICollectionViewLayout!
+    switch layoutType {
+    case .autoLineFeed:
+      layout = BetaACTagViewLayout()
+    }
+    super.init(frame: frame, collectionViewLayout: layout)
   }
   
   required init?(coder aDecoder: NSCoder) {

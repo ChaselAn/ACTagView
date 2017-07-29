@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40518A7A1F2CD6FF00947FE2 /* BetaACTagViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */; };
 		40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */; };
 		40DE55781F0D17FD0053E988 /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55771F0D17FD0053E988 /* ACTagView.swift */; };
 		40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55791F0D185D0053E988 /* ACTag.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetaACTagViewLayout.swift; sourceTree = "<group>"; };
 		40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagAutoFeedViewController.swift; sourceTree = "<group>"; };
 		40DE55771F0D17FD0053E988 /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
 		40DE55791F0D185D0053E988 /* ACTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTag.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
 				43306A391E6E5984009E4A9D /* ACUtil.swift */,
 				431015811F2B2DCB00E6AB2F /* BetaACTagView.swift */,
+				40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */,
 			);
 			path = ACTagView;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
 				4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */,
 				4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */,
+				40518A7A1F2CD6FF00947FE2 /* BetaACTagViewLayout.swift in Sources */,
 				40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */,
 				4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */,
 			);
