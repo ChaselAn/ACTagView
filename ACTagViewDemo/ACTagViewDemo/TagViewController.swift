@@ -10,13 +10,9 @@ import UIKit
 
 class TagViewController: UIViewController {
   
-  fileprivate let tagsStrList1 = ["这是一个", "非常长的", "标签非常多的", "可以横向滑动的", "标签页", "啊!"]
-  fileprivate let tagsStrList2 = ["这是一个", "精简版的", "标签页", "啊!", "啊！"]
-  fileprivate let tagsStrList3 = ["我喜欢", "胸大", "腿长", "瓜子脸", "黑长直", "身材高挑", "会卖萌", "会发嗲", "会做饭", "会洗衣", "的", "男生"]
-  
-  fileprivate var tagView1 = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 50))
-  fileprivate var tagView2 = ACTagView(frame: CGRect(x: 0, y: 200, width: UIScreen.main.bounds.width, height: 100))
-  fileprivate var tagView3 = ACTagView(frame: CGRect(x: 0, y: 350, width: UIScreen.main.bounds.width, height: 100))
+  fileprivate let tagsStrList = ["我喜欢", "胸大", "腿长", "瓜子脸", "黑长直", "身材高挑", "会卖萌", "会发嗲", "会做饭", "会洗衣", "的", "男生"]
+
+  private var betaTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100), layoutType: .autoLineFeed)
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,66 +26,36 @@ class TagViewController: UIViewController {
   
   private func setupNormalTagView() {
     
-    tagView1.backgroundColor = UIColor.white
-    tagView1.dataSource = self
-    tagView1.tagDelegate = self
-    tagView1.autoLineFeed = false
-    view.addSubview(tagView1)
-    
-    tagView2.backgroundColor = UIColor.white
-    tagView2.dataSource = self
-    tagView2.tagDelegate = self
-    view.addSubview(tagView2)
-    
-    
-    tagView3.backgroundColor = UIColor.white
-    tagView3.dataSource = self
-    tagView3.tagDelegate = self
-    view.addSubview(tagView3)
+    betaTagView.tagDataSource = self
+    betaTagView.tagDelegate = self
+    betaTagView.allowsMultipleSelection = true
+    betaTagView.backgroundColor = UIColor.white
+    view.addSubview(betaTagView)
   }
 
 }
 
 extension TagViewController: ACTagViewDataSource {
   func numberOfTags(in tagView: ACTagView) -> Int {
-    switch tagView {
-    case tagView1:
-      return tagsStrList1.count
-    case tagView2:
-      return tagsStrList2.count
-    case tagView3:
-      return tagsStrList3.count
-    default:
-      return 0
-    }
+    return tagsStrList.count
   }
   
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
-    let tag = ACTag()
-    var list: [String] = []
-    switch tagView {
-    case tagView1:
-      list = tagsStrList1
-    case tagView2:
-      list = tagsStrList2
-      tag.textColor = UIColor.green
-      tag.borderColor = UIColor.green
-      tag.selectedBackgroundColor = UIColor.red
-      tag.selectedTextColor = UIColor.white
-      tag.selectedBorderColor = UIColor.white
-      tag.borderType = .custom(radius: 5)
-    case tagView3:
-      list = tagsStrList3
-    default:
-      break
-    }
-    tag.setTitle(list[index], for: .normal)
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTagAttribute {
+    let tag = ACTagAttribute()
+    tag.text = tagsStrList[index]
     return tag
   }
 }
 
 extension TagViewController: ACTagViewDelegate {
-  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
-    tag.isSelected = !tag.isSelected
+  
+  func tagView(_ tagView: ACTagView, didSelectTagAt index: Int) {
+    print(index)
+    print("selectedTagsList-----------", tagView.indexsForSelectedTags)
   }
+  
+  func tagView(_ tagView: ACTagView, didDeselectTagAt index: Int) {
+    print("deselected------------",index)
+  }
+  
 }

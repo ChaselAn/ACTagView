@@ -2,413 +2,154 @@
 //  ACTagView.swift
 //  ACTagViewDemo
 //
-//  Created by ac on 2017/7/5.
+//  Created by ancheng on 2017/7/28.
 //  Copyright © 2017年 ac. All rights reserved.
 //
 
 import UIKit
 
-public protocol ACTagViewDataSource: NSObjectProtocol {
+enum ACTagViewLayoutType {
+  case autoLineFeed
+}
+
+protocol ACTagViewDataSource: NSObjectProtocol {
   
   func numberOfTags(in tagView: ACTagView) -> Int
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag
+  
+  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTagAttribute
   
 }
 
-@objc public protocol ACTagViewDelegate: NSObjectProtocol {
+@objc protocol ACTagViewDelegate: NSObjectProtocol {
   
-  @objc optional func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag)
-  // 可编辑Tag点击右下角完成
-  @objc optional func tagView(_ tagView: ACTagView, inputTagShouldReturnWith inputTag: ACInputTag) -> Bool
+  @objc optional func tagView(_ tagView: ACTagView, didSelectTagAt index: Int)
+  
+  @objc optional func tagView(_ tagView: ACTagView, didDeselectTagAt index: Int)
 }
 
-open class ACTagView: UIScrollView {
+class ACTagView: UIView {
+  
+  weak var tagDataSource: ACTagViewDataSource?
+  weak var tagDelegate: ACTagViewDelegate?
+  var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
+  var paddingSize: CGSize = ACTagManager.shared.tagPaddingSize
+  var tagMarginSize = ACTagManager.shared.tagMarginSize {
+    didSet {
+      layout.tagMarginSize = tagMarginSize
+    }
+  }
+  var allowsMultipleSelection: Bool = false {
+    didSet {
+      collectionView.allowsMultipleSelection = allowsMultipleSelection
+    }
+  }
+  
+  var indexsForSelectedTags: [Int] {
+    return collectionView.indexPathsForSelectedItems?.map({ $0.item }) ?? []
+  }
+  
+  private var collectionView: UICollectionView!
+  private var layout: ACTagViewLayout!
 
-  open weak var dataSource: ACTagViewDataSource?
-  open weak var tagDelegate: ACTagViewDelegate?
-  
-  /// tag的外边距，width代表距左右的边距，height代表距上下的边距
-  open var tagMarginSize: CGSize = ACTagManager.shared.tagMarginSize
-  
-  /// tag高度
-  open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
-  
-  /// 是否自动换行，false表示只有一行，横向滑动，true表示纵向滑动
-  open var autoLineFeed: Bool = ACTagManager.shared.autoLineFeed {
-    didSet {
-      showsVerticalScrollIndicator = autoLineFeed
-      showsHorizontalScrollIndicator = !autoLineFeed
-    }
-  }
-  
-  // 能输入的标签
-  open var inputTag: ACInputTag? {
-    didSet {
-      inputTag?.layoutTags = { [weak self] in
-        self?.updateTagsFrame()
-      }
-      inputTag?.inputFinish = { [weak self] inputTag in
-        guard let strongSelf = self else { return false }
-        return strongSelf.tagDelegate?.tagView?(strongSelf, inputTagShouldReturnWith: inputTag) ?? false
-      }
-    }
-  }
-  
-  open var estimatedHeight: CGFloat {
-    return calculateHeight()
-  }
-  
-  open func reloadData() {
+  init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
-    layoutTags()
-    
-  }
-  
-  open func tagForIndex(at index: Int) -> ACTag? {
-    if index < tagsList.count {
-      return tagsList[index]
+    var layout: ACTagViewLayout!
+    switch layoutType {
+    case .autoLineFeed:
+      layout = ACTagViewLayout()
     }
-    return nil
+    super.init(frame: frame)
+    
+    initCollectionView(layout: layout)
   }
   
-  public override init(frame: CGRect) {
+  init(frame: CGRect, tagViewLayout layout: UICollectionViewLayout) {
     
     super.init(frame: frame)
-    setupUI()
     
+    initCollectionView(layout: layout)
   }
   
-  public required init?(coder aDecoder: NSCoder) {
-    
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    setupUI()
-    
   }
   
-  open override func didMoveToWindow() {
-    super.didMoveToWindow()
-    reloadData()
-  }
-  
-  open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    guard let position = touches.first?.location(in: self) else { return }
-    guard let firstTag = tagsList.first, position.y >= firstTag.frame.minY else { return }
-    guard let lastTag = tagsList.last, position.y <= lastTag.frame.maxY else { return }
-    for i in 0 ..< tagsList.count {
-      let tag = tagsList[i]
-      if tag.frame.contains(position) {
-        tagDelegate?.tagView?(self, didClickTagAt: i, clickedTag: tag)
-        return
-      }
-    }
-  }
-  
-  private var tagsList: [ACTag] = []
-  
-  private func setupUI() {
-    
-    if bounds.width == 0 {
-      frame.size.width = ACScreenWidth
-    }
-    autoLineFeed = ACTagManager.shared.autoLineFeed
-    clipsToBounds = true
-  }
-  
-  private func layoutTags() {
-    
-    layoutIfNeeded()
-    superview?.layoutIfNeeded()
-    subviews.forEach({
-      ($0 as? ACTag)?.removeFromSuperview()
-      ($0 as? ACInputTag)?.removeFromSuperview()
-    })
-    tagsList = []
-    guard let dataSource = dataSource else { return }
-    
-    if autoLineFeed {
-      setTagFrameWhenAutoLineFeed(dataSource: dataSource)
-    } else {
-      setTagFrameWhenOneLine(dataSource: dataSource)
+  // 使用xib创建此控件时，必须调用此方法
+  func initTagView(layoutType: ACTagViewLayoutType) {
+    switch layoutType {
+    case .autoLineFeed:
+      layout = ACTagViewLayout()
     }
     
-//    let oldContentHeight = contentSize.height
-    
-    
-//    if isScrollToLast {
-//      if oldContentHeight != contentSize.height && oldContentHeight != 0 {
-//        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
-//        setContentOffset(bottomOffset, animated: true)
-//      }
-//    }
-    
+    initCollectionView(layout: layout)
   }
 
-  private func setTagFrameWhenAutoLineFeed(dataSource: ACTagViewDataSource) {
-    
-    var offsetX = tagMarginSize.width
-    var offsetY = tagMarginSize.height
-    
-    if let inputTag = inputTag, inputTag.position == .head {
-      
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
-      offsetX += inputTag.frame.width + tagMarginSize.width
-      inputTag.setBorder()
-      addSubview(inputTag)
-    }
-    
-    for i in 0 ..< dataSource.numberOfTags(in: self) {
-      
-      let tag = dataSource.tagView(self, tagForIndexAt: i)
-      tag.setWidth(withHeight: tagHeight)
-      var tempFrame = tag.frame
-      
-      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-        if i != 0 {
-          offsetX = tagMarginSize.width
-          offsetY += tagHeight + tagMarginSize.height
-        } else {
-          offsetX = tagMarginSize.width
-        }
-      }
-      
-      tempFrame.origin.x = offsetX
-      tempFrame.origin.y = offsetY
-      offsetX += tempFrame.width + tagMarginSize.width
-      tempFrame.size.height = tagHeight
-      tag.frame = tempFrame
-      let selectState = tag.isSelected
-      tag.isSelected = selectState
-      addSubview(tag)
-      tagsList.append(tag)
-    }
-    
-    if let inputTag = inputTag, inputTag.position == .tail {
-      var tempFrame = inputTag.frame
-      tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
-      
-      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-        if tagsList.count > 0 {
-          offsetX = tagMarginSize.width
-          offsetY += tagHeight + tagMarginSize.height
-        } else {
-          offsetX = tagMarginSize.width
-        }
-      }
-      tempFrame.origin.x = offsetX
-      tempFrame.origin.y = offsetY
-      tempFrame.size.height = tagHeight
-      inputTag.setBorder()
-      inputTag.frame = tempFrame
-      addSubview(inputTag)
-      offsetX += tempFrame.width + tagMarginSize.width
-    }
-    
-    contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
-    
-    if bounds.height == 0 {
-      frame.size.height = contentSize.height
-    }
+  func selectTag(at index: Int) {
+    let indexPath = IndexPath(item: index, section: 0)
+    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
   }
   
-  private func setTagFrameWhenOneLine(dataSource: ACTagViewDataSource) {
-    var offsetX = tagMarginSize.width
-    let offsetY = tagMarginSize.height
-    
-    if let inputTag = inputTag, inputTag.position == .head {
-      
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
-      offsetX += inputTag.frame.width + tagMarginSize.width
-      inputTag.setBorder()
-      addSubview(inputTag)
-    }
-    
-    for i in 0 ..< dataSource.numberOfTags(in: self) {
-      
-      let tag = dataSource.tagView(self, tagForIndexAt: i)
-      
-      tag.setWidth(withHeight: tagHeight)
-      tag.frame.origin.x = offsetX
-      tag.frame.origin.y = offsetY
-      tag.frame.size.height = tagHeight
-      
-      offsetX += tagMarginSize.width + tag.frame.width
-      let selectState = tag.isSelected
-      tag.isSelected = selectState
-      addSubview(tag)
-      tagsList.append(tag)
-      
-    }
-    
-    if let inputTag = inputTag, inputTag.position == .tail {
-      
-      let textWidth = getInputTagWidth(inputTag: inputTag)
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: tagHeight)
-      
-      inputTag.setBorder()
-      addSubview(inputTag)
-      offsetX += textWidth + tagMarginSize.width
-    }
-    
-    contentSize = CGSize(width: offsetX, height: bounds.height)
-    
-    if bounds.height == 0 {
-      frame.size.height = tagHeight + 2 * offsetY
-    }
+  func deselectTag(at index: Int) {
+    let indexPath = IndexPath(item: index, section: 0)
+    let cell = collectionView.cellForItem(at: indexPath) as? ACTagViewCell
+    cell?.deselected()
+    collectionView.deselectItem(at: indexPath, animated: true)
   }
   
-  private func getInputTagWidth(inputTag: ACInputTag) -> CGFloat {
-    var textStr = (inputTag.text ?? inputTag.placeholder) ?? inputTag.defaultPlaceholder
-    textStr = textStr.isEmpty ? inputTag.placeholder ?? inputTag.defaultPlaceholder : textStr
-    let width = textStr.ac_getWidth(inputTag.fontSize) + tagHeight + inputTag.paddingSize.width * 2
-    
-    return width
+  func tagForIndex(at index: Int) -> ACTagButton? {
+    let indexPath = IndexPath(item: index, section: 0)
+    return (collectionView.cellForItem(at: indexPath) as? ACTagViewCell)?.tagButton
   }
   
-  private func updateTagsFrame() {
-    if autoLineFeed {
-      updateTagFrameWhenAutoLineFeed()
-    } else {
-      setTagFrameWhenOneLine()
-    }
+  private func initCollectionView(layout: UICollectionViewLayout) {
+    
+    collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
+    
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    collectionView.backgroundColor = UIColor.clear
+    collectionView.showsHorizontalScrollIndicator = false
+    
+    collectionView.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
+    addSubview(collectionView)
+  }
+}
+
+extension ACTagView: UICollectionViewDataSource {
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return tagDataSource?.numberOfTags(in: self) ?? 0
   }
   
-  private func updateTagFrameWhenAutoLineFeed() {
-    var offsetX = tagMarginSize.width
-    var offsetY = tagMarginSize.height
-    
-    if let inputTag = inputTag, inputTag.position == .head {
-      
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
-      offsetX += inputTag.frame.width + tagMarginSize.width
-      inputTag.setBorder()
-    }
-    
-    for (i, tag) in tagsList.enumerated() {
-      
-      tag.setWidth(withHeight: tagHeight)
-      var tempFrame = tag.frame
-      
-      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-        if i != 0 {
-          offsetX = tagMarginSize.width
-          offsetY += tagHeight + tagMarginSize.height
-        } else {
-          offsetX = tagMarginSize.width
-        }
-      }
-      
-      tempFrame.origin.x = offsetX
-      tempFrame.origin.y = offsetY
-      offsetX += tempFrame.width + tagMarginSize.width
-      tempFrame.size.height = tagHeight
-      tag.frame = tempFrame
-    }
-    
-    if let inputTag = inputTag, inputTag.position == .tail {
-      var tempFrame = inputTag.frame
-      tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
-      
-      if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-        if tagsList.count > 0 {
-          offsetX = tagMarginSize.width
-          offsetY += tagHeight + tagMarginSize.height
-        } else {
-          offsetX = tagMarginSize.width
-        }
-      }
-      tempFrame.origin.x = offsetX
-      tempFrame.origin.y = offsetY
-      tempFrame.size.height = tagHeight
-      inputTag.setBorder()
-      inputTag.frame = tempFrame
-      offsetX += tempFrame.width + tagMarginSize.width
-    }
-    
-    contentSize = CGSize(width: bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewCell", for: indexPath) as! ACTagViewCell
+    guard let tagDataSource = tagDataSource else { return cell }
+    cell.tagAttribute = tagDataSource.tagView(self, tagForIndexAt: indexPath.item)
+    return cell
   }
   
-  private func setTagFrameWhenOneLine() {
-    var offsetX = tagMarginSize.width
-    let offsetY = tagMarginSize.height
-    
-    if let inputTag = inputTag, inputTag.position == .head {
-      
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: getInputTagWidth(inputTag: inputTag), height: tagHeight)
-      offsetX += inputTag.frame.width + tagMarginSize.width
-      inputTag.setBorder()
-    }
-    
-    for tag in tagsList {
-      
-      tag.setWidth(withHeight: tagHeight)
-      tag.frame.origin.x = offsetX
-      tag.frame.origin.y = offsetY
-      tag.frame.size.height = tagHeight
-      
-      offsetX += tagMarginSize.width + tag.frame.width
-    }
-    
-    if let inputTag = inputTag, inputTag.position == .tail {
-      
-      let textWidth = getInputTagWidth(inputTag: inputTag)
-      inputTag.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: tagHeight)
-      
-      inputTag.setBorder()
-      offsetX += textWidth + tagMarginSize.width
-    }
-    
-    contentSize = CGSize(width: offsetX, height: bounds.height)
+}
+
+extension ACTagView: UICollectionViewDelegateFlowLayout {
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    guard let tagDataSource = tagDataSource else { return CGSize.zero }
+    let tagAttribute = tagDataSource.tagView(self, tagForIndexAt: indexPath.item)
+    return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
   }
   
-  private func calculateHeight() -> CGFloat {
-    guard let dataSource = dataSource, dataSource.numberOfTags(in: self) > 0 else {
-      return 0
-    }
-    if autoLineFeed {
-      var offsetX = tagMarginSize.width
-      var offsetY = tagMarginSize.height
-      
-      if let inputTag = inputTag, inputTag.position == .head {
-        offsetX += getInputTagWidth(inputTag: inputTag) + tagMarginSize.width
-      }
-      
-      for i in 0 ..< dataSource.numberOfTags(in: self) {
-        
-        let tag = dataSource.tagView(self, tagForIndexAt: i)
-        
-        tag.setWidth(withHeight: tagHeight)
-        let tempFrame = tag.frame
-        
-        if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-          if i != 0 {
-            offsetX = tagMarginSize.width
-            offsetY += tagHeight + tagMarginSize.height
-          } else {
-            offsetX = tagMarginSize.width
-          }
-        }
-        
-        offsetX += tempFrame.width + tagMarginSize.width
-      }
-      
-      if let inputTag = inputTag, inputTag.position == .tail {
-        var tempFrame = inputTag.frame
-        tempFrame.size.width = getInputTagWidth(inputTag: inputTag)
-        
-        if (offsetX + tempFrame.width + tagMarginSize.width) > bounds.width {
-          if tagsList.count > 0 {
-            offsetX = tagMarginSize.width
-            offsetY += tagHeight + tagMarginSize.height
-          } else {
-            offsetX = tagMarginSize.width
-          }
-        }
-        offsetX += tempFrame.width + tagMarginSize.width
-      }
-      
-      return offsetY + tagHeight + tagMarginSize.height
-    }
-    return tagHeight
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+    let cell = collectionView.cellForItem(at: indexPath) as? ACTagViewCell
+    cell?.selected()
+    tagDelegate?.tagView?(self, didSelectTagAt: indexPath.item)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    
+    let cell = collectionView.cellForItem(at: indexPath) as? ACTagViewCell
+    cell?.deselected()
+    tagDelegate?.tagView?(self, didDeselectTagAt: indexPath.item)
   }
 
 }

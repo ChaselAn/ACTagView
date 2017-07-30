@@ -7,30 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40518A7A1F2CD6FF00947FE2 /* BetaACTagViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */; };
-		40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */; };
-		40DE55781F0D17FD0053E988 /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55771F0D17FD0053E988 /* ACTagView.swift */; };
-		40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE55791F0D185D0053E988 /* ACTag.swift */; };
+		40518A7A1F2CD6FF00947FE2 /* ACTagViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518A791F2CD6FF00947FE2 /* ACTagViewLayout.swift */; };
+		40518A7C1F2D863F00947FE2 /* ACTagViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */; };
+		40518AA41F2DF23400947FE2 /* ACTagAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */; };
+		40518AA61F2DF24600947FE2 /* ACTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518AA51F2DF24600947FE2 /* ACTagButton.swift */; };
 		40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE557B1F0D19350053E988 /* ACTagManager.swift */; };
-		431015821F2B2DCB00E6AB2F /* BetaACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431015811F2B2DCB00E6AB2F /* BetaACTagView.swift */; };
+		431015821F2B2DCB00E6AB2F /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431015811F2B2DCB00E6AB2F /* ACTagView.swift */; };
 		43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A391E6E5984009E4A9D /* ACUtil.swift */; };
 		4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */; };
 		4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36D1E6902BA00FFEC85 /* ViewController.swift */; };
 		4333C3711E6902BB00FFEC85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C36F1E6902BB00FFEC85 /* Main.storyboard */; };
 		4333C3731E6902BB00FFEC85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3721E6902BB00FFEC85 /* Assets.xcassets */; };
 		4333C3761E6902BB00FFEC85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */; };
-		4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1341F0E347E00E5A333 /* ACInputTag.swift */; };
 		4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1361F0F662B00E5A333 /* TagViewController.swift */; };
-		4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384F1381F0F738000E5A333 /* EditTagViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetaACTagViewLayout.swift; sourceTree = "<group>"; };
-		40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagAutoFeedViewController.swift; sourceTree = "<group>"; };
-		40DE55771F0D17FD0053E988 /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
-		40DE55791F0D185D0053E988 /* ACTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTag.swift; sourceTree = "<group>"; };
+		40518A791F2CD6FF00947FE2 /* ACTagViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewLayout.swift; sourceTree = "<group>"; };
+		40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewCell.swift; sourceTree = "<group>"; };
+		40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagAttribute.swift; sourceTree = "<group>"; };
+		40518AA51F2DF24600947FE2 /* ACTagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagButton.swift; sourceTree = "<group>"; };
 		40DE557B1F0D19350053E988 /* ACTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagManager.swift; sourceTree = "<group>"; };
-		431015811F2B2DCB00E6AB2F /* BetaACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BetaACTagView.swift; sourceTree = "<group>"; };
+		431015811F2B2DCB00E6AB2F /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
 		43306A391E6E5984009E4A9D /* ACUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACUtil.swift; sourceTree = "<group>"; };
 		4333C3681E6902BA00FFEC85 /* ACTagViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ACTagViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,9 +37,7 @@
 		4333C3721E6902BB00FFEC85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4333C3751E6902BB00FFEC85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4333C3771E6902BB00FFEC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4384F1341F0E347E00E5A333 /* ACInputTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTag.swift; sourceTree = "<group>"; };
 		4384F1361F0F662B00E5A333 /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
-		4384F1381F0F738000E5A333 /* EditTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTagViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +54,13 @@
 		43306A361E6E5984009E4A9D /* ACTagView */ = {
 			isa = PBXGroup;
 			children = (
-				40DE55771F0D17FD0053E988 /* ACTagView.swift */,
-				40DE55791F0D185D0053E988 /* ACTag.swift */,
-				4384F1341F0E347E00E5A333 /* ACInputTag.swift */,
 				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
 				43306A391E6E5984009E4A9D /* ACUtil.swift */,
-				431015811F2B2DCB00E6AB2F /* BetaACTagView.swift */,
-				40518A791F2CD6FF00947FE2 /* BetaACTagViewLayout.swift */,
+				40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */,
+				40518AA51F2DF24600947FE2 /* ACTagButton.swift */,
+				431015811F2B2DCB00E6AB2F /* ACTagView.swift */,
+				40518A791F2CD6FF00947FE2 /* ACTagViewLayout.swift */,
+				40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */,
 			);
 			path = ACTagView;
 			sourceTree = "<group>";
@@ -92,8 +88,6 @@
 				4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */,
 				4333C36D1E6902BA00FFEC85 /* ViewController.swift */,
 				4384F1361F0F662B00E5A333 /* TagViewController.swift */,
-				4384F1381F0F738000E5A333 /* EditTagViewController.swift */,
-				40C2DF521F1271B800267980 /* EditTagAutoFeedViewController.swift */,
 				4333C36F1E6902BB00FFEC85 /* Main.storyboard */,
 				4333C3721E6902BB00FFEC85 /* Assets.xcassets */,
 				4333C3741E6902BB00FFEC85 /* LaunchScreen.storyboard */,
@@ -176,17 +170,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */,
-				431015821F2B2DCB00E6AB2F /* BetaACTagView.swift in Sources */,
-				40DE55781F0D17FD0053E988 /* ACTagView.swift in Sources */,
+				431015821F2B2DCB00E6AB2F /* ACTagView.swift in Sources */,
 				40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */,
 				4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */,
-				40DE557A1F0D185D0053E988 /* ACTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
-				4384F1351F0E347E00E5A333 /* ACInputTag.swift in Sources */,
+				40518AA61F2DF24600947FE2 /* ACTagButton.swift in Sources */,
+				40518A7C1F2D863F00947FE2 /* ACTagViewCell.swift in Sources */,
+				40518AA41F2DF23400947FE2 /* ACTagAttribute.swift in Sources */,
 				4384F1371F0F662B00E5A333 /* TagViewController.swift in Sources */,
-				40518A7A1F2CD6FF00947FE2 /* BetaACTagViewLayout.swift in Sources */,
-				40C2DF531F1271B800267980 /* EditTagAutoFeedViewController.swift in Sources */,
-				4384F1391F0F738000E5A333 /* EditTagViewController.swift in Sources */,
+				40518A7A1F2CD6FF00947FE2 /* ACTagViewLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,10 +20,10 @@ class ViewController: UITableViewController {
     switch indexPath.row {
     case 0:
       navigationController?.pushViewController(TagViewController(), animated: true)
-    case 1:
-      navigationController?.pushViewController(EditTagViewController(), animated: true)
-    case 2:
-      navigationController?.pushViewController(EditTagAutoFeedViewController(), animated: true)
+//    case 1:
+//      navigationController?.pushViewController(EditTagViewController(), animated: true)
+//    case 2:
+//      navigationController?.pushViewController(EditTagAutoFeedViewController(), animated: true)
     default:
       break
     }
