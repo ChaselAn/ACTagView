@@ -12,7 +12,8 @@ class TagViewController: UIViewController {
   
   fileprivate let tagsStrList = ["我喜欢", "胸大", "腿长", "瓜子脸", "黑长直", "身材高挑", "会卖萌", "会发嗲", "会做饭", "会洗衣", "的", "男生"]
 
-  private var betaTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100), layoutType: .autoLineFeed)
+  private var autoLineFeedTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100), layoutType: .autoLineFeed)
+  private var oneLineTagView = ACTagView(frame: CGRect(x: 0, y: 300, width: UIScreen.main.bounds.width, height: 50), layoutType: .oneLine)
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,11 +27,16 @@ class TagViewController: UIViewController {
   
   private func setupNormalTagView() {
     
-    betaTagView.tagDataSource = self
-    betaTagView.tagDelegate = self
-    betaTagView.allowsMultipleSelection = true
-    betaTagView.backgroundColor = UIColor.white
-    view.addSubview(betaTagView)
+    autoLineFeedTagView.tagDataSource = self
+    autoLineFeedTagView.tagDelegate = self
+    autoLineFeedTagView.allowsMultipleSelection = true
+    autoLineFeedTagView.backgroundColor = UIColor.white
+    view.addSubview(autoLineFeedTagView)
+    
+    oneLineTagView.tagDataSource = self
+    oneLineTagView.tagDelegate = self
+    oneLineTagView.backgroundColor = UIColor.white
+    view.addSubview(oneLineTagView)
   }
 
 }

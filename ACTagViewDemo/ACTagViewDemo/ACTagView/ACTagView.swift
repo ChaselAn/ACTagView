@@ -10,6 +10,8 @@ import UIKit
 
 public enum ACTagViewLayoutType {
   case autoLineFeed
+  case oneLine
+  case custom(ACTagViewFlowLayout)
 }
 
 public protocol ACTagViewDataSource: NSObjectProtocol {
@@ -31,8 +33,12 @@ open class ACTagView: UIView {
   
   open weak var tagDataSource: ACTagViewDataSource?
   open weak var tagDelegate: ACTagViewDelegate?
-  open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight
   open var paddingSize: CGSize = ACTagManager.shared.tagPaddingSize
+  open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight {
+    didSet {
+      layout.tagHeight = tagHeight
+    }
+  }
   open var tagMarginSize = ACTagManager.shared.tagMarginSize {
     didSet {
       layout.tagMarginSize = tagMarginSize
@@ -54,25 +60,13 @@ open class ACTagView: UIView {
   }
   
   private var collectionView: UICollectionView!
-  private var layout: ACTagViewLayout!
+  private var layout: ACTagViewFlowLayout!
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
-    var layout: ACTagViewLayout!
-    switch layoutType {
-    case .autoLineFeed:
-      layout = ACTagViewLayout()
-    }
     super.init(frame: frame)
     
-    initCollectionView(layout: layout)
-  }
-  
-  public init(frame: CGRect, tagViewLayout layout: UICollectionViewLayout) {
-    
-    super.init(frame: frame)
-    
-    initCollectionView(layout: layout)
+    initTagView(layoutType: layoutType)
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -83,7 +77,11 @@ open class ACTagView: UIView {
   open func initTagView(layoutType: ACTagViewLayoutType) {
     switch layoutType {
     case .autoLineFeed:
-      layout = ACTagViewLayout()
+      layout = ACTagViewAutoLineFeedLayout()
+    case .oneLine:
+      layout = ACTagViewOneLineLayout()
+    case .custom(let customLayout):
+      layout = customLayout
     }
     
     initCollectionView(layout: layout)
@@ -106,8 +104,9 @@ open class ACTagView: UIView {
     return (collectionView.cellForItem(at: indexPath) as? ACTagViewCell)?.tagButton
   }
   
-  private func initCollectionView(layout: UICollectionViewLayout) {
+  private func initCollectionView(layout: ACTagViewFlowLayout) {
     
+    self.layout = layout
     collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
     
     collectionView.dataSource = self
