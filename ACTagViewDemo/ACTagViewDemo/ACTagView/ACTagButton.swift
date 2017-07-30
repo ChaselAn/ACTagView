@@ -8,21 +8,21 @@
 
 import UIKit
 
-class ACTagButton: UIButton {
+open class ACTagButton: UIButton {
   
-  var tagAttribute = ACTagAttribute() {
+  open var tagAttribute = ACTagAttribute() {
     didSet {
       setUpUI()
     }
   }
   
-  override init(frame: CGRect) {
+  override public init(frame: CGRect) {
     super.init(frame: frame)
     isUserInteractionEnabled = false
     isSelected = false
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   

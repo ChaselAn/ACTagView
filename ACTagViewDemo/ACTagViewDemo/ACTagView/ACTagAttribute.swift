@@ -23,7 +23,7 @@ open class ACTagAttribute: NSObject {
   open var font: UIFont = ACTagManager.shared.tagFont
   open var borderWidth = ACTagManager.shared.tagBorderWidth
   
-  func getWidth(height: CGFloat) -> CGFloat {
+  open func getWidth(height: CGFloat) -> CGFloat {
     return text.ac_getWidth(font.pointSize) + height + 2 * paddingSize.width
   }
 
