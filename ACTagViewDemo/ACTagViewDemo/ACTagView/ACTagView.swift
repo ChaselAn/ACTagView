@@ -16,7 +16,7 @@ public protocol ACTagViewDataSource: NSObjectProtocol {
   
   func numberOfTags(in tagView: ACTagView) -> Int
   
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTagAttribute
+  func tagView(_ tagView: ACTagView, tagAttributeForIndexAt index: Int) -> ACTagAttribute
   
 }
 
@@ -128,7 +128,7 @@ extension ACTagView: UICollectionViewDataSource {
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewCell", for: indexPath) as! ACTagViewCell
     guard let tagDataSource = tagDataSource else { return cell }
-    cell.tagAttribute = tagDataSource.tagView(self, tagForIndexAt: indexPath.item)
+    cell.tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item)
     return cell
   }
   
@@ -138,7 +138,7 @@ extension ACTagView: UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let tagDataSource = tagDataSource else { return CGSize.zero }
-    let tagAttribute = tagDataSource.tagView(self, tagForIndexAt: indexPath.item)
+    let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item)
     return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
   }
   

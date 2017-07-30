@@ -27,4 +27,9 @@ open class ACTagAttribute: NSObject {
     return text.ac_getWidth(font.pointSize) + height + 2 * paddingSize.width
   }
 
+  convenience public init(text: String) {
+    self.init()
+    self.text = text
+  }
+  
 }

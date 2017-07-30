@@ -40,9 +40,8 @@ extension TagViewController: ACTagViewDataSource {
     return tagsStrList.count
   }
   
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTagAttribute {
-    let tag = ACTagAttribute()
-    tag.text = tagsStrList[index]
+  func tagView(_ tagView: ACTagView, tagAttributeForIndexAt index: Int) -> ACTagAttribute {
+    let tag = ACTagAttribute(text: tagsStrList[index])
     return tag
   }
 }
