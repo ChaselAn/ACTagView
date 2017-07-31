@@ -50,8 +50,8 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
       offsetX += tempFrame.width + tagMarginSize.width
       tempFrame.size.height = tagHeight
       attribute.frame = tempFrame
+      self.offsetY = offsetY
     }
-    self.offsetY = offsetY
     
     return array
   }
