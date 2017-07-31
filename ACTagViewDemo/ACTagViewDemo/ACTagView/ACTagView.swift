@@ -54,13 +54,16 @@ open class ACTagView: UIView {
       collectionView.isScrollEnabled = isScrollEnabled
     }
   }
-  
   open var indexsForSelectedTags: [Int] {
     return collectionView.indexPathsForSelectedItems?.map({ $0.item }) ?? []
+  }
+  open var estimatedHeight: CGFloat {
+    return calculateHeight()
   }
   
   private var collectionView: UICollectionView!
   private var layout: ACTagViewFlowLayout!
+  private var layoutType: ACTagViewLayoutType!
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
@@ -84,6 +87,7 @@ open class ACTagView: UIView {
       layout = customLayout
     }
     
+    self.layoutType = layoutType
     initCollectionView(layout: layout)
   }
 
@@ -116,6 +120,14 @@ open class ACTagView: UIView {
     collectionView.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
     addSubview(collectionView)
   }
+  
+  private func calculateHeight() -> CGFloat {
+    guard let tagDataSource = tagDataSource, tagDataSource.numberOfTags(in: self) > 0 else {
+      return 0
+    }
+    return layout.getEstimatedHeight(in: self, dataSource: tagDataSource)
+  }
+
 }
 
 extension ACTagView: UICollectionViewDataSource {

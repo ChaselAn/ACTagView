@@ -16,13 +16,18 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     guard let collectionView = collectionView else {
       return CGSize.zero
     }
+    
+    collectionView.layoutIfNeeded()
+    collectionView.superview?.layoutIfNeeded()
+    
     return CGSize(width: collectionView.bounds.width, height: offsetY + tagHeight + tagMarginSize.height)
   }
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     guard let array = super.layoutAttributesForElements(in: rect), let collectionView = collectionView else { return nil }
     
-    print("auto---------", rect)
+    collectionView.layoutIfNeeded()
+    collectionView.superview?.layoutIfNeeded()
     
     var offsetX = tagMarginSize.width
     var offsetY = tagMarginSize.height
@@ -51,4 +56,33 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     return array
   }
 
+  override func getEstimatedHeight(in tagView: ACTagView, dataSource: ACTagViewDataSource) -> CGFloat {
+    
+    guard let collectionView = collectionView else { return 0 }
+    
+    tagView.layoutIfNeeded()
+    tagView.superview?.layoutIfNeeded()
+    
+    var offsetX = tagMarginSize.width
+    var offsetY = tagMarginSize.height
+    
+    for i in 0 ..< dataSource.numberOfTags(in: tagView) {
+      
+      let attribute = dataSource.tagView(tagView, tagAttributeForIndexAt: i)
+      let width = attribute.getWidth(height: tagHeight)
+      
+      if (offsetX + width + tagMarginSize.width) > collectionView.bounds.width {
+        if i != 0 {
+          offsetX = tagMarginSize.width
+          offsetY += tagHeight + tagMarginSize.height
+        } else {
+          offsetX = tagMarginSize.width
+        }
+      }
+      
+      offsetX += width + tagMarginSize.width
+    }
+    
+    return offsetY + tagHeight + tagMarginSize.height
+  }
 }

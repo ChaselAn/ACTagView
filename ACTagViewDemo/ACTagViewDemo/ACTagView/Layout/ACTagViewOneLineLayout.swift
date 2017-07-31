@@ -16,13 +16,16 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     guard let collectionView = collectionView else {
       return CGSize.zero
     }
+    
+    collectionView.layoutIfNeeded()
+    collectionView.superview?.layoutIfNeeded()
+    
     return CGSize(width: max(collectionView.bounds.width, offsetX), height: collectionView.bounds.height)
   }
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     guard let array = super.layoutAttributesForElements(in: rect) else { return nil }
     
-    print("one---------", rect)
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
     var offsetX = tagMarginSize.width
@@ -42,6 +45,10 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     self.offsetX = offsetX
     
     return finalAttrs
+  }
+  
+  override func getEstimatedHeight(in tagView: ACTagView, dataSource: ACTagViewDataSource) -> CGFloat {
+    return tagHeight + 2 * tagMarginSize.height
   }
 
 }
