@@ -59,13 +59,13 @@
 			isa = PBXGroup;
 			children = (
 				431015811F2B2DCB00E6AB2F /* ACTagView.swift */,
+				43E561051F2ECC1700B824F1 /* ACTagViewFlowLayout.swift */,
 				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
 				40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */,
 				40518AA51F2DF24600947FE2 /* ACTagButton.swift */,
 				40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */,
 				43306A391E6E5984009E4A9D /* ACUtil.swift */,
 				43E561041F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift */,
-				43E561051F2ECC1700B824F1 /* ACTagViewFlowLayout.swift */,
 				43E561061F2ECC1700B824F1 /* ACTagViewOneLineLayout.swift */,
 			);
 			path = ACTagView;
