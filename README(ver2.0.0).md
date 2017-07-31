@@ -81,3 +81,6 @@ extension TagViewController: ACTagViewDelegate {
   
 }
 ```
+
+### 使用注意
+* 使用xib关联时，必须在`awakeFromNib`方法中调用标签View的`initTagView(layoutType: ACTagViewLayoutType)`方法
