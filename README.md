@@ -1,5 +1,6 @@
 # ACTagView
 
+* 2.0.0版本使用说明请点击此处[2.0.0使用说明]()
 * Swift3.0
 
 <img width="250" height="445" src="https://raw.githubusercontent.com/ChaselAn/ACTagView/master/ACTagView.gif"/>
@@ -9,7 +10,7 @@
 ### CocoaPods    
 
 ```ruby
-pod 'ACTagView'
+pod 'ACTagView', '~> 1.2.2'
 ```
 
 Then, run the following command:
