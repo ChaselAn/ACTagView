@@ -1,4 +1,4 @@
-# ACTagView（2.0.0）
+# ACTagView（2.0.1）
 
 * Swift3.0
 * 此版本暂不支持可编辑标签
@@ -10,7 +10,7 @@
 ### CocoaPods    
 
 ```ruby
-pod 'ACTagView', '~> 2.0.0'
+pod 'ACTagView', '~> 2.0.1'
 ```
 
 Then, run the following command:
@@ -22,12 +22,12 @@ $ pod install
 ## 使用
 ### 设置全局属性
 ```swift
-    ACTagManager.shared.selectedTagBackgroundColor = UIColor.white // tag选中背景色
-    ACTagManager.shared.selectedTagBorderColor = UIColor.red // tag选中边框颜色
-    ACTagManager.shared.selectedTagTextColor = UIColor.red // tag选中文字颜色
-    ACTagManager.shared.tagBackgroundColor = UIColor.white // tag背景色
-    ACTagManager.shared.tagBorderColor = UIColor.black // tag边框颜色
-    ACTagManager.shared.tagTextColor = UIColor.black // tag文字颜色
+    ACTagConfig.default.selectedTagBackgroundColor = UIColor.white // tag选中背景色
+    ACTagConfig.default.selectedTagBorderColor = UIColor.red // tag选中边框颜色
+    ACTagConfig.default.selectedTagTextColor = UIColor.red // tag选中文字颜色
+    ACTagConfig.default.tagBackgroundColor = UIColor.white // tag背景色
+    ACTagConfig.default.tagBorderColor = UIColor.black // tag边框颜色
+    ACTagConfig.default.tagTextColor = UIColor.black // tag文字颜色
     ...
 ```
 

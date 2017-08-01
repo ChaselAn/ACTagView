@@ -10,7 +10,7 @@
 		40518A7C1F2D863F00947FE2 /* ACTagViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */; };
 		40518AA41F2DF23400947FE2 /* ACTagAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */; };
 		40518AA61F2DF24600947FE2 /* ACTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40518AA51F2DF24600947FE2 /* ACTagButton.swift */; };
-		40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE557B1F0D19350053E988 /* ACTagManager.swift */; };
+		40DE557C1F0D19350053E988 /* ACTagConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE557B1F0D19350053E988 /* ACTagConfig.swift */; };
 		431015821F2B2DCB00E6AB2F /* ACTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431015811F2B2DCB00E6AB2F /* ACTagView.swift */; };
 		43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43306A391E6E5984009E4A9D /* ACUtil.swift */; };
 		4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333C36B1E6902BA00FFEC85 /* AppDelegate.swift */; };
@@ -30,7 +30,7 @@
 		40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewCell.swift; sourceTree = "<group>"; };
 		40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagAttribute.swift; sourceTree = "<group>"; };
 		40518AA51F2DF24600947FE2 /* ACTagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagButton.swift; sourceTree = "<group>"; };
-		40DE557B1F0D19350053E988 /* ACTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagManager.swift; sourceTree = "<group>"; };
+		40DE557B1F0D19350053E988 /* ACTagConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagConfig.swift; sourceTree = "<group>"; };
 		431015811F2B2DCB00E6AB2F /* ACTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagView.swift; sourceTree = "<group>"; };
 		43306A391E6E5984009E4A9D /* ACUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACUtil.swift; sourceTree = "<group>"; };
 		4333C3681E6902BA00FFEC85 /* ACTagViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ACTagViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,7 +64,7 @@
 			children = (
 				431015811F2B2DCB00E6AB2F /* ACTagView.swift */,
 				43E561051F2ECC1700B824F1 /* ACTagViewFlowLayout.swift */,
-				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
+				40DE557B1F0D19350053E988 /* ACTagConfig.swift */,
 				40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */,
 				40518AA51F2DF24600947FE2 /* ACTagButton.swift */,
 				43E5612B1F2F098000B824F1 /* ACInputTag.swift */,
@@ -185,7 +185,7 @@
 				43E5612E1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift in Sources */,
 				431015821F2B2DCB00E6AB2F /* ACTagView.swift in Sources */,
 				43E561071F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift in Sources */,
-				40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */,
+				40DE557C1F0D19350053E988 /* ACTagConfig.swift in Sources */,
 				4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */,
 				43E5612C1F2F098000B824F1 /* ACInputTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,

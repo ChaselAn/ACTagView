@@ -11,17 +11,17 @@ import UIKit
 open class ACTagAttribute: NSObject {
   
   open var text = ""
-  open var selectedBackgroundColor = ACTagManager.shared.selectedTagBackgroundColor
-  open var backgroundColor = ACTagManager.shared.tagBackgroundColor
-  open var selectedBorderColor = ACTagManager.shared.selectedTagBorderColor
-  open var borderColor = ACTagManager.shared.tagBorderColor
-  open var textColor = ACTagManager.shared.tagTextColor
-  open var selectedTextColor = ACTagManager.shared.selectedTagTextColor
-  open var borderType = ACTagManager.shared.tagBorderType
+  open var selectedBackgroundColor = ACTagConfig.default.selectedTagBackgroundColor
+  open var backgroundColor = ACTagConfig.default.tagBackgroundColor
+  open var selectedBorderColor = ACTagConfig.default.selectedTagBorderColor
+  open var borderColor = ACTagConfig.default.tagBorderColor
+  open var textColor = ACTagConfig.default.tagTextColor
+  open var selectedTextColor = ACTagConfig.default.selectedTagTextColor
+  open var borderType = ACTagConfig.default.tagBorderType
   // tag的内边距
-  open var paddingSize = ACTagManager.shared.tagPaddingSize
-  open var font: UIFont = ACTagManager.shared.tagFont
-  open var borderWidth = ACTagManager.shared.tagBorderWidth
+  open var paddingSize = ACTagConfig.default.tagPaddingSize
+  open var font: UIFont = ACTagConfig.default.tagFont
+  open var borderWidth = ACTagConfig.default.tagBorderWidth
   
   open func getWidth(height: CGFloat) -> CGFloat {
     return text.ac_getWidth(font.pointSize) + height + 2 * paddingSize.width

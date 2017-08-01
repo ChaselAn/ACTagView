@@ -1,5 +1,5 @@
 //
-//  ACTagManager.swift
+//  ACTagConfig.swift
 //  ACTagViewDemo
 //
 //  Created by ac on 2017/7/5.
@@ -22,9 +22,9 @@ public enum ACInputTagBorderState {
   case circleWithDashLine(lineDashPattern: [NSNumber])
 }
 
-public class ACTagManager {
+public class ACTagConfig {
   
-  public static let shared = ACTagManager()
+  public static let `default` = ACTagConfig()
   
   public var tagBorderWidth: CGFloat = 1
   public var tagBorderType = ACTagBorderType.halfOfCircle
