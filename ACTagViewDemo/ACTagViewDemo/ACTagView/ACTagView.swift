@@ -61,8 +61,8 @@ open class ACTagView: UIView {
     return calculateHeight()
   }
   
-  private var collectionView: UICollectionView!
-  private var layout: ACTagViewFlowLayout!
+  fileprivate var collectionView: UICollectionView!
+  fileprivate var layout: ACTagViewFlowLayout!
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
@@ -118,8 +118,6 @@ open class ACTagView: UIView {
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.backgroundColor = UIColor.clear
-    let indexPath = IndexPath(item: 0, section: 0)
-    collectionView.insertItems(at: [indexPath])
     
     collectionView.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
     collectionView.register(ACTagViewInputTagCell.self, forCellWithReuseIdentifier: "ACTagViewInputTagCell")
@@ -143,7 +141,12 @@ extension ACTagView: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if indexPath.row == 0 {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath)
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath) as! ACTagViewInputTagCell
+      cell.inputTagAttribute = ""
+      cell.layoutTags = { [weak self] in
+//        self?.collectionView.reloadData()
+        self?.layout.layoutAttributesForElements(in: self!.collectionView.bounds)
+      }
       return cell
     }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewCell", for: indexPath) as! ACTagViewCell
@@ -158,7 +161,10 @@ extension ACTagView: UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let tagDataSource = tagDataSource else { return CGSize.zero }
-    let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item)
+    if indexPath.item == 0 {
+      return CGSize(width: 70, height: tagHeight)
+    }
+    let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item - 1)
     return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
   }
   

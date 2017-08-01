@@ -10,11 +10,12 @@ import UIKit
 
 class ACTagViewInputTagCell: UICollectionViewCell {
   
+  var layoutTags: (()->())?
+  
   var inputTag = ACInputTag()
-  var tagAttribute: ACTagAttribute? {
+  var inputTagAttribute: String? {
     didSet {
       inputTag.frame = bounds
-      inputTag.isSelected = isSelected
     }
   }
   
@@ -22,19 +23,19 @@ class ACTagViewInputTagCell: UICollectionViewCell {
     super.init(frame: frame)
     
     contentView.addSubview(inputTag)
-    
+    backgroundColor = UIColor.green
+    inputTag.backgroundColor = UIColor.lightGray
+    inputTag.layoutTags = { [weak self] in
+      guard let strongSelf = self else { return }
+      print(strongSelf.inputTag.bounds.width)
+      strongSelf.frame.size.width = strongSelf.inputTag.bounds.width
+      strongSelf.layoutIfNeeded()
+    }
+
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-//  
-//  func selected() {
-//    tagButton.isSelected = true
-//  }
-//  
-//  func deselected() {
-//    tagButton.isSelected = false
-//  }
-//  
+
 }

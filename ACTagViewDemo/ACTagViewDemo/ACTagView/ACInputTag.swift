@@ -23,7 +23,7 @@ open class ACInputTag: UITextField {
     }
   }
   open var borderType: ACInputTagBorderState = .circleWithFullLine
-  open var borderColor: UIColor = ACTagManager.shared.inputTagBorderColor
+  open var borderColor: UIColor = ACTagConfig.default.inputTagBorderColor
   
   open var maxWordCount: Int?
   
@@ -72,10 +72,10 @@ open class ACInputTag: UITextField {
   
   private func initializeDefaultValue() {
     
-    let manager = ACTagManager.shared
-    paddingSize = manager.inputTagPaddingSize
-    layer.borderWidth = manager.tagBorderWidth
-    fontSize = manager.inputTagFontSize
+    let config = ACTagConfig.default
+    paddingSize = config.inputTagPaddingSize
+    layer.borderWidth = config.tagBorderWidth
+    fontSize = config.inputTagFontSize
     defaultPlaceholder = "输入标签"
     
     addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
@@ -137,10 +137,11 @@ open class ACInputTag: UITextField {
   }
   
   @objc private func textFieldDidFinishChange(_ textField: UITextField) {
-    guard textField.text != nil else{
+    guard let textStr = textField.text else{
       return
     }
     guard let maxWordCount = maxWordCount else {
+      bounds.size.width = textStr.ac_getWidth(fontSize) + 30
       layoutTags?()
       return
     }
@@ -149,11 +150,12 @@ open class ACInputTag: UITextField {
     if let range = temRange {
       temSelectLength = textField.offset(from: range.start, to: range.end)
     }
-    if textField.text!.characters.count - temSelectLength >= maxWordCount {
-      let index = textField.text!.characters.index(textField.text!.startIndex, offsetBy: maxWordCount)
-      textField.text = textField.text!.substring(to: index).replacingOccurrences(of: " ", with: "")
+    if textStr.characters.count - temSelectLength >= maxWordCount {
+      let index = textStr.characters.index(textStr.startIndex, offsetBy: maxWordCount)
+      textField.text = textStr.substring(to: index).replacingOccurrences(of: " ", with: "")
     }
     
+    bounds.size.width = textStr.ac_getWidth(fontSize) + 30
     layoutTags?()
     
   }
