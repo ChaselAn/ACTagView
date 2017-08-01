@@ -22,6 +22,8 @@
 		43E561071F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E561041F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift */; };
 		43E561081F2ECC1700B824F1 /* ACTagViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E561051F2ECC1700B824F1 /* ACTagViewFlowLayout.swift */; };
 		43E561091F2ECC1700B824F1 /* ACTagViewOneLineLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E561061F2ECC1700B824F1 /* ACTagViewOneLineLayout.swift */; };
+		43E5612C1F2F098000B824F1 /* ACInputTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E5612B1F2F098000B824F1 /* ACInputTag.swift */; };
+		43E5612E1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E5612D1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		43E561041F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewAutoLineFeedLayout.swift; sourceTree = "<group>"; };
 		43E561051F2ECC1700B824F1 /* ACTagViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewFlowLayout.swift; sourceTree = "<group>"; };
 		43E561061F2ECC1700B824F1 /* ACTagViewOneLineLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewOneLineLayout.swift; sourceTree = "<group>"; };
+		43E5612B1F2F098000B824F1 /* ACInputTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACInputTag.swift; sourceTree = "<group>"; };
+		43E5612D1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACTagViewInputTagCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +67,9 @@
 				40DE557B1F0D19350053E988 /* ACTagManager.swift */,
 				40518AA31F2DF23400947FE2 /* ACTagAttribute.swift */,
 				40518AA51F2DF24600947FE2 /* ACTagButton.swift */,
+				43E5612B1F2F098000B824F1 /* ACInputTag.swift */,
 				40518A7B1F2D863F00947FE2 /* ACTagViewCell.swift */,
+				43E5612D1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift */,
 				43306A391E6E5984009E4A9D /* ACUtil.swift */,
 				43E561041F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift */,
 				43E561061F2ECC1700B824F1 /* ACTagViewOneLineLayout.swift */,
@@ -176,10 +182,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				43306A3C1E6E5984009E4A9D /* ACUtil.swift in Sources */,
+				43E5612E1F2F0CC800B824F1 /* ACTagViewInputTagCell.swift in Sources */,
 				431015821F2B2DCB00E6AB2F /* ACTagView.swift in Sources */,
 				43E561071F2ECC1700B824F1 /* ACTagViewAutoLineFeedLayout.swift in Sources */,
 				40DE557C1F0D19350053E988 /* ACTagManager.swift in Sources */,
 				4333C36E1E6902BA00FFEC85 /* ViewController.swift in Sources */,
+				43E5612C1F2F098000B824F1 /* ACInputTag.swift in Sources */,
 				4333C36C1E6902BA00FFEC85 /* AppDelegate.swift in Sources */,
 				40518AA61F2DF24600947FE2 /* ACTagButton.swift in Sources */,
 				43E561081F2ECC1700B824F1 /* ACTagViewFlowLayout.swift in Sources */,

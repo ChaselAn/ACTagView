@@ -116,8 +116,11 @@ open class ACTagView: UIView {
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.backgroundColor = UIColor.clear
+    let indexPath = IndexPath(item: 0, section: 0)
+    collectionView.insertItems(at: [indexPath])
     
     collectionView.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
+    collectionView.register(ACTagViewInputTagCell.self, forCellWithReuseIdentifier: "ACTagViewInputTagCell")
     addSubview(collectionView)
   }
   
@@ -133,13 +136,17 @@ open class ACTagView: UIView {
 extension ACTagView: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return tagDataSource?.numberOfTags(in: self) ?? 0
+    return (tagDataSource?.numberOfTags(in: self) ?? 0) + 1
   }
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    if indexPath.row == 0 {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath)
+      return cell
+    }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewCell", for: indexPath) as! ACTagViewCell
     guard let tagDataSource = tagDataSource else { return cell }
-    cell.tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item)
+    cell.tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item - 1)
     return cell
   }
   

@@ -14,13 +14,13 @@ public enum ACTagBorderType {
   case custom(radius: CGFloat)
 }
 
-//public enum ACInputTagBorderState {
-//  case none
-//  case fullLine(cornerRadius: CGFloat)
-//  case dashLine(cornerRadius: CGFloat, lineDashPattern: [NSNumber])
-//  case circleWithFullLine
-//  case circleWithDashLine(lineDashPattern: [NSNumber])
-//}
+public enum ACInputTagBorderState {
+  case none
+  case fullLine(cornerRadius: CGFloat)
+  case dashLine(cornerRadius: CGFloat, lineDashPattern: [NSNumber])
+  case circleWithFullLine
+  case circleWithDashLine(lineDashPattern: [NSNumber])
+}
 
 public class ACTagManager {
   
@@ -40,11 +40,10 @@ public class ACTagManager {
   public var tagTextColor = UIColor.black
   
   public var tagDefaultHeight: CGFloat = 30
-//  public var autoLineFeed: Bool = true
   
-//  public var inputTagBorderType = ACInputTagBorderState.circleWithDashLine(lineDashPattern: [3, 3])
-//  public var inputTagPaddingSize = CGSize.zero
-//  public var inputTagFontSize: CGFloat = 14
-//  public var inputTagBorderColor = UIColor.black
+  public var inputTagBorderType = ACInputTagBorderState.circleWithDashLine(lineDashPattern: [3, 3])
+  public var inputTagPaddingSize = CGSize.zero
+  public var inputTagFontSize: CGFloat = 14
+  public var inputTagBorderColor = UIColor.black
   
 }
