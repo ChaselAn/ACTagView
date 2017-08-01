@@ -33,15 +33,15 @@ open class ACTagView: UIView {
   
   open weak var tagDataSource: ACTagViewDataSource?
   open weak var tagDelegate: ACTagViewDelegate?
-  open var paddingSize: CGSize = ACTagManager.shared.tagPaddingSize
-  open var tagHeight: CGFloat = ACTagManager.shared.tagDefaultHeight {
+  open var tagHeight: CGFloat = ACTagConfig.default.tagDefaultHeight {
     didSet {
       layout.tagHeight = tagHeight
     }
   }
-  open var tagMarginSize = ACTagManager.shared.tagMarginSize {
+  open var tagMarginSize = ACTagConfig.default.tagMarginSize {
     didSet {
       layout.tagMarginSize = tagMarginSize
+      UINavigationBar.appearance()
     }
   }
   open var allowsMultipleSelection: Bool = false {
@@ -63,7 +63,6 @@ open class ACTagView: UIView {
   
   private var collectionView: UICollectionView!
   private var layout: ACTagViewFlowLayout!
-  private var layoutType: ACTagViewLayoutType!
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
@@ -87,7 +86,6 @@ open class ACTagView: UIView {
       layout = customLayout
     }
     
-    self.layoutType = layoutType
     initCollectionView(layout: layout)
   }
 
@@ -106,6 +104,10 @@ open class ACTagView: UIView {
   open func tagForIndex(at index: Int) -> ACTagButton? {
     let indexPath = IndexPath(item: index, section: 0)
     return (collectionView.cellForItem(at: indexPath) as? ACTagViewCell)?.tagButton
+  }
+  
+  open func reloadData() {
+    collectionView.reloadData()
   }
   
   private func initCollectionView(layout: ACTagViewFlowLayout) {
