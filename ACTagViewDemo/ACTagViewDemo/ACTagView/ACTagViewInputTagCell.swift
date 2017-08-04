@@ -10,7 +10,7 @@ import UIKit
 
 class ACTagViewInputTagCell: UICollectionViewCell {
   
-  var layoutTags: (()->())?
+  var layoutTags: ((_ width: CGFloat)->())?
   
   var inputTag = ACInputTag()
   var inputTagAttribute: String? {
@@ -27,9 +27,10 @@ class ACTagViewInputTagCell: UICollectionViewCell {
     inputTag.backgroundColor = UIColor.lightGray
     inputTag.layoutTags = { [weak self] in
       guard let strongSelf = self else { return }
-      print(strongSelf.inputTag.bounds.width)
-      strongSelf.frame.size.width = strongSelf.inputTag.bounds.width
-      strongSelf.layoutIfNeeded()
+//      print(strongSelf.inputTag.bounds.width)
+//      strongSelf.frame.size.width = strongSelf.inputTag.bounds.width
+//      strongSelf.layoutIfNeeded()
+      strongSelf.layoutTags?(strongSelf.inputTag.bounds.width)
     }
 
   }

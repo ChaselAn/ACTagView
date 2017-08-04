@@ -25,7 +25,7 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     guard let array = super.layoutAttributesForElements(in: rect) else { return nil }
-    
+    print(rect)
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
     var offsetX = tagMarginSize.width
@@ -41,8 +41,8 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
       offsetX += tagMarginSize.width + attribute.frame.width
       
       finalAttrs += [attrCopy]
+      self.offsetX = offsetX
     }
-    self.offsetX = offsetX
     
     return finalAttrs
   }

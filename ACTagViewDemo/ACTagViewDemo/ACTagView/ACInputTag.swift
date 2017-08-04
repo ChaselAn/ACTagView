@@ -141,7 +141,7 @@ open class ACInputTag: UITextField {
       return
     }
     guard let maxWordCount = maxWordCount else {
-      bounds.size.width = textStr.ac_getWidth(fontSize) + 30
+      frame.size.width = textStr.ac_getWidth(fontSize) + 30
       layoutTags?()
       return
     }

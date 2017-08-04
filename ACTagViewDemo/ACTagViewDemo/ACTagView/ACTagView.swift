@@ -63,6 +63,7 @@ open class ACTagView: UIView {
   
   fileprivate var collectionView: UICollectionView!
   fileprivate var layout: ACTagViewFlowLayout!
+  fileprivate var inputTagWidth: CGFloat = 70
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
@@ -143,9 +144,10 @@ extension ACTagView: UICollectionViewDataSource {
     if indexPath.row == 0 {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath) as! ACTagViewInputTagCell
       cell.inputTagAttribute = ""
-      cell.layoutTags = { [weak self] in
-//        self?.collectionView.reloadData()
-        self?.layout.layoutAttributesForElements(in: self!.collectionView.bounds)
+      cell.layoutTags = { [weak self] width in
+        guard let strongSelf = self else { return }
+        strongSelf.inputTagWidth = width
+        strongSelf.layout.invalidateLayout()
       }
       return cell
     }
@@ -162,7 +164,7 @@ extension ACTagView: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let tagDataSource = tagDataSource else { return CGSize.zero }
     if indexPath.item == 0 {
-      return CGSize(width: 70, height: tagHeight)
+      return CGSize(width: inputTagWidth, height: tagHeight)
     }
     let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item - 1)
     return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
