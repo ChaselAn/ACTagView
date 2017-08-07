@@ -24,17 +24,19 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
   }
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+
     guard let array = super.layoutAttributesForElements(in: rect), let collectionView = collectionView else { return nil }
-    
     collectionView.layoutIfNeeded()
     collectionView.superview?.layoutIfNeeded()
     
     var offsetX = tagMarginSize.width
     var offsetY = tagMarginSize.height
+    var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
     for (index,attribute) in array.enumerated() {
       
-      var tempFrame = attribute.frame
+      let attrCopy = attribute.copy() as! UICollectionViewLayoutAttributes
+      var tempFrame = attrCopy.frame
       
       if (offsetX + tempFrame.width + tagMarginSize.width) > collectionView.bounds.width {
         if index != 0 {
@@ -49,11 +51,13 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
       tempFrame.origin.y = offsetY
       offsetX += tempFrame.width + tagMarginSize.width
       tempFrame.size.height = tagHeight
-      attribute.frame = tempFrame
+      attrCopy.frame = tempFrame
+      
+      finalAttrs += [attrCopy]
       self.offsetY = offsetY
     }
     
-    return array
+    return finalAttrs
   }
 
   override func getEstimatedHeight(in tagView: ACTagView, dataSource: ACTagViewDataSource) -> CGFloat {

@@ -39,7 +39,7 @@ public class ACTagConfig {
   public var tagBorderColor = UIColor.black
   public var tagTextColor = UIColor.black
   
-  public var tagDefaultHeight: CGFloat = 30
+  public var tagHeight: CGFloat = 30
   
   public var inputTagBorderType = ACInputTagBorderState.circleWithDashLine(lineDashPattern: [3, 3])
   public var inputTagPaddingSize = CGSize.zero

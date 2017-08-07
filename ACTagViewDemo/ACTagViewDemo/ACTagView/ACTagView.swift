@@ -33,7 +33,7 @@ open class ACTagView: UIView {
   
   open weak var tagDataSource: ACTagViewDataSource?
   open weak var tagDelegate: ACTagViewDelegate?
-  open var tagHeight: CGFloat = ACTagConfig.default.tagDefaultHeight {
+  open var tagHeight: CGFloat = ACTagConfig.default.tagHeight {
     didSet {
       layout.tagHeight = tagHeight
     }
