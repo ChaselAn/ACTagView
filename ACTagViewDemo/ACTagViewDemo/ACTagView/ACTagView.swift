@@ -27,6 +27,9 @@ public protocol ACTagViewDataSource: NSObjectProtocol {
   @objc optional func tagView(_ tagView: ACTagView, didSelectTagAt index: Int)
   
   @objc optional func tagView(_ tagView: ACTagView, didDeselectTagAt index: Int)
+  
+  @objc optional func inputTagAttribute(in tagView: ACTagView) -> ACInputTagAttribute?
+
 }
 
 open class ACTagView: UIView {
@@ -63,7 +66,7 @@ open class ACTagView: UIView {
   
   fileprivate var collectionView: UICollectionView!
   fileprivate var layout: ACTagViewFlowLayout!
-  fileprivate var inputTagWidth: CGFloat = 70
+  fileprivate var inputTagWidth: CGFloat = 0
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
     
@@ -137,23 +140,49 @@ open class ACTagView: UIView {
 extension ACTagView: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return (tagDataSource?.numberOfTags(in: self) ?? 0) + 1
+    let tagCount = tagDataSource?.numberOfTags(in: self) ?? 0
+    if tagDelegate?.inputTagAttribute?(in: self) != nil {
+      return tagCount + 1
+    }
+    return tagCount
   }
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if indexPath.row == 0 {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath) as! ACTagViewInputTagCell
-      cell.inputTagAttribute = ""
-      cell.layoutTags = { [weak self] width in
-        guard let strongSelf = self else { return }
-        strongSelf.inputTagWidth = width
-        strongSelf.layout.invalidateLayout()
+    var itemIndex = indexPath.item
+    if let inputTagAttribute = tagDelegate?.inputTagAttribute?(in: self) {
+      if let cell = getInputTagCell(indexPath: indexPath, inputAttribute: inputTagAttribute) {
+        return cell
+      } else if inputTagAttribute.position == .head {
+        itemIndex = indexPath.item - 1
       }
-      return cell
     }
+
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewCell", for: indexPath) as! ACTagViewCell
     guard let tagDataSource = tagDataSource else { return cell }
-    cell.tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item - 1)
+    cell.tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: itemIndex)
+    return cell
+  }
+  
+  private func getInputTagCell(indexPath: IndexPath, inputAttribute: ACInputTagAttribute) -> UICollectionViewCell? {
+
+    switch inputAttribute.position {
+    case .head:
+      if indexPath.row != 0 {
+        return nil
+      }
+    case .tail:
+      if indexPath.row != tagDataSource?.numberOfTags(in: self) ?? 0 {
+        return nil
+      }
+    }
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ACTagViewInputTagCell", for: indexPath) as! ACTagViewInputTagCell
+    cell.inputTagAttribute = inputAttribute
+    inputTagWidth = inputAttribute.defaultPlaceholder.ac_getWidth(inputAttribute.fontSize) + tagHeight
+    cell.layoutTags = { [weak self] width in
+      guard let strongSelf = self else { return }
+      strongSelf.inputTagWidth = width
+      strongSelf.layout.invalidateLayout()
+    }
     return cell
   }
   
@@ -163,10 +192,23 @@ extension ACTagView: UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let tagDataSource = tagDataSource else { return CGSize.zero }
-    if indexPath.item == 0 {
-      return CGSize(width: inputTagWidth, height: tagHeight)
+    var itemIndex = indexPath.item
+    
+    if let inputTagAttribute = tagDelegate?.inputTagAttribute?(in: self) {
+      let tempWidth = max(inputTagWidth, inputTagAttribute.defaultPlaceholder.ac_getWidth(inputTagAttribute.fontSize) + tagHeight)
+      switch inputTagAttribute.position {
+      case .head:
+        if indexPath.item == 0 {
+          return CGSize(width: tempWidth, height: tagHeight)
+        }
+        itemIndex = indexPath.item - 1
+      case .tail:
+        if indexPath.item == tagDataSource.numberOfTags(in: self) {
+          return CGSize(width: tempWidth, height: tagHeight)
+        }
+      }
     }
-    let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item - 1)
+    let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: itemIndex)
     return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
   }
   

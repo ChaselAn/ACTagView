@@ -41,6 +41,7 @@ public class ACTagConfig {
   
   public var tagHeight: CGFloat = 30
   
+  public var inputTagBackgroundColor = UIColor.white
   public var inputTagBorderType = ACInputTagBorderState.circleWithDashLine(lineDashPattern: [3, 3])
   public var inputTagPaddingSize = CGSize.zero
   public var inputTagFontSize: CGFloat = 14

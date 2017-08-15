@@ -13,9 +13,11 @@ class ACTagViewInputTagCell: UICollectionViewCell {
   var layoutTags: ((_ width: CGFloat)->())?
   
   var inputTag = ACInputTag()
-  var inputTagAttribute: String? {
+  var inputTagAttribute: ACInputTagAttribute! {
     didSet {
       inputTag.frame = bounds
+      inputTag.attribute = inputTagAttribute
+      inputTag.backgroundColor = inputTagAttribute.backgroundColor
     }
   }
   
@@ -24,13 +26,10 @@ class ACTagViewInputTagCell: UICollectionViewCell {
     
     contentView.addSubview(inputTag)
     backgroundColor = UIColor.green
-    inputTag.backgroundColor = UIColor.lightGray
     inputTag.layoutTags = { [weak self] in
       guard let strongSelf = self else { return }
-//      print(strongSelf.inputTag.bounds.width)
-//      strongSelf.frame.size.width = strongSelf.inputTag.bounds.width
-//      strongSelf.layoutIfNeeded()
-      strongSelf.layoutTags?(strongSelf.inputTag.bounds.width)
+      let width = max(strongSelf.inputTag.bounds.width, strongSelf.inputTagAttribute.defaultPlaceholder.ac_getWidth(strongSelf.inputTagAttribute.fontSize) + strongSelf.inputTag.bounds.height)
+      strongSelf.layoutTags?(width)
     }
 
   }

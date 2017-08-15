@@ -15,35 +15,16 @@ open class ACInputTag: UITextField {
     case tail
   }
   
-  open var paddingSize = CGSize.zero
-  open var position: Position = .tail
-  open var fontSize: CGFloat = 14 {
+  var attribute: ACInputTagAttribute? {
     didSet {
-      font = UIFont.systemFont(ofSize: fontSize)
+      setUpUI()
     }
   }
-  open var borderType: ACInputTagBorderState = .circleWithFullLine
-  open var borderColor: UIColor = ACTagConfig.default.inputTagBorderColor
-  
-  open var maxWordCount: Int?
-  
-  open var defaultPlaceholder = "输入标签" {
-    didSet {
-      placeholder = defaultPlaceholder
-    }
-  }
-  open var placeholderColor: UIColor = .lightGray {
-    didSet {
-      let str = placeholder ?? ""
-      let attribute = NSMutableAttributedString(string: str)
-      attribute.addAttributes([NSForegroundColorAttributeName: placeholderColor], range: NSRange(location: 0, length: str.characters.count))
-      attributedPlaceholder = attribute
-    }
-  }
-  
   var layoutTags: (() -> ())?
   var inputFinish: ((ACInputTag) -> Bool)?
+  
   private var borderLayer: CAShapeLayer?
+  private var paddingSize = CGSize.zero
   
   public init() {
     super.init(frame: CGRect.zero)
@@ -63,20 +44,16 @@ open class ACInputTag: UITextField {
     return CGRect(x: self.bounds.height / 2 + paddingSize.width, y: 0, width: bounds.width + self.bounds.height / 2 + paddingSize.width, height: bounds.height)
   }
   
-  func setBorder() {
+  func setBorder(type: ACInputTagBorderState, color: UIColor) {
     layoutIfNeeded()
     superview?.layoutIfNeeded()
     
-    setTagDashLine()
+    setTagDashLine(type: type, color: color)
   }
   
   private func initializeDefaultValue() {
     
-    let config = ACTagConfig.default
-    paddingSize = config.inputTagPaddingSize
-    layer.borderWidth = config.tagBorderWidth
-    fontSize = config.inputTagFontSize
-    defaultPlaceholder = "输入标签"
+    layer.borderWidth = ACTagConfig.default.tagBorderWidth
     
     addTarget(self, action: #selector(textFieldDidFinishChange), for: .editingChanged)
     textAlignment = .left
@@ -84,15 +61,26 @@ open class ACInputTag: UITextField {
     delegate = self
   }
   
-  private func setTagDashLine() {
+  private func setUpUI() {
+    guard let attribute = attribute else { return }
+    paddingSize = attribute.paddingSize
+    font = UIFont.systemFont(ofSize: attribute.fontSize)
+    setBorder(type: attribute.borderType, color: attribute.borderColor)
+    let str = attribute.defaultPlaceholder
+    let attributeStr = NSMutableAttributedString(string: str)
+    attributeStr.addAttributes([NSForegroundColorAttributeName: attribute.placeholderColor], range: NSRange(location: 0, length: str.characters.count))
+    attributedPlaceholder = attributeStr
+  }
+  
+  private func setTagDashLine(type: ACInputTagBorderState, color: UIColor) {
     
-    switch borderType {
+    switch type {
     case .none:
       borderStyle = .none
       borderLayer = nil
     case .circleWithFullLine:
       layer.borderWidth = 1
-      layer.borderColor = borderColor.cgColor
+      layer.borderColor = color.cgColor
       layer.cornerRadius = frame.height * 0.5
       borderLayer = nil
     case .circleWithDashLine(lineDashPattern: let lineDashPattern):
@@ -108,12 +96,12 @@ open class ACInputTag: UITextField {
       borderLayer!.lineDashPattern = lineDashPattern
       borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: borderLayer!.bounds.width / 2).cgPath
       borderLayer!.fillColor = UIColor.clear.cgColor
-      borderLayer!.strokeColor = borderColor.cgColor
+      borderLayer!.strokeColor = color.cgColor
       layer.sublayers?.removeAll()
       layer.addSublayer(borderLayer!)
     case .fullLine(cornerRadius: let radius):
       layer.borderWidth = 1
-      layer.borderColor = borderColor.cgColor
+      layer.borderColor = color.cgColor
       layer.cornerRadius = radius
       borderLayer = nil
     case .dashLine(cornerRadius: let radius, lineDashPattern: let lineDashPattern):
@@ -129,7 +117,7 @@ open class ACInputTag: UITextField {
       borderLayer!.lineDashPattern = lineDashPattern
       borderLayer!.path = UIBezierPath(roundedRect: borderLayer!.bounds, cornerRadius: radius).cgPath
       borderLayer!.fillColor = UIColor.clear.cgColor
-      borderLayer!.strokeColor = borderColor.cgColor
+      borderLayer!.strokeColor = color.cgColor
       layer.sublayers?.removeAll()
       layer.addSublayer(borderLayer!)
     }
@@ -140,8 +128,11 @@ open class ACInputTag: UITextField {
     guard let textStr = textField.text else{
       return
     }
-    guard let maxWordCount = maxWordCount else {
-      frame.size.width = textStr.ac_getWidth(fontSize) + 30
+    guard let maxWordCount = attribute?.maxWordCount else {
+      frame.size.width = max(textStr.ac_getWidth(attribute?.fontSize ?? ACTagConfig.default.inputTagFontSize), placeholder?.ac_getWidth(attribute?.fontSize ?? ACTagConfig.default.inputTagFontSize) ?? 0) + bounds.height
+      if let attribute = attribute {
+        setBorder(type: attribute.borderType, color: attribute.borderColor)
+      }
       layoutTags?()
       return
     }
@@ -155,7 +146,10 @@ open class ACInputTag: UITextField {
       textField.text = textStr.substring(to: index).replacingOccurrences(of: " ", with: "")
     }
     
-    bounds.size.width = textStr.ac_getWidth(fontSize) + 30
+    bounds.size.width = max(textStr.ac_getWidth(attribute?.fontSize ?? ACTagConfig.default.inputTagFontSize), placeholder?.ac_getWidth(attribute?.fontSize ?? ACTagConfig.default.inputTagFontSize) ?? 0) + bounds.height
+    if let attribute = attribute {
+       setBorder(type: attribute.borderType, color: attribute.borderColor)
+    }
     layoutTags?()
     
   }
