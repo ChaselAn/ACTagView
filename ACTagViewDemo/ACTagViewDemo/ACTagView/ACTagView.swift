@@ -167,11 +167,11 @@ extension ACTagView: UICollectionViewDataSource {
 
     switch inputAttribute.position {
     case .head:
-      if indexPath.row != 0 {
+      if indexPath.item != 0 {
         return nil
       }
     case .tail:
-      if indexPath.row != tagDataSource?.numberOfTags(in: self) ?? 0 {
+      if indexPath.item != tagDataSource?.numberOfTags(in: self) ?? 0 {
         return nil
       }
     }
