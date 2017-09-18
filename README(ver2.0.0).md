@@ -1,6 +1,6 @@
 # ACTagView（2.0.1）
 
-* Swift3.0
+* Swift3.0/Swift4.0
 * 此版本暂不支持可编辑标签
 
 <img width="250" height="445" src="https://raw.githubusercontent.com/ChaselAn/ACTagView/master/ACTagView_ver2.0.0.gif"/>
@@ -9,8 +9,16 @@
 
 ### CocoaPods    
 
+* Swift3.0：
+
 ```ruby
 pod 'ACTagView', '~> 2.0.1'
+```
+
+* Swift4.0：
+
+```ruby
+pod 'ACTagView', '~> 2.1.0'
 ```
 
 Then, run the following command:
