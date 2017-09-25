@@ -46,22 +46,28 @@ open class ACTagView: UIView {
   }
   open var allowsMultipleSelection: Bool = false {
     didSet {
-      collectionView.allowsMultipleSelection = allowsMultipleSelection
+      collectionView?.allowsMultipleSelection = allowsMultipleSelection
     }
   }
   open var isScrollEnabled: Bool = true {
     didSet {
-      collectionView.isScrollEnabled = isScrollEnabled
+      collectionView?.isScrollEnabled = isScrollEnabled
     }
   }
   open var indexsForSelectedTags: [Int] {
-    return collectionView.indexPathsForSelectedItems?.map({ $0.item }) ?? []
+    return collectionView?.indexPathsForSelectedItems?.map({ $0.item }) ?? []
   }
   open var estimatedHeight: CGFloat {
     return calculateHeight()
   }
+  open override var frame: CGRect {
+    didSet {
+      super.frame = frame
+      collectionView?.frame = bounds
+    }
+  }
   
-  private var collectionView: UICollectionView!
+  private var collectionView: UICollectionView?
   private var layout: ACTagViewFlowLayout!
 
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
@@ -91,23 +97,23 @@ open class ACTagView: UIView {
 
   open func selectTag(at index: Int) {
     let indexPath = IndexPath(item: index, section: 0)
-    collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
+    collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
   }
   
   open func deselectTag(at index: Int) {
     let indexPath = IndexPath(item: index, section: 0)
-    let cell = collectionView.cellForItem(at: indexPath) as? ACTagViewCell
+    let cell = collectionView?.cellForItem(at: indexPath) as? ACTagViewCell
     cell?.deselected()
-    collectionView.deselectItem(at: indexPath, animated: true)
+    collectionView?.deselectItem(at: indexPath, animated: true)
   }
   
   open func tagForIndex(at index: Int) -> ACTagButton? {
     let indexPath = IndexPath(item: index, section: 0)
-    return (collectionView.cellForItem(at: indexPath) as? ACTagViewCell)?.tagButton
+    return (collectionView?.cellForItem(at: indexPath) as? ACTagViewCell)?.tagButton
   }
   
   open func reloadData() {
-    collectionView.reloadData()
+    collectionView?.reloadData()
   }
   
   private func initCollectionView(layout: ACTagViewFlowLayout) {
@@ -115,12 +121,12 @@ open class ACTagView: UIView {
     self.layout = layout
     collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
     
-    collectionView.dataSource = self
-    collectionView.delegate = self
-    collectionView.backgroundColor = UIColor.clear
+    collectionView!.dataSource = self
+    collectionView!.delegate = self
+    collectionView!.backgroundColor = UIColor.clear
     
-    collectionView.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
-    addSubview(collectionView)
+    collectionView!.register(ACTagViewCell.self, forCellWithReuseIdentifier: "ACTagViewCell")
+    addSubview(collectionView!)
   }
   
   private func calculateHeight() -> CGFloat {

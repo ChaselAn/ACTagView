@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'ACTagView'
-    s.version      = '2.1.1'
+    s.version      = '2.1.2'
     s.summary      = 'Swift3.0/4.0版本的标签页'
     s.homepage     = 'https://github.com/ChaselAn/ACTagView'
     s.license      = 'MIT'
