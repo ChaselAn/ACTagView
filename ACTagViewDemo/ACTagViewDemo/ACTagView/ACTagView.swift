@@ -60,13 +60,7 @@ open class ACTagView: UIView {
   open var estimatedHeight: CGFloat {
     return calculateHeight()
   }
-  open override var frame: CGRect {
-    didSet {
-      super.frame = frame
-      collectionView?.frame = bounds
-    }
-  }
-  
+
   private var collectionView: UICollectionView?
   private var layout: ACTagViewFlowLayout!
 
@@ -79,6 +73,11 @@ open class ACTagView: UIView {
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+  }
+  
+  open override func layoutSubviews() {
+    super.layoutSubviews()
+    collectionView?.frame = bounds
   }
   
   // 使用xib创建此控件时，必须调用此方法
