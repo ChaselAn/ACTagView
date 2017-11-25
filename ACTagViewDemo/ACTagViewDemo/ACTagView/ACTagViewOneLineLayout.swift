@@ -24,7 +24,10 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
   }
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-    guard let array = super.layoutAttributesForElements(in: rect) else { return nil }
+    guard let array = super.layoutAttributesForElements(in: rect), let collectionView = collectionView else { return nil }
+    
+    collectionView.layoutIfNeeded()
+    collectionView.superview?.layoutIfNeeded()
     
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
@@ -37,6 +40,10 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
       
       attrCopy.frame.origin.x = offsetX
       attrCopy.frame.origin.y = offsetY
+      
+      if !collectionView.isScrollEnabled && offsetX + attribute.frame.width > collectionView.bounds.width {
+        return finalAttrs
+      }
       
       offsetX += tagMarginSize.width + attribute.frame.width
       
