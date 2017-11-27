@@ -39,10 +39,10 @@ extension String{
   }
   
   // 计算文字宽高的辅助方法
-  private func getSizeOfString(_ fontSize: CGFloat, textSize : CGSize) -> CGSize {
+  private func getSizeOfString(_ fontSize: CGFloat, textSize: CGSize) -> CGSize {
     let att = NSMutableAttributedString(string: self)
     let font = UIFont.systemFont(ofSize: fontSize)
-    att.addAttributes([NSAttributedStringKey.font: font], range: NSRange(location: 0, length: self.characters.count))
+    att.addAttributes([NSAttributedStringKey.font: font], range: NSRange(location: 0, length: count))
     return att.boundingRect(with: textSize, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
   }
 }
