@@ -32,13 +32,13 @@ class TagViewController: UIViewController {
     autoLineFeedTagView.tagDelegate = self
     autoLineFeedTagView.allowsMultipleSelection = true
     autoLineFeedTagView.backgroundColor = UIColor.white
-    autoLineFeedTagView.tagViewMargin = CGPoint(x: 50, y: 30)
-    print(autoLineFeedTagView.estimatedHeight)
+    print(autoLineFeedTagView.estimatedSize)
     view.addSubview(autoLineFeedTagView)
     
     oneLineTagView.tagDataSource = self
     oneLineTagView.tagDelegate = self
     oneLineTagView.backgroundColor = UIColor.white
+    print(oneLineTagView.estimatedSize)
     view.addSubview(oneLineTagView)
     
     oneLineTagViewNoScroll.tagDataSource = self

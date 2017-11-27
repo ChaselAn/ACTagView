@@ -66,9 +66,9 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     return finalAttrs
   }
 
-  override func getEstimatedHeight(in tagView: ACTagView) -> CGFloat {
+  override func getEstimatedSize(in tagView: ACTagView) -> CGSize {
     
-    guard let collectionView = collectionView, let dataSource = tagView.tagDataSource else { return 0 }
+    guard let collectionView = collectionView, let dataSource = tagView.tagDataSource else { return CGSize.zero }
     
     tagView.layoutIfNeeded()
     tagView.superview?.layoutIfNeeded()
@@ -93,6 +93,6 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
       offsetX += width + tagMarginSize.width
     }
     
-    return offsetY + tagHeight + tagViewMargin.y
+    return CGSize(width: collectionView.bounds.width, height:  offsetY + tagHeight + tagViewMargin.y)
   }
 }

@@ -64,7 +64,10 @@ open class ACTagView: UIView {
     return collectionView?.indexPathsForSelectedItems?.map({ $0.item }) ?? []
   }
   open var estimatedHeight: CGFloat {
-    return calculateHeight()
+    return calculateSize().height
+  }
+  open var estimatedSize: CGSize {
+    return calculateSize()
   }
 
   private var collectionView: UICollectionView?
@@ -141,8 +144,8 @@ open class ACTagView: UIView {
     addSubview(collectionView!)
   }
   
-  private func calculateHeight() -> CGFloat {
-    return layout.getEstimatedHeight(in: self)
+  private func calculateSize() -> CGSize {
+    return layout.getEstimatedSize(in: self)
   }
 
 }

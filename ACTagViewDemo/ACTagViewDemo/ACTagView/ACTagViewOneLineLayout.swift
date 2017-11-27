@@ -59,8 +59,29 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     return finalAttrs
   }
   
-  override func getEstimatedHeight(in tagView: ACTagView) -> CGFloat {
-    return tagHeight + 2 * tagViewMargin.y
+  override func getEstimatedSize(in tagView: ACTagView) -> CGSize {
+    
+    guard let dataSource = tagView.tagDataSource else { return CGSize.zero }
+    
+    tagView.layoutIfNeeded()
+    tagView.superview?.layoutIfNeeded()
+    
+    var offsetX = tagViewMargin.x
+    
+    for i in 0 ..< dataSource.numberOfTags(in: tagView) {
+      
+      let attribute = dataSource.tagView(tagView, tagAttributeForIndexAt: i)
+      let width = attribute.getWidth(height: tagHeight)
+      
+      offsetX += tagMarginSize.width + width
+      
+    }
+    
+    if offsetX > tagViewMargin.x {
+      offsetX = offsetX - tagMarginSize.width + tagViewMargin.x
+    }
+    
+    return CGSize(width: offsetX, height: tagHeight + 2 * tagViewMargin.y)
   }
 
 }
