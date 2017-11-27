@@ -38,10 +38,16 @@ open class ACTagView: UIView {
       layout.tagHeight = tagHeight
     }
   }
+  // 第一个tag距离整个view的上边距和左边距
+  open var tagViewMargin = ACTagConfig.default.tagViewMargin {
+    didSet {
+      layout.tagViewMargin = tagViewMargin
+    }
+  }
+  // 两个tag之间的距离
   open var tagMarginSize = ACTagConfig.default.tagMarginSize {
     didSet {
       layout.tagMarginSize = tagMarginSize
-      UINavigationBar.appearance()
     }
   }
   open var allowsMultipleSelection: Bool = false {
@@ -93,6 +99,13 @@ open class ACTagView: UIView {
     
     initCollectionView(layout: layout)
   }
+  
+//  open func getTagsAreaSize(maxWidth: CGFloat = 0, maxHeight: CGFloat = 0) -> CGSize {
+//    guard let tagDataSource = tagDataSource, tagDataSource.numberOfTags(in: self) > 0 else {
+//      return CGSize.zero
+//    }
+//    return
+//  }
 
   open func selectTag(at index: Int) {
     let indexPath = IndexPath(item: index, section: 0)
@@ -129,10 +142,7 @@ open class ACTagView: UIView {
   }
   
   private func calculateHeight() -> CGFloat {
-    guard let tagDataSource = tagDataSource, tagDataSource.numberOfTags(in: self) > 0 else {
-      return 0
-    }
-    return layout.getEstimatedHeight(in: self, dataSource: tagDataSource)
+    return layout.getEstimatedHeight(in: self)
   }
 
 }

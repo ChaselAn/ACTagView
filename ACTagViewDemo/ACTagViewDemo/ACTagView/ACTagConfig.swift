@@ -28,6 +28,7 @@ public class ACTagConfig {
   
   public var tagBorderWidth: CGFloat = 1
   public var tagBorderType = ACTagBorderType.halfOfCircle
+  public var tagViewMargin = CGPoint(x: 10, y: 10)
   public var tagMarginSize = CGSize(width: 10, height: 10)
   public var tagPaddingSize = CGSize.zero
   public var tagFont = UIFont.systemFont(ofSize: 14)

@@ -32,6 +32,7 @@ class TagViewController: UIViewController {
     autoLineFeedTagView.tagDelegate = self
     autoLineFeedTagView.allowsMultipleSelection = true
     autoLineFeedTagView.backgroundColor = UIColor.white
+    autoLineFeedTagView.tagViewMargin = CGPoint(x: 50, y: 30)
     print(autoLineFeedTagView.estimatedHeight)
     view.addSubview(autoLineFeedTagView)
     

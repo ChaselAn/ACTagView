@@ -31,8 +31,8 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
-    var offsetX = tagMarginSize.width
-    let offsetY = tagMarginSize.height
+    var offsetX = tagViewMargin.x
+    let offsetY = tagViewMargin.y
     
     for attribute in array {
       
@@ -41,7 +41,8 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
       attrCopy.frame.origin.x = offsetX
       attrCopy.frame.origin.y = offsetY
       
-      if !collectionView.isScrollEnabled && offsetX + attribute.frame.width > collectionView.bounds.width {
+      if !collectionView.isScrollEnabled && offsetX + attribute.frame.width + tagViewMargin.x > collectionView.bounds.width {
+        self.offsetX = offsetX
         return finalAttrs
       }
       
@@ -49,13 +50,17 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
       
       finalAttrs += [attrCopy]
     }
+    
+    if offsetX > tagViewMargin.x {
+      offsetX = offsetX - tagMarginSize.width + tagViewMargin.x
+    }
     self.offsetX = offsetX
     
     return finalAttrs
   }
   
-  override func getEstimatedHeight(in tagView: ACTagView, dataSource: ACTagViewDataSource) -> CGFloat {
-    return tagHeight + 2 * tagMarginSize.height
+  override func getEstimatedHeight(in tagView: ACTagView) -> CGFloat {
+    return tagHeight + 2 * tagViewMargin.y
   }
 
 }

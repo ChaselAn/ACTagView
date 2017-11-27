@@ -12,8 +12,9 @@ open class ACTagViewFlowLayout: UICollectionViewFlowLayout {
 
   open var tagMarginSize = ACTagConfig.default.tagMarginSize
   open var tagHeight: CGFloat = ACTagConfig.default.tagDefaultHeight
+  open var tagViewMargin = ACTagConfig.default.tagViewMargin
   
-  open func getEstimatedHeight(in tagView: ACTagView, dataSource: ACTagViewDataSource) -> CGFloat {
+  open func getEstimatedHeight(in tagView: ACTagView) -> CGFloat {
     return 0
   }
   
