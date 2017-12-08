@@ -31,8 +31,8 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
-    var offsetX = tagViewMargin.x
-    let offsetY = tagViewMargin.y
+    var offsetX = tagViewMargin.horizontal
+    let offsetY = tagViewMargin.vertical
     
     for attribute in array {
       
@@ -41,18 +41,18 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
       attrCopy.frame.origin.x = offsetX
       attrCopy.frame.origin.y = offsetY
       
-      if !collectionView.isScrollEnabled && offsetX + attribute.frame.width + tagViewMargin.x > collectionView.bounds.width {
+      if !collectionView.isScrollEnabled && offsetX + attribute.frame.width + tagViewMargin.horizontal > collectionView.bounds.width {
         self.offsetX = offsetX
         return finalAttrs
       }
       
-      offsetX += tagMarginSize.width + attribute.frame.width
+      offsetX += tagMargin.horizontal + attribute.frame.width
       
       finalAttrs += [attrCopy]
     }
     
-    if offsetX > tagViewMargin.x {
-      offsetX = offsetX - tagMarginSize.width + tagViewMargin.x
+    if offsetX > tagViewMargin.horizontal {
+      offsetX = offsetX - tagMargin.horizontal + tagViewMargin.horizontal
     }
     self.offsetX = offsetX
     
@@ -66,22 +66,22 @@ class ACTagViewOneLineLayout: ACTagViewFlowLayout {
     tagView.layoutIfNeeded()
     tagView.superview?.layoutIfNeeded()
     
-    var offsetX = tagViewMargin.x
+    var offsetX = tagViewMargin.horizontal
     
     for i in 0 ..< dataSource.numberOfTags(in: tagView) {
       
       let attribute = dataSource.tagView(tagView, tagAttributeForIndexAt: i)
       let width = attribute.getWidth(height: tagHeight)
       
-      offsetX += tagMarginSize.width + width
+      offsetX += tagMargin.horizontal + width
       
     }
     
-    if offsetX > tagViewMargin.x {
-      offsetX = offsetX - tagMarginSize.width + tagViewMargin.x
+    if offsetX > tagViewMargin.horizontal {
+      offsetX = offsetX - tagMargin.horizontal + tagViewMargin.horizontal
     }
     
-    return CGSize(width: offsetX, height: tagHeight + 2 * tagViewMargin.y)
+    return CGSize(width: offsetX, height: tagHeight + 2 * tagViewMargin.vertical)
   }
 
 }

@@ -20,7 +20,7 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     collectionView.layoutIfNeeded()
     collectionView.superview?.layoutIfNeeded()
     
-    return CGSize(width: collectionView.bounds.width, height: offsetY + tagHeight + tagViewMargin.y)
+    return CGSize(width: collectionView.bounds.width, height: offsetY + tagHeight + tagViewMargin.vertical)
   }
   
   override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -29,8 +29,8 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     collectionView.layoutIfNeeded()
     collectionView.superview?.layoutIfNeeded()
     
-    var offsetX = tagViewMargin.x
-    var offsetY = tagViewMargin.y
+    var offsetX = tagViewMargin.horizontal
+    var offsetY = tagViewMargin.vertical
     
     var finalAttrs: [UICollectionViewLayoutAttributes] = []
     
@@ -40,22 +40,22 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
       
       var tempFrame = attrCopy.frame
       
-      if (offsetX + tempFrame.width + tagViewMargin.x) > collectionView.bounds.width {
+      if (offsetX + tempFrame.width + tagViewMargin.horizontal) > collectionView.bounds.width {
         if index != 0 {
-          offsetX = tagViewMargin.x
-          offsetY += tagHeight + tagMarginSize.height
-          if !collectionView.isScrollEnabled && offsetY + tagHeight + tagViewMargin.y > collectionView.bounds.height {
+          offsetX = tagViewMargin.horizontal
+          offsetY += tagHeight + tagMargin.vertical
+          if !collectionView.isScrollEnabled && offsetY + tagHeight + tagViewMargin.vertical > collectionView.bounds.height {
             self.offsetY = offsetY
             return finalAttrs
           }
         } else {
-          offsetX = tagViewMargin.x
+          offsetX = tagViewMargin.horizontal
         }
       }
       
       tempFrame.origin.x = offsetX
       tempFrame.origin.y = offsetY
-      offsetX += tempFrame.width + tagMarginSize.width
+      offsetX += tempFrame.width + tagMargin.horizontal
       tempFrame.size.height = tagHeight
       attrCopy.frame = tempFrame
       self.offsetY = offsetY
@@ -73,26 +73,26 @@ class ACTagViewAutoLineFeedLayout: ACTagViewFlowLayout {
     tagView.layoutIfNeeded()
     tagView.superview?.layoutIfNeeded()
     
-    var offsetX = tagViewMargin.x
-    var offsetY = tagViewMargin.y
+    var offsetX = tagViewMargin.horizontal
+    var offsetY = tagViewMargin.vertical
     
     for i in 0 ..< dataSource.numberOfTags(in: tagView) {
       
       let attribute = dataSource.tagView(tagView, tagAttributeForIndexAt: i)
       let width = attribute.getWidth(height: tagHeight)
       
-      if (offsetX + width + tagViewMargin.x) > collectionView.bounds.width {
+      if (offsetX + width + tagViewMargin.horizontal) > collectionView.bounds.width {
         if i != 0 {
-          offsetX = tagViewMargin.x
-          offsetY += tagHeight + tagMarginSize.height
+          offsetX = tagViewMargin.horizontal
+          offsetY += tagHeight + tagMargin.vertical
         } else {
-          offsetX = tagViewMargin.x
+          offsetX = tagViewMargin.horizontal
         }
       }
       
-      offsetX += width + tagMarginSize.width
+      offsetX += width + tagMargin.horizontal
     }
     
-    return CGSize(width: collectionView.bounds.width, height:  offsetY + tagHeight + tagViewMargin.y)
+    return CGSize(width: collectionView.bounds.width, height:  offsetY + tagHeight + tagViewMargin.vertical)
   }
 }

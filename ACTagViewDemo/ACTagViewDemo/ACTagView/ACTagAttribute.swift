@@ -19,12 +19,12 @@ open class ACTagAttribute: NSObject {
   open var selectedTextColor = ACTagConfig.default.selectedTagTextColor
   open var borderType = ACTagConfig.default.tagBorderType
   // tag的内边距
-  open var paddingSize = ACTagConfig.default.tagPaddingSize
+  open var tagHorizontalPadding = ACTagConfig.default.tagHorizontalPadding
   open var font: UIFont = ACTagConfig.default.tagFont
   open var borderWidth = ACTagConfig.default.tagBorderWidth
   
   open func getWidth(height: CGFloat) -> CGFloat {
-    return text.ac_getWidth(font.pointSize) + height + 2 * paddingSize.width
+    return text.ac_getWidth(font.pointSize) + 2 * tagHorizontalPadding
   }
 
   convenience public init(text: String) {

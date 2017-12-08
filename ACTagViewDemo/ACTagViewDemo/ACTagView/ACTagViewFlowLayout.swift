@@ -10,7 +10,7 @@ import UIKit
 
 open class ACTagViewFlowLayout: UICollectionViewFlowLayout {
 
-  open var tagMarginSize = ACTagConfig.default.tagMarginSize
+  open var tagMargin = ACTagConfig.default.tagMargin
   open var tagHeight: CGFloat = ACTagConfig.default.tagDefaultHeight
   open var tagViewMargin = ACTagConfig.default.tagViewMargin
   

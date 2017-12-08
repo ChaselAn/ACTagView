@@ -14,6 +14,16 @@ public enum ACTagBorderType {
   case custom(radius: CGFloat)
 }
 
+public struct ACTagDistance {
+  
+  public var horizontal: CGFloat
+  public var vertical: CGFloat
+  
+  public static var zero: ACTagDistance {
+    return ACTagDistance(horizontal: 0, vertical: 0)
+  }
+}
+
 //public enum ACInputTagBorderState {
 //  case none
 //  case fullLine(cornerRadius: CGFloat)
@@ -28,9 +38,9 @@ public class ACTagConfig {
   
   public var tagBorderWidth: CGFloat = 1
   public var tagBorderType = ACTagBorderType.halfOfCircle
-  public var tagViewMargin = CGPoint(x: 10, y: 10)
-  public var tagMarginSize = CGSize(width: 10, height: 10)
-  public var tagPaddingSize = CGSize.zero
+  public var tagViewMargin = ACTagDistance(horizontal: 10, vertical: 10)
+  public var tagMargin = ACTagDistance(horizontal: 10, vertical: 10)
+  public var tagHorizontalPadding: CGFloat = 15
   public var tagFont = UIFont.systemFont(ofSize: 14)
   
   public var selectedTagBackgroundColor = UIColor.white

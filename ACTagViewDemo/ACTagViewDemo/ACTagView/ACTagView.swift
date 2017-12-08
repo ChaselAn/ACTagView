@@ -39,15 +39,15 @@ open class ACTagView: UIView {
     }
   }
   // 第一个tag距离整个view的上边距和左边距
-  open var tagViewMargin = ACTagConfig.default.tagViewMargin {
+  open var margin = ACTagConfig.default.tagViewMargin {
     didSet {
-      layout.tagViewMargin = tagViewMargin
+      layout.tagViewMargin = margin
     }
   }
   // 两个tag之间的距离
-  open var tagMarginSize = ACTagConfig.default.tagMarginSize {
+  open var tagMargin = ACTagConfig.default.tagMargin {
     didSet {
-      layout.tagMarginSize = tagMarginSize
+      layout.tagMargin = tagMargin
     }
   }
   open var allowsMultipleSelection: Bool = false {
@@ -102,13 +102,6 @@ open class ACTagView: UIView {
     
     initCollectionView(layout: layout)
   }
-  
-//  open func getTagsAreaSize(maxWidth: CGFloat = 0, maxHeight: CGFloat = 0) -> CGSize {
-//    guard let tagDataSource = tagDataSource, tagDataSource.numberOfTags(in: self) > 0 else {
-//      return CGSize.zero
-//    }
-//    return
-//  }
 
   open func selectTag(at index: Int) {
     let indexPath = IndexPath(item: index, section: 0)
@@ -170,7 +163,11 @@ extension ACTagView: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let tagDataSource = tagDataSource else { return CGSize.zero }
     let tagAttribute = tagDataSource.tagView(self, tagAttributeForIndexAt: indexPath.item)
-    return CGSize(width: tagAttribute.getWidth(height: tagHeight), height: tagHeight)
+    var width = tagAttribute.getWidth(height: tagHeight)
+    if width < tagHeight {
+      width = tagHeight
+    }
+    return CGSize(width: width, height: tagHeight)
   }
   
   public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -46,11 +46,8 @@ open class ACTagButton: UIButton {
     backgroundColor = tagAttribute.backgroundColor
     layer.borderWidth = tagAttribute.borderWidth
     titleLabel?.font = tagAttribute.font
-    let paddingSize = tagAttribute.paddingSize
-    titleEdgeInsets = UIEdgeInsets(top: paddingSize.height, left: paddingSize.width, bottom: paddingSize.height, right: paddingSize.width)
     
     setBorderTyper(tagAttribute.borderType)
-    
   }
   
   private func setBorderTyper(_ type: ACTagBorderType) {
