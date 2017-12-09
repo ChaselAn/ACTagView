@@ -22,6 +22,11 @@ public struct ACTagDistance {
   public static var zero: ACTagDistance {
     return ACTagDistance(horizontal: 0, vertical: 0)
   }
+  
+  public init(horizontal: CGFloat, vertical: CGFloat) {
+    self.horizontal = horizontal
+    self.vertical = vertical
+  }
 }
 
 //public enum ACInputTagBorderState {
@@ -40,7 +45,7 @@ public class ACTagConfig {
   public var tagBorderType = ACTagBorderType.halfOfCircle
   public var tagViewMargin = ACTagDistance(horizontal: 10, vertical: 10)
   public var tagMargin = ACTagDistance(horizontal: 10, vertical: 10)
-  public var tagHorizontalPadding: CGFloat = 15
+  public var tagHorizontalPadding: CGFloat = ACTagConfig.default.tagDefaultHeight / 2
   public var tagFont = UIFont.systemFont(ofSize: 14)
   
   public var selectedTagBackgroundColor = UIColor.white
