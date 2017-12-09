@@ -45,7 +45,7 @@ public class ACTagConfig {
   public var tagBorderType = ACTagBorderType.halfOfCircle
   public var tagViewMargin = ACTagDistance(horizontal: 10, vertical: 10)
   public var tagMargin = ACTagDistance(horizontal: 10, vertical: 10)
-  public var tagHorizontalPadding: CGFloat = ACTagConfig.default.tagDefaultHeight / 2
+  public var tagHorizontalPadding: CGFloat = 15
   public var tagFont = UIFont.systemFont(ofSize: 14)
   
   public var selectedTagBackgroundColor = UIColor.white
