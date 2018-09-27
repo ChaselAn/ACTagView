@@ -9,16 +9,22 @@
 
 ### CocoaPods    
 
-* Swift3.0：
+* Swift 3.0：
 
 ```ruby
 pod 'ACTagView', '~> 2.0.1'
 ```
 
-* Swift4.0：
+* Swift 4.0：
 
 ```ruby
 pod 'ACTagView', '~> 2.2.4'
+```
+
+- Swift 4.2：
+
+```ruby
+pod 'ACTagView', '~> 2.2.5'
 ```
 
 Then, run the following command:
