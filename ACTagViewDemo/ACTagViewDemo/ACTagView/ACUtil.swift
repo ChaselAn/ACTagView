@@ -42,7 +42,7 @@ extension String{
   private func getSizeOfString(_ fontSize: CGFloat, textSize: CGSize) -> CGSize {
     let att = NSMutableAttributedString(string: self)
     let font = UIFont.systemFont(ofSize: fontSize)
-    att.addAttributes([NSAttributedStringKey.font: font], range: NSRange(location: 0, length: count))
+    att.addAttributes([NSAttributedString.Key.font: font], range: NSRange(location: 0, length: count))
     return att.boundingRect(with: textSize, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
   }
 }
