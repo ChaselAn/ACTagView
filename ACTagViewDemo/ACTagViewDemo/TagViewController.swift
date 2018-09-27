@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ACTagView
 
 class TagViewController: UIViewController {
   
