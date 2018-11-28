@@ -73,8 +73,24 @@ open class ACTagView: UIView {
   private var collectionView: UICollectionView?
   private var layout: ACTagViewFlowLayout!
 
+    public var layoutType: ACTagViewLayoutType? {
+        didSet {
+            guard let layoutType = layoutType else { return }
+            switch layoutType {
+            case .autoLineFeed:
+                layout = ACTagViewAutoLineFeedLayout()
+            case .oneLine:
+                layout = ACTagViewOneLineLayout()
+            case .custom(let customLayout):
+                layout = customLayout
+            }
+            collectionView?.collectionViewLayout = layout
+            collectionView?.reloadData()
+        }
+    }
+
   public init(frame: CGRect, layoutType: ACTagViewLayoutType) {
-    
+    self.layoutType = layoutType
     super.init(frame: frame)
     
     initTagView(layoutType: layoutType)

@@ -16,6 +16,8 @@ class TagViewController: UIViewController {
   private var autoLineFeedTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100), layoutType: .autoLineFeed)
   private var oneLineTagView = ACTagView(frame: CGRect(x: 0, y: 250, width: UIScreen.main.bounds.width, height: 50), layoutType: .oneLine)
   private var oneLineTagViewNoScroll = ACTagView(frame: CGRect(x: 0, y: 350, width: UIScreen.main.bounds.width, height: 50), layoutType: .oneLine)
+
+    private var testButton = UIButton()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -24,8 +26,22 @@ class TagViewController: UIViewController {
     view.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
     
     setupNormalTagView()
-    
+
+    testButton.frame = CGRect(x: 100, y: 550, width: 50, height: 50)
+    testButton.setTitle("test", for: .normal)
+    testButton.addTarget(self, action: #selector(testDidClicked), for: .touchUpInside)
+    view.addSubview(testButton)
+
   }
+
+    @objc private func testDidClicked() {
+        oneLineTagView.clipsToBounds = true
+        oneLineTagView.layoutType = .autoLineFeed
+
+        UIView.animate(withDuration: 0.25) {
+            self.oneLineTagView.frame.size.height = self.oneLineTagView.estimatedSize.height
+        }
+    }
   
   private func setupNormalTagView() {
     
@@ -46,7 +62,7 @@ class TagViewController: UIViewController {
     oneLineTagViewNoScroll.tagDelegate = self
     oneLineTagViewNoScroll.backgroundColor = UIColor.white
     oneLineTagViewNoScroll.isScrollEnabled = false
-    view.addSubview(oneLineTagViewNoScroll)
+//    view.addSubview(oneLineTagViewNoScroll)
   }
 
 }
