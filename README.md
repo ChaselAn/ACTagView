@@ -1,16 +1,31 @@
 # ACTagView
 
-* 2.0版本使用说明请点击此处[2.0使用说明](https://github.com/ChaselAn/ACTagView/blob/master/README(ver2.0.0).md)
-* Swift3.0
+* Swift3.0/Swift4.0
+* 此版本暂不支持可编辑标签
+* 1.2.2版本使用说明请点击此处[1.2.2使用说明](https://github.com/ChaselAn/ACTagView/blob/master/README(ver1.2.2).md)
 
-<img width="250" height="445" src="https://raw.githubusercontent.com/ChaselAn/ACTagView/master/ACTagView.gif"/>
+<img width="250" height="445" src="https://raw.githubusercontent.com/ChaselAn/ACTagView/master/ACTagView_ver2.0.0.gif"/>
 
 ## 安装
 
 ### CocoaPods    
 
+* Swift 3.0：
+
 ```ruby
-pod 'ACTagView', '~> 1.2.2'
+pod 'ACTagView', '~> 2.0.1'
+```
+
+* Swift 4.0：
+
+```ruby
+pod 'ACTagView', '~> 2.2.4'
+```
+
+- Swift 4.2：
+
+```ruby
+pod 'ACTagView', '~> 2.2.6'
 ```
 
 Then, run the following command:
@@ -22,87 +37,65 @@ $ pod install
 ## 使用
 ### 设置全局属性
 ```swift
-    ACTagManager.shared.selectedTagBackgroundColor = UIColor.white // tag选中背景色
-    ACTagManager.shared.selectedTagBorderColor = UIColor.red // tag选中边框颜色
-    ACTagManager.shared.selectedTagTextColor = UIColor.red // tag选中文字颜色
-    ACTagManager.shared.tagBackgroundColor = UIColor.white // tag背景色
-    ACTagManager.shared.tagBorderColor = UIColor.black // tag边框颜色
-    ACTagManager.shared.tagTextColor = UIColor.black // tag文字颜色
-    ACTagManager.shared.autoLineFeed = true // tag是否自动换行
+    ACTagConfig.default.selectedTagBackgroundColor = UIColor.white // tag选中背景色
+    ACTagConfig.default.selectedTagBorderColor = UIColor.red // tag选中边框颜色
+    ACTagConfig.default.selectedTagTextColor = UIColor.red // tag选中文字颜色
+    ACTagConfig.default.tagBackgroundColor = UIColor.white // tag背景色
+    ACTagConfig.default.tagBorderColor = UIColor.black // tag边框颜色
+    ACTagConfig.default.tagTextColor = UIColor.black // tag文字颜色
     ...
 ```
 
-### 普通展示标签
+### 自动换行的标签View
 
 ```swift
-let tagStrList: [String] = ["标签1", "标签2", "标签3"]
-let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
-tagView.dataSource = self
-tagView.tagDelegate = self
-tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
-tagView.backgroundColor = UIColor.white
-view.addSubview(tagView)
+let tagsStrList = ["我喜欢", "胸大", "腿长"]
+var autoLineFeedTagView = ACTagView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 100), layoutType: .autoLineFeed)
+autoLineFeedTagView.tagDataSource = self
+autoLineFeedTagView.tagDelegate = self
+autoLineFeedTagView.allowsMultipleSelection = true // 是否支持多选
+autoLineFeedTagView.backgroundColor = UIColor.white
+print(autoLineFeedTagView.estimatedHeight) // 打印预估高度
+view.addSubview(autoLineFeedTagView)
 ```
 
+### 一行标签的View，可横向滚动
+
 ```swift
-extension TestTagViewController: ACTagViewDataSource {
+let tagsStrList = ["我喜欢", "胸大", "腿长"]
+var oneLineTagView = ACTagView(frame: CGRect(x: 0, y: 300, width: UIScreen.main.bounds.width, height: 50), layoutType: .oneLine)
+oneLineTagView.tagDataSource = self
+oneLineTagView.tagDelegate = self
+oneLineTagView.backgroundColor = UIColor.white
+view.addSubview(oneLineTagView)
+```
+
+### 数据源及代理
+```swift
+extension TagViewController: ACTagViewDataSource {
   func numberOfTags(in tagView: ACTagView) -> Int {
-    return tagStrList.count
+    return tagsStrList.count
   }
   
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
-    let tag = ACTag()
-    tag.setTitle(tagStrList[index], for: .normal)
+  func tagView(_ tagView: ACTagView, tagAttributeForIndexAt index: Int) -> ACTagAttribute {
+    let tag = ACTagAttribute(text: tagsStrList[index])
     return tag
   }
 }
 
-extension TestTagViewController: ACTagViewDelegate {
-  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
-    tag.isSelected = !tag.isSelected
-  }
-}
-```
-
-### 可编辑标签
-```swift
-let tagStrList: [String] = ["标签1", "标签2", "标签3"]
-let tagView = ACTagView(frame: CGRect(x: 0, y: 100, width: 300, height: 50))
-tagView.dataSource = self
-tagView.tagDelegate = self
-let inputTag = ACInputTag()
-inputTag.position = .head
-tagView.inputTag = inputTag
-tagView.autoLineFeed = true // 是否自动换行，false表示只有一行，横向滑动
-tagView.backgroundColor = UIColor.white
-view.addSubview(tagView)
-```
-
-```swift
-extension TestTagViewController: ACTagViewDataSource {
-  func numberOfTags(in tagView: ACTagView) -> Int {
-    return tagStrList.count
+extension TagViewController: ACTagViewDelegate {
+  
+  func tagView(_ tagView: ACTagView, didSelectTagAt index: Int) {
+    print(index)
+    print("selectedTagsList-----------", tagView.indexsForSelectedTags) // 打印所有已选中标签的下标
   }
   
-  func tagView(_ tagView: ACTagView, tagForIndexAt index: Int) -> ACTag {
-    let tag = ACTag()
-    tag.setTitle(tagStrList[index], for: .normal)
-    return tag
+  func tagView(_ tagView: ACTagView, didDeselectTagAt index: Int) {
+    print("deselected------------",index)
   }
-}
-
-extension TestTagViewController: ACTagViewDelegate {
-  func tagView(_ tagView: ACTagView, didClickTagAt index: Int, clickedTag tag: ACTag) {
-    tag.isSelected = !tag.isSelected
-  }
-  func tagView(_ tagView: ACTagView, inputTagShouldReturnWith inputTag: ACInputTag) -> Bool {
-    inputTag.resignFirstResponder()
-    guard let text = inputTag.text, !text.isEmpty else { return true }
-    
-    tagStrList.append(text)
-    inputTag.text = ""
-    tagView.reloadData()
-    return true
-  }
+  
 }
 ```
+
+### 使用注意
+* 使用xib关联时，必须在`awakeFromNib`方法中调用标签View的`initTagView(layoutType: ACTagViewLayoutType)`方法
