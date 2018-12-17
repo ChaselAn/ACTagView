@@ -105,6 +105,8 @@ open class ACTagView: UIView {
 
   open func selectTag(at index: Int) {
     let indexPath = IndexPath(item: index, section: 0)
+    let cell = collectionView?.cellForItem(at: indexPath) as? ACTagViewCell
+    cell?.selected()
     collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .top)
   }
   
