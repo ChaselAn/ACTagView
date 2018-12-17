@@ -24,7 +24,7 @@ pod 'ACTagView', '~> 2.2.4'
 - Swift 4.2：
 
 ```ruby
-pod 'ACTagView', '~> 2.2.5'
+pod 'ACTagView', '~> 2.2.6'
 ```
 
 Then, run the following command:
