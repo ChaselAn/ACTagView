@@ -1,6 +1,6 @@
 # ACTagView
 
-* Swift3.0/Swift4.0
+* Swift
 * 此版本暂不支持可编辑标签，如有编辑标签需求，请先使用1.2.2版本。
 * 1.2.2版本使用说明请点击此处[1.2.2使用说明](https://github.com/ChaselAn/ACTagView/blob/master/README(ver1.2.2).md)
 
@@ -26,6 +26,12 @@ pod 'ACTagView', '~> 2.2.4'
 
 ```ruby
 pod 'ACTagView', '~> 2.2.6'
+```
+
+- Swift 5.0：
+
+```ruby
+pod 'ACTagView', '~> 2.3.0'
 ```
 
 Then, run the following command:
