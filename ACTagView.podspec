@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = 'ACTagView'
-    s.version      = '2.2.6'
+    s.version      = '2.3.0'
     s.summary      = 'Swift4版本的标签页'
     s.homepage     = 'https://github.com/ChaselAn/ACTagView'
     s.license      = 'MIT'
@@ -9,4 +9,5 @@ Pod::Spec.new do |s|
     s.source       = {:git => 'https://github.com/ChaselAn/ACTagView.git', :tag => s.version}
     s.source_files = 'ACTagViewDemo/ACTagView/*.swift'
     s.requires_arc = true
+    s.swift_version = '5.0'
 end
